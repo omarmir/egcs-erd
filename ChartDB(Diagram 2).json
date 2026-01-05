@@ -2,7 +2,7 @@
   "id": "0",
   "name": "Diagram 2",
   "createdAt": "2025-12-11T19:00:27.115Z",
-  "updatedAt": "2025-12-12T16:50:38.628Z",
+  "updatedAt": "2026-01-05T16:48:15.071Z",
   "databaseType": "postgresql",
   "tables": [
     {
@@ -1605,11 +1605,123 @@
       "width": 450,
       "order": 19,
       "parentAreaId": "shncszdaj50hf7wbblwrmbwlb"
+    },
+    {
+      "id": "128",
+      "name": "Stakeholder Risk Review",
+      "x": -706.4957729716991,
+      "y": 354.62022762117135,
+      "fields": [
+        {
+          "id": "129",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1765211059715
+        },
+        {
+          "id": "130",
+          "name": "Transfer Payment Risk",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1765218261443
+        }
+      ],
+      "indexes": [
+        {
+          "id": "131",
+          "name": "pk_table_20_id",
+          "unique": true,
+          "fieldIds": [
+            "129"
+          ],
+          "createdAt": 1765211059715,
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#ff9f74",
+      "isView": false,
+      "createdAt": 1765211059715,
+      "width": 450,
+      "order": 19,
+      "parentAreaId": "nhfvzd9oh1hby7senqs4xd7nt"
+    },
+    {
+      "id": "132",
+      "name": "Stakeholder Risk Mitigation Plan",
+      "x": -702.8394967591612,
+      "y": 492.7920895149023,
+      "fields": [
+        {
+          "id": "133",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": true,
+          "unique": true,
+          "nullable": false,
+          "createdAt": 1765211059715
+        },
+        {
+          "id": "134",
+          "name": "Stakeholder Risk Review",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1765218261443
+        },
+        {
+          "id": "135",
+          "name": "Transfer Payment Risk",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "primaryKey": false,
+          "unique": false,
+          "nullable": true,
+          "createdAt": 1765218503515
+        }
+      ],
+      "indexes": [
+        {
+          "id": "136",
+          "name": "pk_table_20_id",
+          "unique": true,
+          "fieldIds": [
+            "133"
+          ],
+          "createdAt": 1765211059715,
+          "isPrimaryKey": true
+        }
+      ],
+      "color": "#ff9f74",
+      "createdAt": 1765211059715,
+      "isView": false,
+      "order": 19,
+      "width": 450,
+      "parentAreaId": "nhfvzd9oh1hby7senqs4xd7nt"
     }
   ],
   "relationships": [
     {
-      "id": "128",
+      "id": "137",
       "name": "Transfer Payment Risk_id_fk",
       "sourceTableId": "22",
       "targetTableId": "60",
@@ -1620,7 +1732,7 @@
       "createdAt": 1765218281187
     },
     {
-      "id": "129",
+      "id": "138",
       "name": "Funding Case Agreement Risk Mitigation Plan_Funding Case Agreement Risk Review_fk",
       "sourceTableId": "64",
       "targetTableId": "60",
@@ -1631,7 +1743,7 @@
       "createdAt": 1765218498411
     },
     {
-      "id": "130",
+      "id": "139",
       "name": "Funding Case Agreement Risk Mitigation Plan_Transfer Payment Risk_fk",
       "sourceTableId": "64",
       "targetTableId": "22",
@@ -1642,7 +1754,7 @@
       "createdAt": 1765218542951
     },
     {
-      "id": "131",
+      "id": "140",
       "name": "Funding Case Application Activity_Transfer Payment Outcomes_fk",
       "sourceTableId": "72",
       "targetTableId": "34",
@@ -1653,7 +1765,7 @@
       "createdAt": 1765218976174
     },
     {
-      "id": "132",
+      "id": "141",
       "name": "Funding Case Agreement Activity_Transfer Payment Outcomes_fk",
       "sourceTableId": "76",
       "targetTableId": "34",
@@ -1664,7 +1776,7 @@
       "createdAt": 1765218980735
     },
     {
-      "id": "133",
+      "id": "142",
       "name": "Funding Case Assessment Application Scored Criteria_Funding Opportunity Assessment_fk",
       "sourceTableId": "56",
       "targetTableId": "40",
@@ -1675,7 +1787,7 @@
       "createdAt": 1765295871736
     },
     {
-      "id": "134",
+      "id": "143",
       "name": "Funding Case Agreement Outcomes_Transfer Payment Outcomes_fk",
       "sourceTableId": "108",
       "targetTableId": "31",
@@ -1686,7 +1798,7 @@
       "createdAt": 1765302103493
     },
     {
-      "id": "135",
+      "id": "144",
       "name": "Funding Case Agreement Budget Fiscal Year_Funding Case Agreement Budget_fk",
       "sourceTableId": "112",
       "targetTableId": "83",
@@ -1697,7 +1809,7 @@
       "createdAt": 1765302616304
     },
     {
-      "id": "136",
+      "id": "145",
       "name": "Funding Case Agreement Budget Fiscal Year Item_Funding Case Agreement Budget Fiscal Year_fk",
       "sourceTableId": "116",
       "targetTableId": "112",
@@ -1708,7 +1820,7 @@
       "createdAt": 1765302654339
     },
     {
-      "id": "137",
+      "id": "146",
       "name": "Funding Case Agreement Budget Fiscal Year Item_Transfer Payment Cost Category_fk",
       "sourceTableId": "116",
       "targetTableId": "28",
@@ -1719,7 +1831,7 @@
       "createdAt": 1765302664441
     },
     {
-      "id": "138",
+      "id": "147",
       "name": "Funding Case Agreement Claim Review Item_Funding Case Agreement Claim Review_fk",
       "sourceTableId": "121",
       "targetTableId": "96",
@@ -1730,7 +1842,7 @@
       "createdAt": 1765302771780
     },
     {
-      "id": "139",
+      "id": "148",
       "name": "Funding Case Agreement Forecast_Funding Case Agreement Budget Fiscal Year_fk",
       "sourceTableId": "86",
       "targetTableId": "112",
@@ -1739,21 +1851,43 @@
       "sourceCardinality": "many",
       "targetCardinality": "one",
       "createdAt": 1765302816792
+    },
+    {
+      "id": "149",
+      "name": "Stakeholder Risk Mitigation Plan_Transfer Payment Risk_fk",
+      "sourceTableId": "132",
+      "targetTableId": "22",
+      "sourceFieldId": "135",
+      "targetFieldId": "23",
+      "sourceCardinality": "one",
+      "targetCardinality": "one",
+      "createdAt": 1767631649257
+    },
+    {
+      "id": "150",
+      "name": "Stakeholder Risk Review_id_fk",
+      "sourceTableId": "128",
+      "targetTableId": "132",
+      "sourceFieldId": "129",
+      "targetFieldId": "134",
+      "sourceCardinality": "one",
+      "targetCardinality": "one",
+      "createdAt": 1767631667104
     }
   ],
   "dependencies": [],
   "areas": [
     {
-      "id": "140",
+      "id": "151",
       "name": "Stakeholder (Grantee - Recipient/Applicant)",
       "x": -720,
       "y": -140,
-      "width": 543,
+      "width": 528,
       "height": 1459,
       "color": "#ff9f74"
     },
     {
-      "id": "141",
+      "id": "152",
       "name": "Organization (Grantor - Dept/Agency)",
       "x": -1260,
       "y": -140,
@@ -1762,7 +1896,7 @@
       "color": "#8eb7ff"
     },
     {
-      "id": "142",
+      "id": "153",
       "name": "Transfer Payment (Program)",
       "x": -2580,
       "y": -1180,
@@ -1771,7 +1905,7 @@
       "color": "#b067e9"
     },
     {
-      "id": "143",
+      "id": "154",
       "name": "Funding Opportunities (Setup Intake)",
       "x": -1260,
       "y": -1180,
@@ -1780,7 +1914,7 @@
       "color": "#ffe374"
     },
     {
-      "id": "144",
+      "id": "155",
       "name": "Funding Case Assessment",
       "x": -720,
       "y": -1180,
@@ -1789,7 +1923,7 @@
       "color": "#ff6b8a"
     },
     {
-      "id": "145",
+      "id": "156",
       "name": "Funding Case Agreement",
       "x": -2580,
       "y": -140,
