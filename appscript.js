@@ -23,6 +23,10 @@ const tableMap = new Map(); // Name -> {id, schema, fields: Map<Name, ID>}
 const NOW_ISO = new Date().toISOString();
 const NOW_EPOCH = Date.now(); // Internal objects use Epoch Integer
 
+function tableKey(schema, table) {
+  return `${schema}.${table}`;
+}
+
 function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu('ChartDB')
@@ -99,10 +103,30 @@ function generateChartDBJson() {
   };
 
   const jsonString = JSON.stringify(output, null, 2);
+
+  const fileName = `${(ss.getName() || "chartdb-export").replace(/\s+/g, "_")}.json`;
+  const encodedJson = encodeURIComponent(jsonString);
   
   const htmlOutput = HtmlService.createHtmlOutput(
     `<p><strong>Processed Sheets:</strong> ${processedSheets.join(", ")}</p>
-     <textarea style="width:100%; height:400px;">${jsonString}</textarea>`
+     <textarea style="width:100%; height:300px;">${jsonString}</textarea>
+     <div style="margin-top:12px;">
+        <a
+          href="data:application/json;charset=utf-8,${encodedJson}"
+          download="${fileName}"
+          style="
+            display:inline-block;
+            padding:8px 12px;
+            background:#1a73e8;
+            color:#fff;
+            text-decoration:none;
+            border-radius:4px;
+            font-weight:500;
+          "
+        >
+          ⬇ Download JSON
+        </a>
+      </div>`
   ).setWidth(600).setHeight(500);
   
   SpreadsheetApp.getUi().showModalDialog(htmlOutput, 'ChartDB JSON Output');
@@ -147,13 +171,16 @@ function parseTableSheet(sheet, schemaName, areaId, areaColor) {
         fields: [],
         indexes: [],
         rawRelationships: [],
-        isView: true,
+        isView: false,
         createdAt: NOW_EPOCH,
         updatedAt: NOW_EPOCH
       };
 
       // Store schemaName in map for relationship lookup later
-      tableMap.set(tableName, { id: tableId, schema: schemaName, fields: new Map() });
+      tableMap.set(
+        tableKey(schemaName, tableName),
+        { id: tableId, schema: schemaName, fields: new Map() }
+      );
       continue;
     }
 
@@ -188,7 +215,7 @@ function parseTableSheet(sheet, schemaName, areaId, areaColor) {
     };
 
     currentTable.fields.push(fieldObj);
-    tableMap.get(currentTable.name).fields.set(fieldName, fieldId);
+    tableMap.get(tableKey(schemaName, currentTable.name)).fields.set(fieldName, fieldId);
 
     // Store FK info for Pass 2
     if (relationRaw && relationRaw.toLowerCase().includes('foreignkey')) {
