@@ -221,9 +221,15 @@ function parseTableSheet(sheet, schemaName, areaId, areaColor) {
     if (relationRaw && relationRaw.toLowerCase().includes('foreignkey')) {
       const parts = relationRaw.split(',');
       if (parts.length > 1) {
+        const rawTarget = parts[1].trim();
+
+        // Split table + field
+        const [targetTableName, targetFieldName = 'id'] = rawTarget.split('.');
+
         currentTable.rawRelationships.push({
           sourceFieldId: fieldId,
-          targetTableName: parts[1].trim()
+          targetTableName: targetTableName.trim(),
+          targetFieldName: targetFieldName.trim()
         });
       }
     }
@@ -266,35 +272,42 @@ function parseEnumSheet(sheet) {
 }
 
 /**
- * Links FKs between tables
+ * LINKS FOREIGN KEYS BETWEEN TABLES
+ * Drop-in replacement for your existing processRelationships()
  */
 function processRelationships() {
   tables.forEach(table => {
     if (!table.rawRelationships) return;
 
     table.rawRelationships.forEach(rel => {
-      const targetData = tableMap.get(rel.targetTableName);
+      // Use schema of the source table when looking up the target
+      const targetKey = tableKey(table.schema, rel.targetTableName);
+      const targetData = tableMap.get(targetKey);
       
       if (targetData) {
-        const targetFieldId = targetData.fields.get('id');
+        const targetFieldId = targetData.fields.get(rel.targetFieldName || 'id');
 
         if (targetFieldId) {
           relationships.push({
             id: getNextId(),
-            name: `${table.name}_${rel.targetTableName}_fk`,
-            sourceSchema: table.schema,        // Required by schema
+            name: `${table.name}_${targetData.schema}_${targetData.id}_fk`,
+            sourceSchema: table.schema,
             sourceTableId: table.id,
             sourceFieldId: rel.sourceFieldId,
-            targetSchema: targetData.schema,   // Required by schema
+            targetSchema: targetData.schema,
             targetTableId: targetData.id,
-            targetFieldId: targetFieldId,
+            targetFieldId,
             sourceCardinality: "many",
             targetCardinality: "one",
-            createdAt: NOW_EPOCH               // Required by schema
+            createdAt: NOW_EPOCH
           });
         }
+      } else {
+        console.warn(`Foreign key target not found: ${table.schema}.${rel.targetTableName}`);
       }
     });
+
+    // Cleanup rawRelationships
     delete table.rawRelationships;
   });
 }
