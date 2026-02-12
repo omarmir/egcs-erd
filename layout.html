@@ -21,11 +21,77 @@
       </div>
 
       <button id="processBtn">Apply Layout & Download</button>
+      <button id="dbmlBtn">Download Target as DBML</button>
 
       <div id="status"></div>
     </div>
   </body>
+
   <script type="text/javascript">
+    const normalize = (value) =>
+      String(value || "")
+        .trim()
+        .toLowerCase()
+
+    // ==============================
+    // Convert ChartDB JSON → DBML
+    // ==============================
+    function convertToDBML(data) {
+      if (!Array.isArray(data.tables)) return ""
+
+      let dbml = ""
+
+      data.tables.forEach((table) => {
+        dbml += `Table ${table.name} {\n`
+
+        if (Array.isArray(table.columns)) {
+          table.columns.forEach((col) => {
+            let line = `  ${col.name} ${col.type || "varchar"}`
+
+            const attributes = []
+
+            if (col.primaryKey) attributes.push("pk")
+            if (col.notNull) attributes.push("not null")
+            if (col.unique) attributes.push("unique")
+            if (col.default) attributes.push(`default: ${col.default}`)
+
+            if (attributes.length) {
+              line += ` [${attributes.join(", ")}]`
+            }
+
+            dbml += line + "\n"
+          })
+        }
+
+        dbml += "}\n\n"
+      })
+
+      // --------------------------
+      // Foreign Keys
+      // --------------------------
+      data.tables.forEach((table) => {
+        if (!Array.isArray(table.columns)) return
+
+        table.columns.forEach((col) => {
+          if (col.foreignKey || col.references) {
+            const ref = col.foreignKey || col.references
+
+            // Expecting format: "OtherTable.column"
+            if (typeof ref === "string" && ref.includes(".")) {
+              const [refTable, refColumn] = ref.split(".")
+
+              dbml += `Ref: ${table.name}.${col.name} > ${refTable}.${refColumn}\n`
+            }
+          }
+        })
+      })
+
+      return dbml
+    }
+
+    // ==========================================
+    // APPLY LAYOUT BUTTON
+    // ==========================================
     document
       .getElementById("processBtn")
       .addEventListener("click", async () => {
@@ -38,24 +104,15 @@
           return
         }
 
-        const normalize = (value) =>
-          String(value || "")
-            .trim()
-            .toLowerCase()
-
         try {
           const sourceData = JSON.parse(await sourceFile.text())
           const targetData = JSON.parse(await targetFile.text())
 
-          // -----------------------------
-          // 1️⃣ Build lookup maps from source
-          // -----------------------------
           const tablePositionMap = new Map()
-          const areaPositionMap = new Map()
 
           if (Array.isArray(sourceData.tables)) {
             sourceData.tables.forEach((table) => {
-              const key = `${normalize(table.schema)}.${normalize(table.name)}`
+              const key = normalize(table.name)
               tablePositionMap.set(key, {
                 x: table.x,
                 y: table.y,
@@ -65,66 +122,28 @@
             })
           }
 
-          if (Array.isArray(sourceData.areas)) {
-            sourceData.areas.forEach((area) => {
-              const key = normalize(area.name)
-              areaPositionMap.set(key, {
-                x: area.x,
-                y: area.y,
-                width: area.width,
-                height: area.height,
-              })
-            })
-          }
-
-          // -----------------------------
-          // 2️⃣ Apply positions to target
-          // -----------------------------
           let updatedTables = 0
-          let unmatchedTables = []
 
           if (Array.isArray(targetData.tables)) {
             targetData.tables.forEach((table) => {
-              const key = `${normalize(table.schema)}.${normalize(table.name)}`
-              const savedPosition = tablePositionMap.get(key)
+              const savedPosition = tablePositionMap.get(
+                normalize(table.name)
+              )
 
               if (savedPosition) {
                 table.x = savedPosition.x
                 table.y = savedPosition.y
                 table.width = savedPosition.width
-
-                if (savedPosition.height !== undefined) {
-                  table.height = savedPosition.height
-                }
-
+                table.height = savedPosition.height
                 updatedTables++
-              } else {
-                unmatchedTables.push(`${table.schema}.${table.name}`)
               }
             })
           }
 
-          let updatedAreas = 0
-
-          if (Array.isArray(targetData.areas)) {
-            targetData.areas.forEach((area) => {
-              const savedPosition = areaPositionMap.get(normalize(area.name))
-
-              if (savedPosition) {
-                area.x = savedPosition.x
-                area.y = savedPosition.y
-                area.width = savedPosition.width
-                area.height = savedPosition.height
-                updatedAreas++
-              }
-            })
-          }
-
-          // -----------------------------
-          // 3️⃣ Download updated JSON
-          // -----------------------------
           const updatedJson = JSON.stringify(targetData, null, 2)
-          const blob = new Blob([updatedJson], { type: "application/json" })
+          const blob = new Blob([updatedJson], {
+            type: "application/json",
+          })
           const url = URL.createObjectURL(blob)
 
           const downloadLink = document.createElement("a")
@@ -135,19 +154,44 @@
           document.body.removeChild(downloadLink)
           URL.revokeObjectURL(url)
 
-          // -----------------------------
-          // 4️⃣ Status Reporting
-          // -----------------------------
-          let message = `✅ Updated ${updatedTables} tables and ${updatedAreas} areas.`
-
-          if (unmatchedTables.length > 0) {
-            message += `\n\n⚠️ ${unmatchedTables.length} tables had no matching layout:`
-            message += `\n${unmatchedTables.join("\n")}`
-          }
-
-          status.innerText = message
+          status.innerText = `✅ Updated ${updatedTables} tables.`
         } catch (err) {
           status.innerText = "Error processing JSON: " + err.message
+        }
+      })
+
+    // ==========================================
+    // DOWNLOAD DBML BUTTON
+    // ==========================================
+    document
+      .getElementById("dbmlBtn")
+      .addEventListener("click", async () => {
+        const targetFile = document.getElementById("targetFile").files[0]
+        const status = document.getElementById("status")
+
+        if (!targetFile) {
+          status.innerText = "Please upload the target JSON first."
+          return
+        }
+
+        try {
+          const targetData = JSON.parse(await targetFile.text())
+          const dbml = convertToDBML(targetData)
+
+          const blob = new Blob([dbml], { type: "text/plain" })
+          const url = URL.createObjectURL(blob)
+
+          const downloadLink = document.createElement("a")
+          downloadLink.href = url
+          downloadLink.download = targetFile.name.replace(".json", ".dbml")
+          document.body.appendChild(downloadLink)
+          downloadLink.click()
+          document.body.removeChild(downloadLink)
+          URL.revokeObjectURL(url)
+
+          status.innerText = "✅ DBML file generated."
+        } catch (err) {
+          status.innerText = "Error generating DBML: " + err.message
         }
       })
   </script>
