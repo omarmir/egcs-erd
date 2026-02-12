@@ -2,7 +2,7 @@
   "id": "0",
   "name": "EGCS Data Model",
   "createdAt": "2026-02-12T03:45:52.907Z",
-  "updatedAt": "2026-02-12T03:47:11.599Z",
+  "updatedAt": "2026-02-12T16:21:03.136Z",
   "databaseType": "postgresql",
   "tables": [
     {
@@ -1025,7 +1025,7 @@
       "id": "75",
       "name": "Transfer Payment Profile",
       "schema": "Transfer Payment",
-      "x": 20,
+      "x": 40,
       "y": 40,
       "fields": [
         {
@@ -1199,13 +1199,14 @@
       "isView": false,
       "createdAt": 1770837938890,
       "width": 450,
-      "parentAreaId": "cadwqh8nuhrctc2740t6vla8w"
+      "parentAreaId": "cadwqh8nuhrctc2740t6vla8w",
+      "expanded": true
     },
     {
       "id": "88",
       "name": "Transfer Payment Budget Fiscal Year",
       "schema": "Transfer Payment",
-      "x": 560,
+      "x": 580,
       "y": 760,
       "fields": [
         {
@@ -1273,8 +1274,8 @@
       "id": "93",
       "name": "Transfer Payment Budget Line Item",
       "schema": "Transfer Payment",
-      "x": 20,
-      "y": 880,
+      "x": 40,
+      "y": 980,
       "fields": [
         {
           "id": "94",
@@ -1355,8 +1356,8 @@
       "id": "99",
       "name": "Transfer Payment Stream",
       "schema": "Transfer Payment",
-      "x": 20,
-      "y": 460,
+      "x": 40,
+      "y": 500,
       "fields": [
         {
           "id": "100",
@@ -1543,13 +1544,14 @@
       "isView": false,
       "createdAt": 1770837938890,
       "width": 450,
-      "parentAreaId": "cadwqh8nuhrctc2740t6vla8w"
+      "parentAreaId": "cadwqh8nuhrctc2740t6vla8w",
+      "expanded": true
     },
     {
       "id": "113",
       "name": "Transfer Payment Objective",
       "schema": "Transfer Payment",
-      "x": 560,
+      "x": 580,
       "y": 40,
       "fields": [
         {
@@ -1631,7 +1633,7 @@
       "id": "119",
       "name": "Transfer Payment Stream Budget",
       "schema": "Transfer Payment",
-      "x": -500,
+      "x": -480,
       "y": 880,
       "fields": [
         {
@@ -1727,7 +1729,7 @@
       "id": "126",
       "name": "Transfer Payment Stream Eligible Recipient",
       "schema": "Transfer Payment",
-      "x": -500,
+      "x": -480,
       "y": 720,
       "fields": [
         {
@@ -1795,7 +1797,7 @@
       "id": "131",
       "name": "Transfer Payment Stream Cost Category Line Item",
       "schema": "Transfer Payment",
-      "x": 560,
+      "x": 580,
       "y": 1600,
       "fields": [
         {
@@ -1877,7 +1879,7 @@
       "id": "137",
       "name": "Transfer Payment Outcome",
       "schema": "Transfer Payment",
-      "x": 560,
+      "x": 580,
       "y": 500,
       "fields": [
         {
@@ -1987,7 +1989,7 @@
       "id": "145",
       "name": "Transfer Payment Outcome Performance Indicator",
       "schema": "Transfer Payment",
-      "x": 560,
+      "x": 580,
       "y": 240,
       "fields": [
         {
@@ -2097,7 +2099,7 @@
       "id": "153",
       "name": "Transfer Payment Assessment Setup",
       "schema": "Transfer Payment",
-      "x": -500,
+      "x": -480,
       "y": 1100,
       "fields": [
         {
@@ -2179,8 +2181,8 @@
       "id": "159",
       "name": "Transfer Payment Stream Outcome",
       "schema": "Transfer Payment",
-      "x": 20,
-      "y": 1380,
+      "x": 40,
+      "y": 1480,
       "fields": [
         {
           "id": "160",
@@ -2233,7 +2235,7 @@
       "id": "163",
       "name": "Transfer Payment Approval Template",
       "schema": "Transfer Payment",
-      "x": 560,
+      "x": 580,
       "y": 1800,
       "fields": [
         {
@@ -2301,7 +2303,7 @@
       "id": "168",
       "name": "Transfer Payment Amendment Type",
       "schema": "Transfer Payment",
-      "x": 560,
+      "x": 580,
       "y": 1180,
       "fields": [
         {
@@ -2397,7 +2399,7 @@
       "id": "175",
       "name": "Transfer Payment Review Type",
       "schema": "Transfer Payment",
-      "x": 560,
+      "x": 580,
       "y": 1960,
       "fields": [
         {
@@ -2479,7 +2481,7 @@
       "id": "181",
       "name": "Transfer Payment Stream Area of Expertise",
       "schema": "Transfer Payment",
-      "x": -500,
+      "x": -480,
       "y": 460,
       "fields": [
         {
@@ -2589,7 +2591,7 @@
       "id": "189",
       "name": "Transfer Payment Stream Commitment",
       "schema": "Transfer Payment",
-      "x": 560,
+      "x": 580,
       "y": 2160,
       "fields": [
         {
@@ -2755,7 +2757,7 @@
       "id": "201",
       "name": "Transfer Payment Financial Limits",
       "schema": "Transfer Payment",
-      "x": 560,
+      "x": 580,
       "y": 920,
       "fields": [
         {
@@ -2865,7 +2867,7 @@
       "id": "209",
       "name": "Transfer Payment Checklist Setup",
       "schema": "Transfer Payment",
-      "x": 560,
+      "x": 580,
       "y": 1400,
       "fields": [
         {
@@ -2947,8 +2949,8 @@
       "id": "215",
       "name": "Transfer Payment Amendment Subtypes",
       "schema": "Transfer Payment",
-      "x": 20,
-      "y": 1080,
+      "x": 40,
+      "y": 1180,
       "fields": [
         {
           "id": "216",
@@ -3072,7 +3074,7 @@
       "name": "Stakeholder Profile",
       "schema": "Stakeholder",
       "x": 2220,
-      "y": 2680,
+      "y": 2640,
       "fields": [
         {
           "id": "225",
@@ -3301,14 +3303,15 @@
       "isView": false,
       "createdAt": 1770837938890,
       "width": 450,
-      "parentAreaId": "2ay8jt15rn6gt55g9puudhj5m"
+      "parentAreaId": "2ay8jt15rn6gt55g9puudhj5m",
+      "expanded": true
     },
     {
       "id": "241",
       "name": "Stakeholder Other Name",
       "schema": "Stakeholder",
-      "x": 2760,
-      "y": 2680,
+      "x": 2220,
+      "y": 3240,
       "fields": [
         {
           "id": "242",
@@ -3375,8 +3378,8 @@
       "id": "246",
       "name": "Stakeholder Address",
       "schema": "Stakeholder",
-      "x": 2760,
-      "y": 3200,
+      "x": 2220,
+      "y": 3800,
       "fields": [
         {
           "id": "247",
@@ -3443,8 +3446,8 @@
       "id": "251",
       "name": "Stakeholder Contact",
       "schema": "Stakeholder",
-      "x": 2760,
-      "y": 3040,
+      "x": 2220,
+      "y": 3620,
       "fields": [
         {
           "id": "252",
@@ -3511,8 +3514,8 @@
       "id": "256",
       "name": "Stakeholder Funding History",
       "schema": "Stakeholder",
-      "x": 2760,
-      "y": 3360,
+      "x": 2220,
+      "y": 3980,
       "fields": [
         {
           "id": "257",
@@ -3699,14 +3702,15 @@
       "isView": false,
       "createdAt": 1770837938890,
       "width": 450,
-      "parentAreaId": "2ay8jt15rn6gt55g9puudhj5m"
+      "parentAreaId": "2ay8jt15rn6gt55g9puudhj5m",
+      "expanded": true
     },
     {
       "id": "270",
       "name": "Stakeholder Risk Assessment",
       "schema": "Stakeholder",
-      "x": 2760,
-      "y": 2840,
+      "x": 2220,
+      "y": 3420,
       "fields": [
         {
           "id": "271",
@@ -4892,8 +4896,8 @@
           "id": "357",
           "name": "egcs_fo_application",
           "type": {
-            "id": "varchar",
-            "name": "varchar"
+            "id": "bigint",
+            "name": "bigint"
           },
           "primaryKey": false,
           "unique": false,
@@ -4960,8 +4964,8 @@
           "id": "362",
           "name": "egcs_fo_application",
           "type": {
-            "id": "varchar",
-            "name": "varchar"
+            "id": "bigint",
+            "name": "bigint"
           },
           "primaryKey": false,
           "unique": false,
@@ -5194,8 +5198,8 @@
           "id": "379",
           "name": "egcs_fo_application",
           "type": {
-            "id": "varchar",
-            "name": "varchar"
+            "id": "bigint",
+            "name": "bigint"
           },
           "primaryKey": false,
           "unique": false,
@@ -5276,8 +5280,8 @@
           "id": "385",
           "name": "egcs_fo_screening",
           "type": {
-            "id": "varchar",
-            "name": "varchar"
+            "id": "bigint",
+            "name": "bigint"
           },
           "primaryKey": false,
           "unique": false,
@@ -5344,8 +5348,8 @@
           "id": "390",
           "name": "egcs_fo_application",
           "type": {
-            "id": "varchar",
-            "name": "varchar"
+            "id": "bigint",
+            "name": "bigint"
           },
           "primaryKey": false,
           "unique": false,
@@ -5426,8 +5430,8 @@
           "id": "396",
           "name": "egcs_fo_screening",
           "type": {
-            "id": "varchar",
-            "name": "varchar"
+            "id": "bigint",
+            "name": "bigint"
           },
           "primaryKey": false,
           "unique": false,
@@ -5494,8 +5498,8 @@
           "id": "401",
           "name": "egcs_fo_application",
           "type": {
-            "id": "varchar",
-            "name": "varchar"
+            "id": "bigint",
+            "name": "bigint"
           },
           "primaryKey": false,
           "unique": false,
@@ -5618,8 +5622,8 @@
           "id": "410",
           "name": "egcs_fo_screening",
           "type": {
-            "id": "varchar",
-            "name": "varchar"
+            "id": "bigint",
+            "name": "bigint"
           },
           "primaryKey": false,
           "unique": false,
@@ -5700,8 +5704,8 @@
           "id": "416",
           "name": "egcs_fo_application",
           "type": {
-            "id": "varchar",
-            "name": "varchar"
+            "id": "bigint",
+            "name": "bigint"
           },
           "primaryKey": false,
           "unique": false,
@@ -5748,7 +5752,7 @@
       "name": "Funding Case Agreement Profile",
       "schema": "Funding Case Agreement",
       "x": 680,
-      "y": 3480,
+      "y": 3460,
       "fields": [
         {
           "id": "420",
@@ -5880,8 +5884,8 @@
           "id": "429",
           "name": "egcs_fc_agreementsubtype",
           "type": {
-            "id": "text",
-            "name": "text"
+            "id": "bigint",
+            "name": "bigint"
           },
           "primaryKey": false,
           "unique": false,
@@ -5963,14 +5967,15 @@
       "isView": false,
       "createdAt": 1770837938890,
       "width": 450,
-      "parentAreaId": "vk3nc9cly5xx8ytqhyyhhroi0"
+      "parentAreaId": "vk3nc9cly5xx8ytqhyyhhroi0",
+      "expanded": true
     },
     {
       "id": "435",
       "name": "Funding Case Agreement Stakeholder",
       "schema": "Funding Case Agreement",
       "x": -480,
-      "y": 2680,
+      "y": 2640,
       "fields": [
         {
           "id": "436",
@@ -6038,7 +6043,7 @@
       "name": "Funding Case Agreement Outcome",
       "schema": "Funding Case Agreement",
       "x": 1660,
-      "y": 4200,
+      "y": 4180,
       "fields": [
         {
           "id": "441",
@@ -6105,8 +6110,8 @@
       "id": "445",
       "name": "Funding Case Agreement Budget Fiscal Year",
       "schema": "Funding Case Agreement",
-      "x": -480,
-      "y": 3160,
+      "x": 60,
+      "y": 3020,
       "fields": [
         {
           "id": "446",
@@ -6174,7 +6179,7 @@
       "name": "Funding Case Agreement Budget Line Item",
       "schema": "Funding Case Agreement",
       "x": -480,
-      "y": 3820,
+      "y": 3540,
       "fields": [
         {
           "id": "451",
@@ -6347,14 +6352,15 @@
       "isView": false,
       "createdAt": 1770837938890,
       "width": 450,
-      "parentAreaId": "vk3nc9cly5xx8ytqhyyhhroi0"
+      "parentAreaId": "vk3nc9cly5xx8ytqhyyhhroi0",
+      "expanded": true
     },
     {
       "id": "463",
       "name": "Funding Case Agreement Address",
       "schema": "Funding Case Agreement",
       "x": 380,
-      "y": 2680,
+      "y": 2660,
       "fields": [
         {
           "id": "464",
@@ -6436,7 +6442,7 @@
       "name": "Funding Case Agreement Risk Assessment",
       "schema": "Funding Case Agreement",
       "x": 880,
-      "y": 2680,
+      "y": 2660,
       "fields": [
         {
           "id": "470",
@@ -6504,7 +6510,7 @@
       "name": "Funding Case Agreement Outcome",
       "schema": "Funding Case Agreement",
       "x": 1660,
-      "y": 4200,
+      "y": 4180,
       "fields": [
         {
           "id": "475",
@@ -6572,7 +6578,7 @@
       "name": "Funding Case Agreement Activity",
       "schema": "Funding Case Agreement",
       "x": 1660,
-      "y": 4520,
+      "y": 4500,
       "fields": [
         {
           "id": "480",
@@ -6696,7 +6702,7 @@
       "name": "Funding Case Agreement Outcome Activity",
       "schema": "Funding Case Agreement",
       "x": 1660,
-      "y": 4360,
+      "y": 4340,
       "fields": [
         {
           "id": "489",
@@ -6764,7 +6770,7 @@
       "name": "Funding Case Agreement Responsible Party Activity",
       "schema": "Funding Case Agreement",
       "x": -480,
-      "y": 2840,
+      "y": 2800,
       "fields": [
         {
           "id": "494",
@@ -6832,7 +6838,7 @@
       "name": "Funding Case Agreement Forecast",
       "schema": "Funding Case Agreement",
       "x": -480,
-      "y": 3320,
+      "y": 3020,
       "fields": [
         {
           "id": "499",
@@ -6900,7 +6906,7 @@
       "name": "Funding Case Agreement Forecast Line Item",
       "schema": "Funding Case Agreement",
       "x": -480,
-      "y": 3480,
+      "y": 3200,
       "fields": [
         {
           "id": "504",
@@ -7038,7 +7044,7 @@
       "name": "Funding Case Agreement Budget Forecast Approval",
       "schema": "Funding Case Agreement",
       "x": 60,
-      "y": 3580,
+      "y": 3560,
       "fields": [
         {
           "id": "514",
@@ -7119,8 +7125,8 @@
       "id": "519",
       "name": "Funding Case Agreement Claim",
       "schema": "Funding Case Agreement",
-      "x": 1660,
-      "y": 3360,
+      "x": 1160,
+      "y": 3180,
       "fields": [
         {
           "id": "520",
@@ -7258,7 +7264,7 @@
       "name": "Funding Case Agreement Claim Line Item",
       "schema": "Funding Case Agreement",
       "x": -480,
-      "y": 4240,
+      "y": 4000,
       "fields": [
         {
           "id": "530",
@@ -7368,7 +7374,7 @@
       "name": "Funding Case Agreement Claim Review",
       "schema": "Funding Case Agreement",
       "x": 1660,
-      "y": 3680,
+      "y": 3660,
       "fields": [
         {
           "id": "538",
@@ -7464,7 +7470,7 @@
       "name": "Funding Case Agreement Claim Review Line Item",
       "schema": "Funding Case Agreement",
       "x": 20,
-      "y": 4060,
+      "y": 4040,
       "fields": [
         {
           "id": "545",
@@ -7574,7 +7580,7 @@
       "name": "Funding Case Agreement Claim Review Approval",
       "schema": "Funding Case Agreement",
       "x": 1660,
-      "y": 3920,
+      "y": 3900,
       "fields": [
         {
           "id": "553",
@@ -7656,7 +7662,7 @@
       "name": "Funding Case Agreement Commitment",
       "schema": "Funding Case Agreement",
       "x": -480,
-      "y": 4500,
+      "y": 4260,
       "fields": [
         {
           "id": "559",
@@ -7766,7 +7772,7 @@
       "name": "Funding Case Agreement Commitment Line",
       "schema": "Funding Case Agreement",
       "x": -480,
-      "y": 4780,
+      "y": 4520,
       "fields": [
         {
           "id": "567",
@@ -7862,7 +7868,7 @@
       "name": "Funding Case Agreement Commitment Approval",
       "schema": "Funding Case Agreement",
       "x": 60,
-      "y": 3820,
+      "y": 3800,
       "fields": [
         {
           "id": "574",
@@ -7958,7 +7964,7 @@
       "name": "Funding Case Agreement Payment",
       "schema": "Funding Case Agreement",
       "x": 1660,
-      "y": 2660,
+      "y": 2640,
       "fields": [
         {
           "id": "581",
@@ -8369,14 +8375,15 @@
       "isView": false,
       "createdAt": 1770837938890,
       "width": 450,
-      "parentAreaId": "vk3nc9cly5xx8ytqhyyhhroi0"
+      "parentAreaId": "vk3nc9cly5xx8ytqhyyhhroi0",
+      "expanded": true
     },
     {
       "id": "610",
       "name": "Funding Case Agreement Payment Line",
       "schema": "Funding Case Agreement",
       "x": -480,
-      "y": 4980,
+      "y": 4760,
       "fields": [
         {
           "id": "611",
@@ -8443,8 +8450,8 @@
       "id": "615",
       "name": "Funding Case Agreement Payment Approval",
       "schema": "Funding Case Agreement",
-      "x": 1660,
-      "y": 3080,
+      "x": 1160,
+      "y": 2980,
       "fields": [
         {
           "id": "616",
@@ -8526,7 +8533,7 @@
       "name": "Funding Case Agreement Amendment",
       "schema": "Funding Case Agreement",
       "x": 1100,
-      "y": 4040,
+      "y": 4020,
       "fields": [
         {
           "id": "622",
@@ -8608,7 +8615,7 @@
       "name": "Funding Case Agreement Amendment Approval",
       "schema": "Funding Case Agreement",
       "x": 1100,
-      "y": 4240,
+      "y": 4220,
       "fields": [
         {
           "id": "628",
@@ -8690,7 +8697,7 @@
       "name": "Funding Case Agreement Review",
       "schema": "Funding Case Agreement",
       "x": 140,
-      "y": 4360,
+      "y": 4340,
       "fields": [
         {
           "id": "634",
@@ -8786,7 +8793,7 @@
       "name": "Funding Case Agreement Review Planning",
       "schema": "Funding Case Agreement",
       "x": 140,
-      "y": 4840,
+      "y": 4820,
       "fields": [
         {
           "id": "641",
@@ -8854,7 +8861,7 @@
       "name": "Funding Case Agreement Review Items",
       "schema": "Funding Case Agreement",
       "x": 1100,
-      "y": 4580,
+      "y": 4560,
       "fields": [
         {
           "id": "646",
@@ -9005,8 +9012,8 @@
       "id": "656",
       "name": "Funding Case Agreement Review Finding",
       "schema": "Funding Case Agreement",
-      "x": 620,
-      "y": 4580,
+      "x": 626.2644243200988,
+      "y": 4455.592927998353,
       "fields": [
         {
           "id": "657",
@@ -9115,8 +9122,8 @@
       "id": "664",
       "name": "Funding Case Agreement Review Followup",
       "schema": "Funding Case Agreement",
-      "x": 620,
-      "y": 4840,
+      "x": 626.2644243200989,
+      "y": 4707.240362238221,
       "fields": [
         {
           "id": "665",
@@ -9225,8 +9232,8 @@
       "id": "672",
       "name": "Funding Case Agreement Review Followup Update",
       "schema": "Funding Case Agreement",
-      "x": 620,
-      "y": 5000,
+      "x": 628.3525657601315,
+      "y": 4971.647434239868,
       "fields": [
         {
           "id": "673",
@@ -9293,8 +9300,8 @@
       "id": "677",
       "name": "Funding Case Agreement Review Followup",
       "schema": "Funding Case Agreement",
-      "x": 620,
-      "y": 4840,
+      "x": 77.0832255914354,
+      "y": 4993.3157395227345,
       "fields": [
         {
           "id": "678",
@@ -9361,8 +9368,8 @@
       "id": "682",
       "name": "Funding Case Agreement Review Approval",
       "schema": "Funding Case Agreement",
-      "x": 1100,
-      "y": 4940,
+      "x": 1580.2725312075763,
+      "y": 4926.264424320099,
       "fields": [
         {
           "id": "683",
@@ -9617,14 +9624,15 @@
       "isView": false,
       "createdAt": 1770837938890,
       "width": 450,
-      "parentAreaId": "7do61hjq3bnczxms63vbu3mnn"
+      "parentAreaId": "7do61hjq3bnczxms63vbu3mnn",
+      "expanded": true
     },
     {
       "id": "701",
       "name": "Common Assessment",
       "schema": "Common",
-      "x": 3320,
-      "y": 3060,
+      "x": 2780,
+      "y": 3260,
       "fields": [
         {
           "id": "702",
@@ -9885,7 +9893,7 @@
       "id": "720",
       "name": "Common Address",
       "schema": "Common",
-      "x": 3320,
+      "x": 2780,
       "y": 2640,
       "fields": [
         {
@@ -10129,14 +10137,15 @@
       "isView": false,
       "createdAt": 1770837938890,
       "width": 450,
-      "parentAreaId": "7do61hjq3bnczxms63vbu3mnn"
+      "parentAreaId": "7do61hjq3bnczxms63vbu3mnn",
+      "expanded": true
     },
     {
       "id": "738",
       "name": "Common Completion",
       "schema": "Common",
-      "x": 3840,
-      "y": 4940,
+      "x": 3300,
+      "y": 4120,
       "fields": [
         {
           "id": "739",
@@ -10231,8 +10240,8 @@
       "id": "745",
       "name": "Common Certification",
       "schema": "Common",
-      "x": 3320,
-      "y": 4700,
+      "x": 3300,
+      "y": 3820,
       "fields": [
         {
           "id": "746",
@@ -10727,8 +10736,8 @@
       "id": "781",
       "name": "Common Approval",
       "schema": "Common",
-      "x": 3320,
-      "y": 4040,
+      "x": 3300,
+      "y": 3260,
       "fields": [
         {
           "id": "782",
@@ -10943,14 +10952,15 @@
       "isView": false,
       "createdAt": 1770837938890,
       "width": 450,
-      "parentAreaId": "7do61hjq3bnczxms63vbu3mnn"
+      "parentAreaId": "7do61hjq3bnczxms63vbu3mnn",
+      "expanded": true
     },
     {
       "id": "797",
       "name": "Common Answer",
       "schema": "Common",
-      "x": 3320,
-      "y": 3760,
+      "x": 2780,
+      "y": 3560,
       "fields": [
         {
           "id": "798",
@@ -11073,8 +11083,8 @@
       "id": "806",
       "name": "Common Account Type",
       "schema": "Common",
-      "x": 3320,
-      "y": 4460,
+      "x": 2780,
+      "y": 3940,
       "fields": [
         {
           "id": "807",
@@ -11237,8 +11247,8 @@
       "id": "818",
       "name": "Common Checklist",
       "schema": "Common",
-      "x": 3840,
-      "y": 4240,
+      "x": 3120,
+      "y": 4480,
       "fields": [
         {
           "id": "819",
@@ -11348,7 +11358,7 @@
       "name": "Common Checklist Response",
       "schema": "Common",
       "x": 3840,
-      "y": 4500,
+      "y": 4340,
       "fields": [
         {
           "id": "827",
@@ -11471,8 +11481,8 @@
       "id": "835",
       "name": "Common Form Schema",
       "schema": "Common",
-      "x": 3320,
-      "y": 5000,
+      "x": 3300,
+      "y": 4920,
       "fields": [
         {
           "id": "836",
@@ -11540,7 +11550,7 @@
       "name": "Common Assessment Outcome",
       "schema": "Common",
       "x": 3320,
-      "y": 3340,
+      "y": 2640,
       "fields": [
         {
           "id": "841",
@@ -11713,7 +11723,8 @@
       "isView": false,
       "createdAt": 1770837938890,
       "width": 450,
-      "parentAreaId": "7do61hjq3bnczxms63vbu3mnn"
+      "parentAreaId": "7do61hjq3bnczxms63vbu3mnn",
+      "expanded": true
     }
   ],
   "relationships": [
@@ -13976,25 +13987,28 @@
       "y": 0,
       "width": 1060,
       "height": 2560,
-      "color": "#8eb7ff"
+      "color": "#8eb7ff",
+      "order": 0
     },
     {
       "id": "1027",
       "name": "Transfer Payment",
-      "x": -520,
+      "x": -500,
       "y": 0,
       "width": 1560,
       "height": 2560,
-      "color": "#b067e9"
+      "color": "#b067e9",
+      "order": 1
     },
     {
       "id": "1028",
       "name": "Stakeholder",
       "x": 2180,
       "y": 2600,
-      "width": 1060,
+      "width": 540,
       "height": 2560,
-      "color": "#ff9f74"
+      "color": "#ff9f74",
+      "order": 3
     },
     {
       "id": "1029",
@@ -14003,7 +14017,8 @@
       "y": 0,
       "width": 1060,
       "height": 2560,
-      "color": "#ffe374"
+      "color": "#ffe374",
+      "order": 2
     },
     {
       "id": "1030",
@@ -14012,25 +14027,28 @@
       "y": 0,
       "width": 1060,
       "height": 2560,
-      "color": "#ff6b8a"
+      "color": "#ff6b8a",
+      "order": 4
     },
     {
       "id": "1031",
       "name": "Funding Case Agreement",
       "x": -520,
-      "y": 2620,
+      "y": 2600,
       "width": 2660,
       "height": 2560,
-      "color": "#9ef07a"
+      "color": "#9ef07a",
+      "order": 6
     },
     {
       "id": "1032",
       "name": "Common",
-      "x": 3280,
+      "x": 2740,
       "y": 2600,
-      "width": 1060,
+      "width": 1600,
       "height": 2560,
-      "color": "#42e0c0"
+      "color": "#42e0c0",
+      "order": 5
     }
   ],
   "customTypes": [
