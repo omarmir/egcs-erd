@@ -1,0 +1,154 @@
+<html>
+  <head>
+    <title>Layout Migrator</title>
+  </head>
+  <body>
+    <div id="app">
+      <h2>ChartDB Layout Migrator</h2>
+      <p>
+        Upload the source JSON (with the good layout) and the target JSON (that
+        needs the layout).
+      </p>
+
+      <div class="upload-section">
+        <label>1. Source JSON (Layout Source):</label>
+        <input type="file" id="sourceFile" accept=".json" />
+      </div>
+
+      <div class="upload-section">
+        <label>2. Target JSON (To be updated):</label>
+        <input type="file" id="targetFile" accept=".json" />
+      </div>
+
+      <button id="processBtn">Apply Layout & Download</button>
+
+      <div id="status"></div>
+    </div>
+  </body>
+  <script type="text/javascript">
+    document
+      .getElementById("processBtn")
+      .addEventListener("click", async () => {
+        const sourceFile = document.getElementById("sourceFile").files[0]
+        const targetFile = document.getElementById("targetFile").files[0]
+        const status = document.getElementById("status")
+
+        if (!sourceFile || !targetFile) {
+          status.innerText = "Please upload both files first."
+          return
+        }
+
+        const normalize = (value) =>
+          String(value || "")
+            .trim()
+            .toLowerCase()
+
+        try {
+          const sourceData = JSON.parse(await sourceFile.text())
+          const targetData = JSON.parse(await targetFile.text())
+
+          // -----------------------------
+          // 1️⃣ Build lookup maps from source
+          // -----------------------------
+          const tablePositionMap = new Map()
+          const areaPositionMap = new Map()
+
+          if (Array.isArray(sourceData.tables)) {
+            sourceData.tables.forEach((table) => {
+              const key = `${normalize(table.schema)}.${normalize(table.name)}`
+              tablePositionMap.set(key, {
+                x: table.x,
+                y: table.y,
+                width: table.width,
+                height: table.height,
+              })
+            })
+          }
+
+          if (Array.isArray(sourceData.areas)) {
+            sourceData.areas.forEach((area) => {
+              const key = normalize(area.name)
+              areaPositionMap.set(key, {
+                x: area.x,
+                y: area.y,
+                width: area.width,
+                height: area.height,
+              })
+            })
+          }
+
+          // -----------------------------
+          // 2️⃣ Apply positions to target
+          // -----------------------------
+          let updatedTables = 0
+          let unmatchedTables = []
+
+          if (Array.isArray(targetData.tables)) {
+            targetData.tables.forEach((table) => {
+              const key = `${normalize(table.schema)}.${normalize(table.name)}`
+              const savedPosition = tablePositionMap.get(key)
+
+              if (savedPosition) {
+                table.x = savedPosition.x
+                table.y = savedPosition.y
+                table.width = savedPosition.width
+
+                if (savedPosition.height !== undefined) {
+                  table.height = savedPosition.height
+                }
+
+                updatedTables++
+              } else {
+                unmatchedTables.push(`${table.schema}.${table.name}`)
+              }
+            })
+          }
+
+          let updatedAreas = 0
+
+          if (Array.isArray(targetData.areas)) {
+            targetData.areas.forEach((area) => {
+              const savedPosition = areaPositionMap.get(normalize(area.name))
+
+              if (savedPosition) {
+                area.x = savedPosition.x
+                area.y = savedPosition.y
+                area.width = savedPosition.width
+                area.height = savedPosition.height
+                updatedAreas++
+              }
+            })
+          }
+
+          // -----------------------------
+          // 3️⃣ Download updated JSON
+          // -----------------------------
+          const updatedJson = JSON.stringify(targetData, null, 2)
+          const blob = new Blob([updatedJson], { type: "application/json" })
+          const url = URL.createObjectURL(blob)
+
+          const downloadLink = document.createElement("a")
+          downloadLink.href = url
+          downloadLink.download = `layout_applied_${targetFile.name}`
+          document.body.appendChild(downloadLink)
+          downloadLink.click()
+          document.body.removeChild(downloadLink)
+          URL.revokeObjectURL(url)
+
+          // -----------------------------
+          // 4️⃣ Status Reporting
+          // -----------------------------
+          let message = `✅ Updated ${updatedTables} tables and ${updatedAreas} areas.`
+
+          if (unmatchedTables.length > 0) {
+            message += `\n\n⚠️ ${unmatchedTables.length} tables had no matching layout:`
+            message += `\n${unmatchedTables.join("\n")}`
+          }
+
+          status.innerText = message
+        } catch (err) {
+          status.innerText = "Error processing JSON: " + err.message
+        }
+      })
+  </script>
+</html>
