@@ -36,57 +36,66 @@
     // ==============================
     // Convert ChartDB JSON → DBML
     // ==============================
-    function convertToDBML(data) {
-      if (!Array.isArray(data.tables)) return ""
-
-      let dbml = ""
-
-      data.tables.forEach((table) => {
-        dbml += `Table ${table.name} {\n`
-
-        if (Array.isArray(table.columns)) {
-          table.columns.forEach((col) => {
-            let line = `  ${col.name} ${col.type || "varchar"}`
-
-            const attributes = []
-
-            if (col.primaryKey) attributes.push("pk")
-            if (col.notNull) attributes.push("not null")
-            if (col.unique) attributes.push("unique")
-            if (col.default) attributes.push(`default: ${col.default}`)
-
-            if (attributes.length) {
-              line += ` [${attributes.join(", ")}]`
+    function convertJsonToDbml(json) {
+      if (!json || !Array.isArray(json.tables)) {
+        throw new Error("Invalid ChartDB JSON structure.");
+      }
+    
+      const lines = [];
+    
+      json.tables.forEach((table) => {
+        if (!Array.isArray(table.fields)) return;
+    
+        lines.push(`Table "${table.name}" {`);
+    
+        // Collect primary key field IDs from indexes (safer)
+        const primaryKeyFieldIds = new Set();
+    
+        if (Array.isArray(table.indexes)) {
+          table.indexes.forEach((idx) => {
+            if (idx.isPrimaryKey && Array.isArray(idx.fieldIds)) {
+              idx.fieldIds.forEach((id) => primaryKeyFieldIds.add(id));
             }
-
-            dbml += line + "\n"
-          })
+          });
         }
-
-        dbml += "}\n\n"
-      })
-
-      // --------------------------
-      // Foreign Keys
-      // --------------------------
-      data.tables.forEach((table) => {
-        if (!Array.isArray(table.columns)) return
-
-        table.columns.forEach((col) => {
-          if (col.foreignKey || col.references) {
-            const ref = col.foreignKey || col.references
-
-            // Expecting format: "OtherTable.column"
-            if (typeof ref === "string" && ref.includes(".")) {
-              const [refTable, refColumn] = ref.split(".")
-
-              dbml += `Ref: ${table.name}.${col.name} > ${refTable}.${refColumn}\n`
-            }
+    
+        table.fields.forEach((field) => {
+          const fieldName = field.name;
+          const fieldType = field.type?.name || "varchar";
+    
+          const attributes = [];
+    
+          // Primary Key
+          if (field.primaryKey || primaryKeyFieldIds.has(field.id)) {
+            attributes.push("pk");
           }
-        })
-      })
-
-      return dbml
+    
+          // Unique
+          if (field.unique) {
+            attributes.push("unique");
+          }
+    
+          // Not Null
+          if (field.nullable === false) {
+            attributes.push("not null");
+          }
+    
+          // Auto increment (if ever used)
+          if (field.increment) {
+            attributes.push("increment");
+          }
+    
+          const attrString =
+            attributes.length > 0 ? ` [${attributes.join(", ")}]` : "";
+    
+          lines.push(`  ${fieldName} ${fieldType}${attrString}`);
+        });
+    
+        lines.push("}");
+        lines.push(""); // spacing between tables
+      });
+    
+      return lines.join("\n");
     }
 
     // ==========================================
