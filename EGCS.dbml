@@ -482,8 +482,8 @@ Table Agency_Profile {
   egcs_ay_agencyfinancialsystemid bigint [not null] // ID of the federal institution
   egcs_ay_name_en varchar [not null] // Name of the federal institution in english
   egcs_ay_name_fr varchar [not null] // Name of the federal institution in french
-  egcs_ay_acronym_en varchar [not null] // Acronym representing the federal institution in english
-  egcs_ay_acronym_fr varchar [not null] // Acronym representing the federal institution in french
+  egcs_ay_abbreviation_en varchar [not null] // abbreviation representing the federal institution in english
+  egcs_ay_abbreviation_fr varchar [not null] // abbreviation representing the federal institution in french
   egcs_ay_status Base_Status [not null] // Status for the federal institution
 }
 
@@ -746,6 +746,7 @@ Table Transfer_Payment_Financial_Limits {
   egcs_tp_maxpercentofsupportavailableperstakeholder numeric(5,2) [not null]
   egcs_tp_maxpercentofretroactivecostsallowable numeric(5,2) [not null]
   egcs_tp_stackinglimit numeric(5,2) [not null]
+  egcs_tp_status Base_Status [not null]
 }
 Ref: Transfer_Payment_Financial_Limits.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id
 
@@ -876,14 +877,6 @@ Table Funding_Opportunity_Budget_Cost_Category {
 Ref: Funding_Opportunity_Budget_Cost_Category.egcs_fo_fiscalyear > Funding_Opportunity_Budget_Fiscal_Year.id
 Ref: Funding_Opportunity_Budget_Cost_Category.egcs_fo_organizationcostcategory > Agency_Cost_Category_Line_Item.id
 
-Table Funding_Opportunity_Attachment_Type {
-  id bigint [pk, not null] // System ID
-  egcs_fo_name_en varchar [not null]
-  egcs_fo_name_fr varchar [not null]
-  egcs_fo_description_en text [not null]
-  egcs_fo_description_fr text [not null]
-}
-
 Table Funding_Opportunity_Attachments {
   id bigint [pk, not null] // System ID
   egcs_fo_fundingopportunity bigint [not null]
@@ -894,7 +887,7 @@ Table Funding_Opportunity_Attachments {
   egcs_fo_type bigint [not null]
 }
 Ref: Funding_Opportunity_Attachments.egcs_fo_fundingopportunity > Funding_Opportunity_Profile.id
-Ref: Funding_Opportunity_Attachments.egcs_fo_type > Funding_Opportunity_Attachment_Type.id
+Ref: Funding_Opportunity_Attachments.egcs_fo_type > Common_Attachment_Type.id
 
 Table Funding_Opportunity_Review_Committee_Setup {
   id bigint [pk, not null] // System ID
@@ -1604,4 +1597,12 @@ Table Common_Assessment_Outcome {
   egcs_fc_comment text [not null]
 }
 Ref: Common_Assessment_Outcome.egcs_fc_assessment > Common_Assessment.id
+
+Table Common_Attachment_Type {
+  id bigint [pk, not null] // System ID
+  egcs_fo_name_en varchar [not null]
+  egcs_fo_name_fr varchar [not null]
+  egcs_fo_description_en text [not null]
+  egcs_fo_description_fr text [not null]
+}
 
