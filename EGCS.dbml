@@ -478,64 +478,60 @@ Enum Countries {
 }
 
 Table Agency_Profile {
-  id bigint [pk, not null]
-  egcs_ay_agencyfinancialsystemid bigint [not null]
-  egcs_ay_name_en varchar [not null]
-  egcs_ay_name_fr varchar [not null]
-  egcs_ay_acronym_en varchar [not null]
-  egcs_ay_acronym_fr varchar [not null]
-  egcs_ay_status Base_Status [not null]
+  id bigint [pk, not null] // System ID
+  egcs_ay_agencyfinancialsystemid bigint [not null] // ID of the federal institution
+  egcs_ay_name_en varchar [not null] // Name of the federal institution in english
+  egcs_ay_name_fr varchar [not null] // Name of the federal institution in french
+  egcs_ay_acronym_en varchar [not null] // Acronym representing the federal institution in english
+  egcs_ay_acronym_fr varchar [not null] // Acronym representing the federal institution in french
+  egcs_ay_status Base_Status [not null] // Status for the federal institution
 }
 
 Table Agency_Cost_Category {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_ay_organizationagency bigint [not null]
-  egcs_ay_name_en varchar [not null]
-  egcs_ay_name_fr varchar [not null]
+  egcs_ay_name_en varchar [not null] // Cost categories available to the transfer payment programs under this federal institution (english)
+  egcs_ay_name_fr varchar [not null] // Cost categories available to the transfer payment programs under this federal institution (french)
 }
 Ref: Agency_Cost_Category.egcs_ay_organizationagency > Agency_Profile.id
 
 Table Agency_Cost_Category_Line_Item {
-  id bigint [pk, not null]
-  egcs_ay_organizationagency bigint [not null]
-  egcs_ay_name_en varchar [not null]
-  egcs_ay_name_fr varchar [not null]
+  id bigint [pk, not null] // System ID
+  egcs_ay_name_en varchar [not null] // Budget line items in english
+  egcs_ay_name_fr varchar [not null] // Budget line items in french
   egcs_ay_oganizationcostcategory bigint [not null]
 }
-Ref: Agency_Cost_Category_Line_Item.egcs_ay_organizationagency > Agency_Profile.id
 Ref: Agency_Cost_Category_Line_Item.egcs_ay_oganizationcostcategory > Agency_Cost_Category.id
 
 Table Agency_Fiscal_Year {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_ay_organizationagency bigint [not null]
-  egcs_ay_ficalyeardisplay varchar [not null]
-  egcs_ay_fiscalyear varchar [not null]
+  egcs_ay_ficalyeardisplay varchar [not null] // Display value of fiscal year, e.g. 2025-2026
+  egcs_ay_fiscalyear varchar [not null] // Numerical value for fiscal year, e.g. 2026
 }
 Ref: Agency_Fiscal_Year.egcs_ay_organizationagency > Agency_Profile.id
 
 Table Agency_Address_Type {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_ay_organizationagency bigint [not null]
-  egcs_ay_typename_en varchar [not null]
-  egcs_ay_typename_fr varchar [not null]
+  egcs_ay_typename_en varchar [not null] // Address type name in english e.g Head Office
+  egcs_ay_typename_fr varchar [not null] // Address type name in french e.g Head Office
 }
 Ref: Agency_Address_Type.egcs_ay_organizationagency > Agency_Profile.id
 
 Table Agency_Account_Subtype {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_ay_odtype Stakeholder_Type [not null]
   egcs_ay_organizationagency bigint [not null]
-  egcs_ay_description_en text [not null]
-  egcs_ay_description_fr text [not null]
-  egcs_ay_name_en varchar [not null]
-  egcs_ay_name_fr varchar [not null]
-  egcs_ay_accounttype bigint [not null]
+  egcs_ay_description_en text [not null] // Agency specific classification description in english
+  egcs_ay_description_fr text [not null] // Agency specific classification description in french
+  egcs_ay_name_en varchar [not null] // Agency specific name for an account type in english (e.g. Research Institution)
+  egcs_ay_name_fr varchar [not null] // Agency specific name for an account type in french (e.g. Research Institution)
 }
 Ref: Agency_Account_Subtype.egcs_ay_organizationagency > Agency_Profile.id
-Ref: Agency_Account_Subtype.egcs_ay_accounttype > Common_Account_Type.id
 
 Table Agency_Assessment_Type {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_ay_organizationagency bigint [not null]
   egcs_ay_name_en varchar [not null]
   egcs_ay_name_fr varchar [not null]
@@ -546,7 +542,7 @@ Ref: Agency_Assessment_Type.egcs_ay_organizationagency > Agency_Profile.id
 Ref: Agency_Assessment_Type.egcs_ay_assessmentschema > Common_Assessment_Schema.id
 
 Table Agency_Checklist_Type {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_ay_organizationagency bigint [not null]
   egcs_ay_name_en varchar [not null]
   egcs_ay_name_fr varchar [not null]
@@ -557,11 +553,11 @@ Ref: Agency_Checklist_Type.egcs_ay_organizationagency > Agency_Profile.id
 Ref: Agency_Checklist_Type.egcs_ay_checklistschema > Common_Checklist_Schema.id
 
 Table Agency_Approval_Behalf_Type {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_ay_organizationagency bigint [not null]
   egcs_ay_name_en varchar [not null]
   egcs_ay_name_fr varchar [not null]
-  egcs_ay_require_actual boolean [not null]
+  egcs_ay_require_actual boolean [not null] // Indicates that the approval will require entry of additional details associated to approval if set to true (e.g. date, approver etc)
 }
 Ref: Agency_Approval_Behalf_Type.egcs_ay_organizationagency > Agency_Profile.id
 
@@ -569,28 +565,28 @@ Table Agency_Agreement_Type {
   id bigint [pk, not null]
   egcs_ay_organizationagency bigint [not null]
   egcs_ay_agreementtype Agreement_Type [not null]
-  egcs_ay_name_en varchar [not null]
-  egcs_ay_name_fr varchar [not null]
+  egcs_ay_name_en varchar [not null] // Agency specific name for an agreement type in english (e.g. Partially Repayable Contribution Agreement)
+  egcs_ay_name_fr varchar [not null] // Agency specific name for an agreement type in french (e.g. Partially Repayable Contribution Agreement)
 }
 Ref: Agency_Agreement_Type.egcs_ay_organizationagency > Agency_Profile.id
 
 Table Transfer_Payment_Profile {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_tp_organizationagency bigint [not null]
-  egcs_tp_dateend timestamp [not null]
-  egcs_tp_datestart timestamp [not null]
-  egcs_tp_description_en text [not null]
-  egcs_tp_description_fr text [not null]
-  egcs_tp_name_en varchar [not null]
-  egcs_tp_name_fr varchar [not null]
-  egcs_tp_shortname varchar [not null]
-  egcs_tp_tclink varchar [not null]
+  egcs_tp_dateend timestamp [not null] // Effective end date of the TP Program.
+  egcs_tp_datestart timestamp [not null] // Effective start date of the TP Program
+  egcs_tp_description_en text [not null] // Description of the TP program.
+  egcs_tp_description_fr text [not null] // Description of the TP program.
+  egcs_tp_name_en varchar [not null] // English name of the TP program.
+  egcs_tp_name_fr varchar [not null] // French name of the TP program.
+  egcs_tp_shortname varchar [not null] // Short name to quickly identify the TP program.
+  egcs_tp_tclink varchar [not null] // Link to the Terms & Conditions of the TP program.
   egcs_tp_status Base_Status [not null]
 }
 Ref: Transfer_Payment_Profile.egcs_tp_organizationagency > Agency_Profile.id
 
 Table Transfer_Payment_Budget_Fiscal_Year {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_tp_transferpaymentprofile bigint [not null]
   egcs_tp_fiscalyear bigint [not null]
 }
@@ -598,24 +594,24 @@ Ref: Transfer_Payment_Budget_Fiscal_Year.egcs_tp_transferpaymentprofile > Transf
 Ref: Transfer_Payment_Budget_Fiscal_Year.egcs_tp_fiscalyear > Agency_Fiscal_Year.id
 
 Table Transfer_Payment_Budget_Line_Item {
-  id bigint [pk, not null]
-  egcs_tp_totalbudget numeric(4,2) [not null]
-  egcs_tp_fiscalyear bigint [not null]
-  egcs_tp_overcommitthreshold numeric(3,2) [not null]
+  id bigint [pk, not null] // System ID
+  egcs_tp_totalbudget numeric(4,2) [not null] // Adjusted budget associated to the transfer payment program's budget for the fiscal year.
+  egcs_tp_fiscalyear bigint [not null] // Financial year associated to the transfer payment program's budget.
+  egcs_tp_overcommitthreshold numeric(3,2) [not null] // Percentage of total budget allowed to exceed
 }
 Ref: Transfer_Payment_Budget_Line_Item.egcs_tp_fiscalyear > Transfer_Payment_Budget_Fiscal_Year.id
 
 Table Transfer_Payment_Stream {
-  id bigint [pk, not null]
-  egcs_tp_name_en varchar [not null]
-  egcs_tp_name_fr varchar [not null]
-  egcs_tp_description_en text [not null]
-  egcs_tp_description_fr text [not null]
+  id bigint [pk, not null] // System ID
+  egcs_tp_name_en varchar [not null] // English name of the program performance indicator.
+  egcs_tp_name_fr varchar [not null] // French name of the program performance indicator.
+  egcs_tp_description_en text [not null] // Statement on the program performance indicator (en).
+  egcs_tp_description_fr text [not null] // Statement on the program performance indicator (fr).
   egcs_tp_transferpaymentprofile bigint [not null]
-  egcs_tp_parentstream bigint
-  egcs_tp_shortname varchar [not null]
-  egcs_tp_objective_en text [not null]
-  egcs_tp_objective_fr text [not null]
+  egcs_tp_parentstream bigint // Parent stream
+  egcs_tp_shortname varchar [not null] // Short name to quickly identify the stream
+  egcs_tp_objective_en text [not null] // Program objective narrative (en)
+  egcs_tp_objective_fr text [not null] // Program objective narrative (fr)
   egcs_tp_financiallimits bigint [not null]
   egcs_tp_status Base_Status [not null]
 }
@@ -623,62 +619,62 @@ Ref: Transfer_Payment_Stream.egcs_tp_transferpaymentprofile > Transfer_Payment_P
 Ref: Transfer_Payment_Stream.egcs_tp_parentstream > Transfer_Payment_Stream.id
 
 Table Transfer_Payment_Objective {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_tp_transferpaymentprofile bigint [not null]
-  egcs_tp_objective_en text [not null]
-  egcs_tp_objective_fr text [not null]
+  egcs_tp_objective_en text [not null] // Program objective narrative (en)
+  egcs_tp_objective_fr text [not null] // Program objective narrative (fr)
 }
 Ref: Transfer_Payment_Objective.egcs_tp_transferpaymentprofile > Transfer_Payment_Profile.id
 
 Table Transfer_Payment_Stream_Budget {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_tp_transferpaymentstream bigint [not null]
-  egcs_tp_totalbudget numeric(4,2) [not null]
-  egcs_tp_transferpaymentbudget bigint [not null]
-  egcs_tp_overcommitthreshold numeric(3,2) [not null]
+  egcs_tp_totalbudget numeric(4,2) [not null] // Adjusted budget associated to the transfer payment program's budget for the fiscal year.
+  egcs_tp_transferpaymentbudget bigint [not null] // Financial year associated to the transfer payment program's budget.
+  egcs_tp_overcommitthreshold numeric(3,2) [not null] // Percentage of total budget allowed to exceed
 }
 Ref: Transfer_Payment_Stream_Budget.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id
 Ref: Transfer_Payment_Stream_Budget.egcs_tp_transferpaymentbudget > Transfer_Payment_Budget_Line_Item.id
 
 Table Transfer_Payment_Stream_Eligible_Recipient {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_tp_transferpaymentstream bigint [not null]
-  egcs_tp_accountsubtypes bigint [not null]
+  egcs_tp_accountsubtypes bigint [not null] // The account subtype eligible for funding under this program
 }
 Ref: Transfer_Payment_Stream_Eligible_Recipient.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id
 Ref: Transfer_Payment_Stream_Eligible_Recipient.egcs_tp_accountsubtypes > Agency_Account_Subtype.id
 
 Table Transfer_Payment_Stream_Cost_Category_Line_Item {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_tp_transferpaymentstream bigint [not null]
-  egcs_tp_organizationcostcategory bigint [not null]
-  egcs_tp_costsharingratio numeric(3,2) [not null]
+  egcs_tp_organizationcostcategory bigint [not null] // Cost category from the organization
+  egcs_tp_costsharingratio numeric(3,2) [not null] // Percentage of assistance provided for items of this cost category.
 }
 Ref: Transfer_Payment_Stream_Cost_Category_Line_Item.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id
 Ref: Transfer_Payment_Stream_Cost_Category_Line_Item.egcs_tp_organizationcostcategory > Agency_Cost_Category_Line_Item.id
 
 Table Transfer_Payment_Outcome {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_tp_transferpaymentprofile bigint [not null]
-  egcs_tp_description_en text [not null]
-  egcs_tp_description_fr text [not null]
-  egcs_tp_name_en varchar [not null]
-  egcs_tp_name_fr varchar [not null]
+  egcs_tp_description_en text [not null] // Statement on the expected result for the TP program. (en)
+  egcs_tp_description_fr text [not null] // Statement on the expected result for the TP program. (fr)
+  egcs_tp_name_en varchar [not null] // English name of the expected result.
+  egcs_tp_name_fr varchar [not null] // French name of the expected result.
 }
 Ref: Transfer_Payment_Outcome.egcs_tp_transferpaymentprofile > Transfer_Payment_Profile.id
 
 Table Transfer_Payment_Outcome_Performance_Indicator {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_tp_transferpaymentoutcome bigint [not null]
-  egcs_tp_name_en varchar [not null]
-  egcs_tp_name_fr varchar [not null]
-  egcs_tp_description_en text [not null]
-  egcs_tp_description_fr text [not null]
+  egcs_tp_name_en varchar [not null] // English name of the program performance indicator.
+  egcs_tp_name_fr varchar [not null] // French name of the program performance indicator.
+  egcs_tp_description_en text [not null] // Statement on the program performance indicator (en).
+  egcs_tp_description_fr text [not null] // Statement on the program performance indicator (fr).
 }
 Ref: Transfer_Payment_Outcome_Performance_Indicator.egcs_tp_transferpaymentoutcome > Transfer_Payment_Outcome.id
 
 Table Transfer_Payment_Assessment_Setup {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_tp_transferpaymentstream bigint [not null]
   egcs_tp_assessment bigint [not null]
   egcs_tp_aprovaltemplate bigint [not null]
@@ -688,13 +684,13 @@ Ref: Transfer_Payment_Assessment_Setup.egcs_tp_assessment > Agency_Assessment_Ty
 Ref: Transfer_Payment_Assessment_Setup.egcs_tp_aprovaltemplate > Common_Approval_Template.id
 
 Table Transfer_Payment_Stream_Outcome {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_tp_transferpaymentoutcome bigint [not null]
 }
 Ref: Transfer_Payment_Stream_Outcome.egcs_tp_transferpaymentoutcome > Transfer_Payment_Outcome.id
 
 Table Transfer_Payment_Approval_Template {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_tp_transferpaymentstream bigint [not null]
   egcs_tp_aprovaltemplate bigint [not null]
 }
@@ -702,7 +698,7 @@ Ref: Transfer_Payment_Approval_Template.egcs_tp_transferpaymentstream > Transfer
 Ref: Transfer_Payment_Approval_Template.egcs_tp_aprovaltemplate > Common_Approval_Template.id
 
 Table Transfer_Payment_Amendment_Type {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_tp_amended Amended_Type [not null]
   egcs_tp_name_en varchar [not null]
   egcs_tp_name_fr varchar [not null]
@@ -711,7 +707,7 @@ Table Transfer_Payment_Amendment_Type {
 Ref: Transfer_Payment_Amendment_Type.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id
 
 Table Transfer_Payment_Review_Type {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_tp_name_en varchar [not null]
   egcs_tp_name_fr varchar [not null]
   egcs_tp_transferpaymentstream bigint [not null]
@@ -719,7 +715,7 @@ Table Transfer_Payment_Review_Type {
 Ref: Transfer_Payment_Review_Type.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id
 
 Table Transfer_Payment_Stream_Area_of_Expertise {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_tp_name_en varchar [not null]
   egcs_tp_name_fr varchar [not null]
   egcs_tp_description_en text [not null]
@@ -729,7 +725,7 @@ Table Transfer_Payment_Stream_Area_of_Expertise {
 Ref: Transfer_Payment_Stream_Area_of_Expertise.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id
 
 Table Transfer_Payment_Stream_Commitment {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_tp_fiscalyear bigint [not null]
   egcs_tp_fund varchar [not null]
   egcs_tp_gl varchar [not null]
@@ -744,7 +740,7 @@ Ref: Transfer_Payment_Stream_Commitment.egcs_tp_fiscalyear > Transfer_Payment_Bu
 Ref: Transfer_Payment_Stream_Commitment.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id
 
 Table Transfer_Payment_Financial_Limits {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_tp_transferpaymentstream bigint [not null]
   egcs_tp_maxallowableperstakeholder numeric(4,2) [not null]
   egcs_tp_maxpercentofsupportavailableperstakeholder numeric(5,2) [not null]
@@ -754,7 +750,7 @@ Table Transfer_Payment_Financial_Limits {
 Ref: Transfer_Payment_Financial_Limits.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id
 
 Table Transfer_Payment_Checklist_Setup {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_tp_transferpaymentstream bigint [not null]
   egcs_tp_checklists bigint [not null]
   egcs_tp_aprovaltemplate bigint [not null]
@@ -762,7 +758,7 @@ Table Transfer_Payment_Checklist_Setup {
 Ref: Transfer_Payment_Checklist_Setup.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id
 
 Table Transfer_Payment_Amendment_Subtypes {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_tp_amendedtype bigint [not null]
   egcs_tp_name_en varchar [not null]
   egcs_tp_name_fr varchar [not null]
@@ -774,20 +770,20 @@ Ref: Transfer_Payment_Amendment_Subtypes.egcs_tp_amendedtype > Transfer_Payment_
 Ref: Transfer_Payment_Amendment_Subtypes.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id
 
 Table Stakeholder_Profile {
-  id bigint [pk, not null]
-  egcs_sh_provincialbusinessnumber int
-  egcs_sh_businessnumber bigint
-  egcs_sh_charitynumber bigint
-  egcs_sh_clientdescription_en text
-  egcs_sh_clientdescription_fr text
-  egcs_sh_operatingname_en varchar
-  egcs_sh_operatingname_fr varchar
-  egcs_sh_financialsystemid bigint
+  id bigint [pk, not null] // System ID
+  egcs_sh_provincialbusinessnumber int // The official business number of the account provided by the province.
+  egcs_sh_businessnumber bigint // A Canadian Business Number (BN) is a unique 9-digit identifier from the Canada Revenue Agency (CRA)
+  egcs_sh_charitynumber bigint // Official charity registration number.
+  egcs_sh_clientdescription_en text // Description of the client account (English).
+  egcs_sh_clientdescription_fr text // Description of the client account (French).
+  egcs_sh_operatingname_en varchar // This field should be populated when an organization operates under a name that differs from its legal name or business number. This field is not intended to capture the ultimate recipient of a grant or contribution; instead, the name of the person receiving funding from the Government of Canada should be entered.
+  egcs_sh_operatingname_fr varchar // This field should be populated when an organization operates under a name that differs from its legal name or business number. This field is not intended to capture the ultimate recipient of a grant or contribution; instead, the name of the person receiving funding from the Government of Canada should be entered.
+  egcs_sh_financialsystemid bigint // Reference number for the financial system.
   egcs_sh_accountsubtype bigint [not null]
-  egcs_sh_leadagency bigint
-  egcs_sh_leadofficer bigint
-  egcs_sh_legalname_en varchar
-  egcs_sh_legalname_fr varchar
+  egcs_sh_leadagency bigint // For multi-dept systems, this is the id of the agency
+  egcs_sh_leadofficer bigint // For multi-dept systems, this is the id of the officer
+  egcs_sh_legalname_en varchar // Legal name of the account (English).
+  egcs_sh_legalname_fr varchar // Legal name of the account (French).
   egcs_sh_status Base_Status [not null]
 }
 Ref: Stakeholder_Profile.egcs_sh_accountsubtype > Agency_Account_Subtype.id
@@ -795,14 +791,14 @@ Ref: Stakeholder_Profile.egcs_sh_leadagency > Agency_Profile.id
 Ref: Stakeholder_Profile.egcs_sh_leadofficer > Common_Contact.id
 
 Table Stakeholder_Other_Name {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_sh_othername varchar
   egcs_sh_account bigint [not null]
 }
 Ref: Stakeholder_Other_Name.egcs_sh_account > Stakeholder_Profile.id
 
 Table Stakeholder_Address {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_sh_account bigint [not null]
   egcs_sh_address bigint [not null]
 }
@@ -810,7 +806,7 @@ Ref: Stakeholder_Address.egcs_sh_account > Stakeholder_Profile.id
 Ref: Stakeholder_Address.egcs_sh_address > Common_Address.id
 
 Table Stakeholder_Contact {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_sh_account bigint [not null]
   egcs_sh_contact bigint [not null]
 }
@@ -818,41 +814,44 @@ Ref: Stakeholder_Contact.egcs_sh_account > Stakeholder_Profile.id
 Ref: Stakeholder_Contact.egcs_sh_contact > Common_Contact.id
 
 Table Stakeholder_Funding_History {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_sh_account bigint [not null]
   egcs_sh_fundingagreement bigint
-  egcs_sh_agreementnumber varchar
-  egcs_sh_description text
-  egcs_sh_agreementtitle_en varchar
-  egcs_sh_agreementtitle_fr varchar
-  egcs_sh_program varchar
-  egcs_sh_startdate date
-  egcs_sh_enddate date
-  egcs_sh_agency varchar
-  egcs_sh_fundingamount numeric(4,2)
+  egcs_sh_agreementnumber varchar // The unique identifying number assigned to the Grants and Contributions (Gs&Cs) Funding Agreement.
+  egcs_sh_description text // A detailed summary or narrative description of the approved project
+  egcs_sh_agreementtitle_en varchar // The official title of the funding agreement in English
+  egcs_sh_agreementtitle_fr varchar // The official title of the funding agreement in French
+  egcs_sh_program varchar // The specific name of the Grants and Contributions (Gs&Cs) program under which the funding was provided.
+  egcs_sh_startdate date // The date on which the funding agreement activities officially commence.
+  egcs_sh_enddate date // The final date by which all activities under the funding agreement must be completed.
+  egcs_sh_agency varchar /*
+The government department or agency responsible for administering and extending the funding.
+See annex A of the Open Data dictionary for Gs&Cs for list of department numbers
+  */
+  egcs_sh_fundingamount numeric(4,2) // Total approved funding amount for the agreement.
 }
 Ref: Stakeholder_Funding_History.egcs_sh_account > Stakeholder_Profile.id
 Ref: Stakeholder_Funding_History.egcs_sh_fundingagreement > Funding_Case_Agreement_Profile.id
 
 Table Stakeholder_Risk_Assessment {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_sh_account bigint [not null]
   egcs_sh_assessment bigint [not null]
-  egcs_sh_order varchar [not null]
+  egcs_sh_order varchar [not null] // Order of assessments for display purposes
 }
 Ref: Stakeholder_Risk_Assessment.egcs_sh_account > Stakeholder_Profile.id
 Ref: Stakeholder_Risk_Assessment.egcs_sh_assessment > Transfer_Payment_Assessment_Setup.id
 
 Table Funding_Opportunity_Profile {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fo_transferpaymentstream bigint [not null]
-  egcs_fo_dateend timestamp [not null]
-  egcs_fo_datestart timestamp [not null]
-  egcs_fo_name_en varchar [not null]
-  egcs_fo_name_fr varchar [not null]
-  egcs_fo_objective text [not null]
-  egcs_fo_applicationschema bigint [not null]
-  egcs_fo_aprovaltemplate bigint
+  egcs_fo_dateend timestamp [not null] // Last date for receiving funding requests in this Funding Opportunity.
+  egcs_fo_datestart timestamp [not null] // Beginning date for receiving funding requests in this Funding Opportunity.
+  egcs_fo_name_en varchar [not null] // English name of the funding opportunity.
+  egcs_fo_name_fr varchar [not null] // French name of the funding opportunity.
+  egcs_fo_objective text [not null] // Reason for the funding opportunity.
+  egcs_fo_applicationschema bigint [not null] // The schema defining the application form, this is loosely coupled and allow a loosely defined structure
+  egcs_fo_aprovaltemplate bigint // Approval steps and certifications required. If there is an approval (e.g. depts. may choose to conduct the initial commitment and EI on the proposal)
   egcs_fo_status Base_Status [not null]
 }
 Ref: Funding_Opportunity_Profile.egcs_fo_transferpaymentstream > Transfer_Payment_Stream.id
@@ -860,17 +859,17 @@ Ref: Funding_Opportunity_Profile.egcs_fo_applicationschema > Common_Form_Schema.
 Ref: Funding_Opportunity_Profile.egcs_fo_aprovaltemplate > Common_Approval_Template.id
 
 Table Funding_Opportunity_Budget_Fiscal_Year {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fo_fundingopportunity bigint [not null]
   egcs_fo_fiscalyear bigint [not null]
-  egcs_fo_overcommitthreshold bigint [not null]
-  egcs_fo_totalbudget numeric(4,2) [not null]
+  egcs_fo_overcommitthreshold bigint [not null] // Percentage of total budget allowed to exceed
+  egcs_fo_totalbudget numeric(4,2) [not null] // Adjusted budget associated to the transfer payment program's budget for the fiscal year.
 }
 Ref: Funding_Opportunity_Budget_Fiscal_Year.egcs_fo_fundingopportunity > Funding_Opportunity_Profile.id
 Ref: Funding_Opportunity_Budget_Fiscal_Year.egcs_fo_fiscalyear > Agency_Fiscal_Year.id
 
 Table Funding_Opportunity_Budget_Cost_Category {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fo_fiscalyear bigint [not null]
   egcs_fo_organizationcostcategory bigint [not null]
 }
@@ -878,7 +877,7 @@ Ref: Funding_Opportunity_Budget_Cost_Category.egcs_fo_fiscalyear > Funding_Oppor
 Ref: Funding_Opportunity_Budget_Cost_Category.egcs_fo_organizationcostcategory > Agency_Cost_Category_Line_Item.id
 
 Table Funding_Opportunity_Attachment_Type {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fo_name_en varchar [not null]
   egcs_fo_name_fr varchar [not null]
   egcs_fo_description_en text [not null]
@@ -886,7 +885,7 @@ Table Funding_Opportunity_Attachment_Type {
 }
 
 Table Funding_Opportunity_Attachments {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fo_fundingopportunity bigint [not null]
   egcs_fo_name_en varchar [not null]
   egcs_fo_name_fr varchar [not null]
@@ -898,19 +897,19 @@ Ref: Funding_Opportunity_Attachments.egcs_fo_fundingopportunity > Funding_Opport
 Ref: Funding_Opportunity_Attachments.egcs_fo_type > Funding_Opportunity_Attachment_Type.id
 
 Table Funding_Opportunity_Review_Committee_Setup {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fo_fundingopportunity bigint [not null]
-  egcs_fo_name_en varchar [not null]
-  egcs_fo_name_fr varchar [not null]
+  egcs_fo_name_en varchar [not null] // English name of the funding opportunity Committee.
+  egcs_fo_name_fr varchar [not null] // French name of the funding opportunity Committee.
   egcs_fo_description_en text [not null]
   egcs_fo_description_fr text [not null]
 }
 Ref: Funding_Opportunity_Review_Committee_Setup.egcs_fo_fundingopportunity > Funding_Opportunity_Profile.id
 
 Table Funding_Opportunity_Review_Committee_Membership_Setup {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fo_fundingopportunity bigint [not null]
-  egcs_fo_contact bigint [not null]
+  egcs_fo_contact bigint [not null] // Contact associated with the funding opportunity adjudication committee member.
   egcs_fo_areaofexpertise bigint [not null]
 }
 Ref: Funding_Opportunity_Review_Committee_Membership_Setup.egcs_fo_fundingopportunity > Funding_Opportunity_Review_Committee_Setup.id
@@ -918,45 +917,45 @@ Ref: Funding_Opportunity_Review_Committee_Membership_Setup.egcs_fo_contact > Com
 Ref: Funding_Opportunity_Review_Committee_Membership_Setup.egcs_fo_areaofexpertise > Transfer_Payment_Stream_Area_of_Expertise.id
 
 Table Funding_Opportunity_Pre_Award_Assessment_Setup {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fo_fundingopportunity bigint [not null]
-  egcs_fo_assessment bigint [not null]
+  egcs_fo_assessment bigint [not null] // The assessment used for pre-award assessment
   egcs_fo_aprovaltemplate bigint [not null]
-  egcs_fo_order varchar [not null]
+  egcs_fo_order varchar [not null] // Order of assessments for display purposes
 }
 Ref: Funding_Opportunity_Pre_Award_Assessment_Setup.egcs_fo_fundingopportunity > Funding_Opportunity_Profile.id
 Ref: Funding_Opportunity_Pre_Award_Assessment_Setup.egcs_fo_assessment > Common_Assessment.id
 Ref: Funding_Opportunity_Pre_Award_Assessment_Setup.egcs_fo_aprovaltemplate > Common_Approval_Template.id
 
 Table Funding_Opportunity_Award_Assessment_Setup {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fo_fundingopportunity bigint [not null]
-  egcs_fo_assessmentschema bigint [not null]
+  egcs_fo_assessmentschema bigint [not null] // The assessment used for pre-award assessment
   egcs_fo_aprovaltemplate bigint [not null]
-  egcs_fo_order varchar [not null]
+  egcs_fo_order varchar [not null] // Order of assessments for display purposes
 }
 Ref: Funding_Opportunity_Award_Assessment_Setup.egcs_fo_fundingopportunity > Funding_Opportunity_Profile.id
 Ref: Funding_Opportunity_Award_Assessment_Setup.egcs_fo_assessmentschema > Common_Assessment.id
 Ref: Funding_Opportunity_Award_Assessment_Setup.egcs_fo_aprovaltemplate > Common_Approval_Template.id
 
 Table Funding_Opportunity_Risk_Assessment_Setup {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fo_fundingopportunity bigint [not null]
-  egcs_fo_assessmentschema bigint [not null]
+  egcs_fo_assessmentschema bigint [not null] // The assessment used for pre-award assessment
   egcs_fo_aprovaltemplate bigint [not null]
-  egcs_fo_order varchar [not null]
+  egcs_fo_order varchar [not null] // Order of assessments for display purposes
 }
 Ref: Funding_Opportunity_Risk_Assessment_Setup.egcs_fo_fundingopportunity > Funding_Opportunity_Profile.id
 Ref: Funding_Opportunity_Risk_Assessment_Setup.egcs_fo_assessmentschema > Common_Assessment.id
 Ref: Funding_Opportunity_Risk_Assessment_Setup.egcs_fo_aprovaltemplate > Common_Approval_Template.id
 
 Table Funding_Intake_Profile {
-  id bigint [pk, not null]
-  egcs_fo_application varchar [not null]
+  id bigint [pk, not null] // System ID
+  egcs_fo_application varchar [not null] // The fulfillment of the schema defined in the FO
 }
 
 Table Funding_Intake_Pre_Award_Application_Outcome {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fo_application varchar [not null]
   egcs_fo_transferpaymentstreamoutcome bigint [not null]
 }
@@ -964,7 +963,7 @@ Ref: Funding_Intake_Pre_Award_Application_Outcome.egcs_fo_application > Funding_
 Ref: Funding_Intake_Pre_Award_Application_Outcome.egcs_fo_transferpaymentstreamoutcome > Transfer_Payment_Outcome.id
 
 Table Funding_Intake_Pre_Award_Application_Budget_Fiscal_Year {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fo_application varchar [not null]
   egcs_fo_fiscalyear bigint [not null]
 }
@@ -972,66 +971,66 @@ Ref: Funding_Intake_Pre_Award_Application_Budget_Fiscal_Year.egcs_fo_application
 Ref: Funding_Intake_Pre_Award_Application_Budget_Fiscal_Year.egcs_fo_fiscalyear > Funding_Opportunity_Budget_Fiscal_Year.id
 
 Table Funding_Intake_Pre_Award_Application_Budget_Line_Item {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fo_fundingagreementbudgetfiscalyear bigint [not null]
-  egcs_fo_organizationcostcategory bigint [not null]
+  egcs_fo_organizationcostcategory bigint [not null] // Financial year associated to the transfer payment program's budget.
   egcs_fo_description varchar [not null]
   egcs_fo_totalamount numeric(4,2) [not null]
   egcs_fo_programfunding numeric(4,2) [not null]
   egcs_fo_otherfederalfunding numeric(4,2)
   egcs_fo_othergovgunding numeric(4,2)
   egcs_fo_otherfunding numeric(4,2)
-  egcs_fo_currency Currency_Codes [not null]
+  egcs_fo_currency Currency_Codes [not null] // Controlled list from OD tables
 }
 Ref: Funding_Intake_Pre_Award_Application_Budget_Line_Item.egcs_fo_fundingagreementbudgetfiscalyear > Funding_Intake_Pre_Award_Application_Budget_Fiscal_Year.id
 Ref: Funding_Intake_Pre_Award_Application_Budget_Line_Item.egcs_fo_organizationcostcategory > Funding_Opportunity_Budget_Cost_Category.id
 
 Table Funding_Intake_Pre_Award_Application_Screening {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fo_application varchar [not null]
-  egcs_fo_assessment bigint [not null]
-  egcs_fo_order varchar [not null]
+  egcs_fo_assessment bigint [not null] // The assessment used for pre-award assessment
+  egcs_fo_order varchar [not null] // Order of assessments for display purposes
 }
 Ref: Funding_Intake_Pre_Award_Application_Screening.egcs_fo_application > Funding_Intake_Profile.id
 Ref: Funding_Intake_Pre_Award_Application_Screening.egcs_fo_assessment > Common_Assessment.id
 
 Table Funding_Intake_Pre_Award_Screening_Decision {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fo_screening varchar [not null]
-  egcs_fo_result varchar [not null]
+  egcs_fo_result varchar [not null] // A numerical result representing result (0/1 = pass/fail or 0,1,2,3,5 for grouping, dependant on agency, especially useful if there are multiple assessments.
 }
 Ref: Funding_Intake_Pre_Award_Screening_Decision.egcs_fo_screening > Funding_Intake_Pre_Award_Application_Screening.id
 
 Table Funding_Intake_Award_Assessment {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fo_application varchar [not null]
   egcs_fo_assessment bigint [not null]
-  egcs_fo_order varchar [not null]
+  egcs_fo_order varchar [not null] // Order of assessments for display purposes
 }
 Ref: Funding_Intake_Award_Assessment.egcs_fo_application > Funding_Intake_Profile.id
 Ref: Funding_Intake_Award_Assessment.egcs_fo_assessment > Common_Assessment.id
 
 Table Funding_Intake_Award_Assessment_Decision {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fo_screening varchar [not null]
-  egcs_fo_result varchar [not null]
+  egcs_fo_result varchar [not null] // A numerical result representing result (0/1 = pass/fail or 0,1,2,3,5 for grouping, dependant on agency, especially useful if there are multiple assessments.
 }
 Ref: Funding_Intake_Award_Assessment_Decision.egcs_fo_screening > Funding_Intake_Award_Assessment.id
 
 Table Funding_Intake_Award_Recommendation {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fo_application varchar [not null]
   egcs_fo_recommended boolean [not null]
   egcs_fo_recommendationby bigint [not null]
   egcs_fo_recommendationdate date [not null]
   egcs_fo_rationale text [not null]
-  egcs_fo_documenturl varchar [not null]
+  egcs_fo_documenturl varchar [not null] // Attachment
 }
 Ref: Funding_Intake_Award_Recommendation.egcs_fo_application > Funding_Intake_Profile.id
 Ref: Funding_Intake_Award_Recommendation.egcs_fo_recommendationby > Common_Contact.id
 
 Table Funding_Intake_Award_Approval {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fo_screening varchar [not null]
   egcs_fo_routingslip bigint [not null]
   egcs_fo_status Approval_Status [not null]
@@ -1040,24 +1039,24 @@ Ref: Funding_Intake_Award_Approval.egcs_fo_screening > Funding_Intake_Award_Reco
 Ref: Funding_Intake_Award_Approval.egcs_fo_routingslip > Common_Routing_Slip.id
 
 Table Funding_Intake_Award_Decision {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fo_application varchar [not null]
-  egcs_fo_result varchar [not null]
+  egcs_fo_result varchar [not null] // A numerical result representing result (0/1 = pass/fail or 0,1,2,3,5 for grouping
 }
 Ref: Funding_Intake_Award_Decision.egcs_fo_application > Funding_Intake_Profile.id
 
 Table Funding_Case_Agreement_Profile {
-  id bigint [pk, not null]
-  egcs_fc_agreementnumber varchar [not null]
+  id bigint [pk, not null] // System ID
+  egcs_fc_agreementnumber varchar [not null] // User readable number
   egcs_fc_transferpaymentstream bigint [not null]
-  egcs_fc_financialsystemnumber varchar [not null]
+  egcs_fc_financialsystemnumber varchar [not null] // SAP/IFMS or other financial system number
   egcs_fc_title_en varchar [not null]
   egcs_fc_title_fr varchar [not null]
   egcs_fc_description_en text [not null]
   egcs_fc_description_fr text [not null]
   egcs_fc_agreementtype Agreement_Type [not null]
   egcs_fc_agreementsubtype text [not null]
-  egcs_fc_furtherdistribution varchar [not null]
+  egcs_fc_furtherdistribution varchar [not null] // Does the agreement flow through funding to the ultimate recipients
   egcs_fc_authorizedassistancestartdate date [not null]
   egcs_fc_authorizedassistanceenddate date [not null]
   egcs_fc_fundingintake bigint
@@ -1067,7 +1066,7 @@ Ref: Funding_Case_Agreement_Profile.egcs_fc_agreementsubtype > Agency_Agreement_
 Ref: Funding_Case_Agreement_Profile.egcs_fc_fundingintake > Funding_Intake_Profile.id
 
 Table Funding_Case_Agreement_Stakeholder {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreement bigint [not null]
   egcs_fc_stakeholder bigint [not null]
 }
@@ -1075,7 +1074,7 @@ Ref: Funding_Case_Agreement_Stakeholder.egcs_fc_fundingagreement > Funding_Case_
 Ref: Funding_Case_Agreement_Stakeholder.egcs_fc_stakeholder > Stakeholder_Profile.id
 
 Table Funding_Case_Agreement_Budget_Fiscal_Year {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreement bigint [not null]
   egcs_fc_fiscalyear bigint [not null]
 }
@@ -1083,8 +1082,8 @@ Ref: Funding_Case_Agreement_Budget_Fiscal_Year.egcs_fc_fundingagreement > Fundin
 Ref: Funding_Case_Agreement_Budget_Fiscal_Year.egcs_fc_fiscalyear > Agency_Fiscal_Year.id
 
 Table Funding_Case_Agreement_Budget_Line_Item {
-  id bigint [pk, not null]
-  egcs_fc_fundingagreementbudgetfiscalyear bigint [not null]
+  id bigint [pk, not null] // System ID
+  egcs_fc_fundingagreementbudgetfiscalyear bigint [not null] // Financial year associated to the transfer payment program's budget.
   egcs_fc_organizationcostcategory bigint [not null]
   egcs_fc_costsubsection varchar [not null]
   egcs_fc_description text [not null]
@@ -1099,17 +1098,17 @@ Ref: Funding_Case_Agreement_Budget_Line_Item.egcs_fc_fundingagreementbudgetfisca
 Ref: Funding_Case_Agreement_Budget_Line_Item.egcs_fc_organizationcostcategory > Agency_Cost_Category_Line_Item.id
 
 Table Funding_Case_Agreement_Address {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreement bigint [not null]
   egcs_fc_address bigint [not null]
-  egcs_fc_type bigint [not null]
+  egcs_fc_type bigint [not null] // Dept specific lookup
 }
 Ref: Funding_Case_Agreement_Address.egcs_fc_fundingagreement > Funding_Case_Agreement_Profile.id
 Ref: Funding_Case_Agreement_Address.egcs_fc_address > Common_Address.id
 Ref: Funding_Case_Agreement_Address.egcs_fc_type > Agency_Address_Type.id
 
 Table Funding_Case_Agreement_Risk_Assessment {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreement bigint [not null]
   egcs_fc_assessment bigint [not null]
 }
@@ -1117,7 +1116,7 @@ Ref: Funding_Case_Agreement_Risk_Assessment.egcs_fc_fundingagreement > Funding_C
 Ref: Funding_Case_Agreement_Risk_Assessment.egcs_fc_assessment > Common_Assessment.id
 
 Table Funding_Case_Agreement_Outcome {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreement bigint [not null]
   egcs_fc_outcomes bigint [not null]
 }
@@ -1125,17 +1124,17 @@ Ref: Funding_Case_Agreement_Outcome.egcs_fc_fundingagreement > Funding_Case_Agre
 Ref: Funding_Case_Agreement_Outcome.egcs_fc_outcomes > Transfer_Payment_Outcome.id
 
 Table Funding_Case_Agreement_Activity {
-  id bigint [pk, not null]
-  egcs_fc_description text [not null]
-  egcs_fc_startdate timestamp [not null]
-  egcs_fc_enddate date [not null]
-  egcs_fc_expectedresults text [not null]
-  egcs_fc_name_en varchar [not null]
-  egcs_fc_name_fr varchar [not null]
+  id bigint [pk, not null] // System ID
+  egcs_fc_description text [not null] // Description of the funding case activity.
+  egcs_fc_startdate timestamp [not null] // Beginning date of the activity.
+  egcs_fc_enddate date [not null] // Completion date of the activity.
+  egcs_fc_expectedresults text [not null] // Outcomes expected from this activity.
+  egcs_fc_name_en varchar [not null] // English name of the funding case activity.
+  egcs_fc_name_fr varchar [not null] // French name of the funding case activity.
 }
 
 Table Funding_Case_Agreement_Outcome_Activity {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_outcomes bigint [not null]
   egcs_fc_activity bigint [not null]
 }
@@ -1143,7 +1142,7 @@ Ref: Funding_Case_Agreement_Outcome_Activity.egcs_fc_outcomes > Funding_Case_Agr
 Ref: Funding_Case_Agreement_Outcome_Activity.egcs_fc_activity > Funding_Case_Agreement_Activity.id
 
 Table Funding_Case_Agreement_Responsible_Party_Activity {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_responsibleparty bigint [not null]
   egcs_fc_activity bigint [not null]
 }
@@ -1151,7 +1150,7 @@ Ref: Funding_Case_Agreement_Responsible_Party_Activity.egcs_fc_responsibleparty 
 Ref: Funding_Case_Agreement_Responsible_Party_Activity.egcs_fc_activity > Funding_Case_Agreement_Activity.id
 
 Table Funding_Case_Agreement_Forecast {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreement bigint [not null]
   egcs_fc_fiscalyear bigint [not null]
 }
@@ -1159,10 +1158,10 @@ Ref: Funding_Case_Agreement_Forecast.egcs_fc_fundingagreement > Funding_Case_Agr
 Ref: Funding_Case_Agreement_Forecast.egcs_fc_fiscalyear > Funding_Case_Agreement_Budget_Fiscal_Year.id
 
 Table Funding_Case_Agreement_Forecast_Line_Item {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_agreementforecast bigint [not null]
   egcs_fc_fundingagreementbudgetlineitem bigint [not null]
-  egcs_fc_month varchar [not null]
+  egcs_fc_month varchar [not null] // 0-11 to months
   egcs_fc_amount numeric(4,2) [not null]
   egcs_fc_currency Currency_Codes [not null]
   egcs_fc_version bigint [not null]
@@ -1172,7 +1171,7 @@ Ref: Funding_Case_Agreement_Forecast_Line_Item.egcs_fc_agreementforecast > Fundi
 Ref: Funding_Case_Agreement_Forecast_Line_Item.egcs_fc_fundingagreementbudgetlineitem > Funding_Case_Agreement_Budget_Line_Item.id
 
 Table Funding_Case_Agreement_Budget_Forecast_Approval {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_forecast bigint [not null]
   egcs_fc_routingslip bigint [not null]
   egcs_fc_status Approval_Status [not null]
@@ -1181,20 +1180,20 @@ Ref: Funding_Case_Agreement_Budget_Forecast_Approval.egcs_fc_forecast > Funding_
 Ref: Funding_Case_Agreement_Budget_Forecast_Approval.egcs_fc_routingslip > Common_Routing_Slip.id
 
 Table Funding_Case_Agreement_Claim {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreement bigint [not null]
   egcs_fc_fiscalyear bigint [not null]
-  egcs_fc_isfinalforyear boolean [not null]
-  egcs_fc_periodend varchar [not null]
-  egcs_fc_periodstart varchar [not null]
-  egcs_fc_receiveddate timestamp [not null]
+  egcs_fc_isfinalforyear boolean [not null] // Is final claim for fiscal year
+  egcs_fc_periodend varchar [not null] // End month of the claim period.
+  egcs_fc_periodstart varchar [not null] // Start month of the claim period.
+  egcs_fc_receiveddate timestamp [not null] // Date when the claim was received.
   egcs_fc_stastus Statuses [not null]
 }
 Ref: Funding_Case_Agreement_Claim.egcs_fc_fundingagreement > Funding_Case_Agreement_Profile.id
 Ref: Funding_Case_Agreement_Claim.egcs_fc_fiscalyear > Funding_Case_Agreement_Budget_Fiscal_Year.id
 
 Table Funding_Case_Agreement_Claim_Line_Item {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreementclaim bigint [not null]
   egcs_fc_fundingagreementbudgetlineitem bigint [not null]
   egcs_fc_description text [not null]
@@ -1205,28 +1204,28 @@ Ref: Funding_Case_Agreement_Claim_Line_Item.egcs_fc_fundingagreementclaim > Fund
 Ref: Funding_Case_Agreement_Claim_Line_Item.egcs_fc_fundingagreementbudgetlineitem > Funding_Case_Agreement_Budget_Line_Item.id
 
 Table Funding_Case_Agreement_Claim_Review {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreementclaim bigint [not null]
   egcs_fc_user bigint [not null]
   egcs_fc_status Statuses [not null]
-  egcs_fc_isfinal boolean [not null]
+  egcs_fc_isfinal boolean [not null] // Is final review for claim
 }
 Ref: Funding_Case_Agreement_Claim_Review.egcs_fc_fundingagreementclaim > Funding_Case_Agreement_Claim.id
 Ref: Funding_Case_Agreement_Claim_Review.egcs_fc_user > Common_Contact.id
 
 Table Funding_Case_Agreement_Claim_Review_Line_Item {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreementclaimreview bigint [not null]
   egcs_fc_lineitem bigint [not null]
-  egcs_fc_reviewed numeric(4,2) [not null]
-  egcs_fc_sampled numeric(4,2)
+  egcs_fc_reviewed numeric(4,2) [not null] // Amount approved from the claim (ideally as percentage or number input)
+  egcs_fc_sampled numeric(4,2) // Amount sample for this line
   egcs_fc_rationale text
 }
 Ref: Funding_Case_Agreement_Claim_Review_Line_Item.egcs_fc_fundingagreementclaimreview > Funding_Case_Agreement_Claim_Review.id
 Ref: Funding_Case_Agreement_Claim_Review_Line_Item.egcs_fc_lineitem > Funding_Case_Agreement_Claim_Line_Item.id
 
 Table Funding_Case_Agreement_Claim_Review_Approval {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreementclaimreview bigint [not null]
   egcs_fc_routingslip bigint [not null]
   egcs_fc_status Approval_Status [not null]
@@ -1235,17 +1234,17 @@ Ref: Funding_Case_Agreement_Claim_Review_Approval.egcs_fc_fundingagreementclaimr
 Ref: Funding_Case_Agreement_Claim_Review_Approval.egcs_fc_routingslip > Common_Routing_Slip.id
 
 Table Funding_Case_Agreement_Commitment {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreement bigint [not null]
   egcs_fc_type Commitment_Type [not null]
   egcs_fc_status Statuses [not null]
-  egcs_fc_financialsystemnumber bigint
+  egcs_fc_financialsystemnumber bigint // Required on terminal status (e.g. Active)
   egcs_fc_commitmentamount numeric(4,2) [not null]
 }
 Ref: Funding_Case_Agreement_Commitment.egcs_fc_fundingagreement > Funding_Case_Agreement_Profile.id
 
 Table Funding_Case_Agreement_Commitment_Line {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_commitment bigint [not null]
   egcs_fc_commitmentlinenumber varchar [not null]
   egcs_fc_transferpaymentstreamcommitment bigint [not null]
@@ -1255,7 +1254,7 @@ Ref: Funding_Case_Agreement_Commitment_Line.egcs_fc_commitment > Funding_Case_Ag
 Ref: Funding_Case_Agreement_Commitment_Line.egcs_fc_transferpaymentstreamcommitment > Transfer_Payment_Stream_Commitment.id
 
 Table Funding_Case_Agreement_Commitment_Approval {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_commitment bigint [not null]
   egcs_fc_fundingagreementcommitment bigint [not null]
   egcs_fc_routingslip bigint [not null]
@@ -1266,45 +1265,57 @@ Ref: Funding_Case_Agreement_Commitment_Approval.egcs_fc_fundingagreementcommitme
 Ref: Funding_Case_Agreement_Commitment_Approval.egcs_fc_routingslip > Common_Routing_Slip.id
 
 Table Funding_Case_Agreement_Payment {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreement bigint [not null]
-  egcs_fc_isfinalforyear boolean [not null]
-  egcs_fc_periodend varchar [not null]
-  egcs_fc_periodstart varchar [not null]
+  egcs_fc_isfinalforyear boolean [not null] // Is final claim for fiscal year
+  egcs_fc_periodend varchar [not null] // The last month of the payment period
+  egcs_fc_periodstart varchar [not null] // The first month of the payment period
   egcs_fc_paymenttype Payment_Type [not null]
-  egcs_fc_comment text
+  egcs_fc_comment text // An optional comment field
   egcs_fc_status Payment_Status [not null]
-  egcs_fc_holdback numeric(4,2)
-  egcs_fc_financialsystemnumber varchar
-  egcs_fc_totalclaimstolastclaimmonth numeric(4,2) [not null]
-  egcs_fc_totalforecasttolastclaimmonth numeric(4,2) [not null]
-  egcs_fc_totalshortfall numeric(4,2) [not null]
-  egcs_fc_totalforecasttoperiodend numeric(4,2) [not null]
-  egcs_fc_totalpaymentstodate numeric(4,2) [not null]
-  egcs_fc_totalnextadvancepayment numeric(4,2) [not null]
-  egcs_fc_previousclaimstotal numeric(4,2) [not null]
-  egcs_fc_previouspamentstotal numeric(4,2) [not null]
-  egcs_fc_holdbackamount numeric(4,2) [not null]
-  egcs_fc_availablefordisbursement numeric(4,2) [not null]
-  egcs_fc_payeavailablefordisbursement numeric(4,2) [not null]
-  egcs_fc_paye2availablefordisbursement numeric(4,2) [not null]
-  egcs_fc_previousyearpayeavaialblefordisbursement numeric(4,2) [not null]
-  egcs_fc_commitmentavailablefordisbursement numeric(4,2) [not null]
-  egcs_fc_totalsystemcalculatedamount numeric(4,2) [not null]
-  egcs_fc_holdbackrelease numeric(4,2) [not null]
-  egcs_fc_paymentamount numeric(4,2) [not null]
+  egcs_fc_holdback numeric(4,2) // The percentage of either the total agreement value or the final year fiscal year value that will be withheld until the final payment
+  egcs_fc_financialsystemnumber varchar // Required on terminal status (e.g. Paid)
+  egcs_fc_totalclaimstolastclaimmonth numeric(4,2) [not null] // The total value of all processed claims for the agreement
+  egcs_fc_totalforecasttolastclaimmonth numeric(4,2) [not null] // The total forecast amount for all months up to and including the last month for which a processed claim exists
+  egcs_fc_totalshortfall numeric(4,2) [not null] // = [Total Claims to Last Claim Month] – [Total Forecast to Last Claim Month] (if the amount is negative, it is slippage, meaning it will be subtracted from the payment total; if the amount is positive, it is a shortfall, meaning the recipient did not forecast enough and it will be added to the payment total)
+  egcs_fc_totalforecasttoperiodend numeric(4,2) [not null] // The total forecast amount for all months up to and including the last month of the payment period
+  egcs_fc_totalpaymentstodate numeric(4,2) [not null] // The total value of all processed payments for the agreement
+  egcs_fc_totalnextadvancepayment numeric(4,2) [not null] // = [Total Forecast to Period End] – [Total Payments to Date] (the value of the advance payment based on the forecast before accounting for the shortfall)
+  egcs_fc_previousclaimstotal numeric(4,2) [not null] // If there are claims for the agreement that were processed outside of the system, the amount will be reflected here and added to the total claimed amount in the calculation
+  egcs_fc_previouspamentstotal numeric(4,2) [not null] // If there are payments for the agreement that were processed outside of the system, the amount will be reflected here and added to the total paid amount in the calculation
+  egcs_fc_holdbackamount numeric(4,2) [not null] // = [Total Agreement Value] OR [Final Year Fiscal Value] * [Holdback %]
+  egcs_fc_availablefordisbursement numeric(4,2) [not null] // = [Total Claimed] + [Total Forecast for Unclaimed Months in Current FY] + [Total FY Value of Future Fiscal Years] – [Total Payments] – [Holdback Amount] (i.e. the amount of money that can be paid before the Holdback threshold is reached)
+  egcs_fc_payeavailablefordisbursement numeric(4,2) [not null] // For PAYE payments, this is the total amount of unpaid money remaining in the PAYE commitment
+  egcs_fc_paye2availablefordisbursement numeric(4,2) [not null] // For PAYE2 payments, this is the total amount of unpaid money remaining on the PAYE2 commitment line
+  egcs_fc_previousyearpayeavaialblefordisbursement numeric(4,2) [not null] // For previous-year PAYE payments (i.e. PAYEs for a fiscal year that is two years ago or earlier), this is the total amount of unpaid money remaining in the PYP commitment
+  egcs_fc_commitmentavailablefordisbursement numeric(4,2) [not null] // For standard payments, this is the total amount of unpaid money remaining on the commitment line(s) for the current fiscal year
+  egcs_fc_totalsystemcalculatedamount numeric(4,2) [not null] /*
+For reimbursements, = [Total Claims to Last Claim Month] minus [Total Payments to Date]
+ For advances, = [Total Shortfall] + [Total Next Advance Payment]
+  */
+  egcs_fc_holdbackrelease numeric(4,2) [not null] // The amount of the holdback that is being released as part of the payment, either because it is the final payment or the Release Holdback manual override is engaged
+  egcs_fc_paymentamount numeric(4,2) [not null] /*
+The total payment amount. It is equal to the lower of:
+  
+ Available for Disbursement (except for the final payment or payments where the Release Holdback manual override is engaged) 
+ PAYE Available for Disbursement (PAYE payments only)
+ PAYE2 Available for Disbursement (PAYE2 payments only)
+ PYP Available for Disbursement (PYP payments only)
+ Commit. Available for Disbursement (standard payments only)
+ Total System Calculated Amount
+  */
 }
 Ref: Funding_Case_Agreement_Payment.egcs_fc_fundingagreement > Funding_Case_Agreement_Profile.id
 
 Table Funding_Case_Agreement_Payment_Line {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreementcommitmentline bigint [not null]
   egcs_fc_amount numeric(4,2) [not null]
 }
 Ref: Funding_Case_Agreement_Payment_Line.egcs_fc_fundingagreementcommitmentline > Funding_Case_Agreement_Commitment_Line.id
 
 Table Funding_Case_Agreement_Payment_Approval {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreementpayment bigint [not null]
   egcs_fc_routingslip bigint [not null]
   egcs_fc_status Approval_Status [not null]
@@ -1313,8 +1324,8 @@ Ref: Funding_Case_Agreement_Payment_Approval.egcs_fc_fundingagreementpayment > F
 Ref: Funding_Case_Agreement_Payment_Approval.egcs_fc_routingslip > Common_Routing_Slip.id
 
 Table Funding_Case_Agreement_Amendment {
-  id bigint [pk, not null]
-  egcs_fc_amendmentnumber varchar [not null]
+  id bigint [pk, not null] // System ID
+  egcs_fc_amendmentnumber varchar [not null] // automatically generated, incremented on approved amendments
   egcs_fc_fundingagreement bigint [not null]
   egcs_fc_type bigint [not null]
 }
@@ -1322,7 +1333,7 @@ Ref: Funding_Case_Agreement_Amendment.egcs_fc_fundingagreement > Funding_Case_Ag
 Ref: Funding_Case_Agreement_Amendment.egcs_fc_type > Transfer_Payment_Amendment_Type.id
 
 Table Funding_Case_Agreement_Amendment_Approval {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreementamendment bigint [not null]
   egcs_fc_routingslip bigint [not null]
   egcs_fc_status Approval_Status [not null]
@@ -1331,24 +1342,24 @@ Ref: Funding_Case_Agreement_Amendment_Approval.egcs_fc_fundingagreementamendment
 Ref: Funding_Case_Agreement_Amendment_Approval.egcs_fc_routingslip > Common_Routing_Slip.id
 
 Table Funding_Case_Agreement_Review {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_type bigint [not null]
   egcs_fc_onsite boolean [not null]
-  egcs_fc_tentativefiscalyear bigint [not null]
+  egcs_fc_tentativefiscalyear bigint [not null] // Reviews may be done after the completion of the CA so the fiscal year may be outside the funded period.
   egcs_fc_tenativequarter varchar [not null]
 }
 Ref: Funding_Case_Agreement_Review.egcs_fc_type > Transfer_Payment_Review_Type.id
 Ref: Funding_Case_Agreement_Review.egcs_fc_tentativefiscalyear > Agency_Fiscal_Year.id
 
 Table Funding_Case_Agreement_Review_Planning {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreementreview bigint [not null]
   egcs_fc_objective text [not null]
 }
 Ref: Funding_Case_Agreement_Review_Planning.egcs_fc_fundingagreementreview > Funding_Case_Agreement_Review.id
 
 Table Funding_Case_Agreement_Review_Items {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreementreview bigint [not null]
   egcs_fc_item varchar [not null]
   egcs_fc_plannedstart date [not null]
@@ -1361,9 +1372,9 @@ Table Funding_Case_Agreement_Review_Items {
 Ref: Funding_Case_Agreement_Review_Items.egcs_fc_fundingagreementreview > Funding_Case_Agreement_Review.id
 
 Table Funding_Case_Agreement_Review_Finding {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreementreview bigint [not null]
-  egcs_fc_findingname varchar [not null]
+  egcs_fc_findingname varchar [not null] // Name for finding
   egcs_fc_recommendationtype Review_Action_Type [not null]
   egcs_fc_responsibleparty Review_Responsible_Party [not null]
   egcs_fc_detail text [not null]
@@ -1371,7 +1382,7 @@ Table Funding_Case_Agreement_Review_Finding {
 Ref: Funding_Case_Agreement_Review_Finding.egcs_fc_fundingagreementreview > Funding_Case_Agreement_Review.id
 
 Table Funding_Case_Agreement_Review_Followup {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreementreview bigint [not null]
   egcs_fc_followupname varchar [not null]
   egcs_fc_responsibleparty Review_Responsible_Party [not null]
@@ -1381,21 +1392,21 @@ Table Funding_Case_Agreement_Review_Followup {
 Ref: Funding_Case_Agreement_Review_Followup.egcs_fc_fundingagreementreview > Funding_Case_Agreement_Review.id
 
 Table Funding_Case_Agreement_Review_Followup_Update {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreementreviewfollowup bigint [not null]
   egcs_fc_update text [not null]
 }
 Ref: Funding_Case_Agreement_Review_Followup_Update.egcs_fc_fundingagreementreviewfollowup > Funding_Case_Agreement_Review_Followup.id
 
 Table Funding_Case_Agreement_Review_Promising_Practice {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreementreview bigint [not null]
   egcs_fc_practice text [not null]
 }
 Ref: Funding_Case_Agreement_Review_Promising_Practice.egcs_fc_fundingagreementreview > Funding_Case_Agreement_Review.id
 
 Table Funding_Case_Agreement_Review_Approval {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_fundingagreementreview bigint [not null]
   egcs_fc_routingslip bigint [not null]
   egcs_fc_status Approval_Status [not null]
@@ -1404,22 +1415,22 @@ Ref: Funding_Case_Agreement_Review_Approval.egcs_fc_fundingagreementreview > Fun
 Ref: Funding_Case_Agreement_Review_Approval.egcs_fc_routingslip > Common_Routing_Slip.id
 
 Table Common_Contact {
-  id bigint [pk, not null]
-  egcs_cn_title varchar
-  egcs_cn_name varchar [not null]
-  egcs_cn_businessphone bigint
-  egcs_cn_businessphoneextension bigint
-  egcs_cn_generallanguagepreference varchar [not null]
-  egcs_cn_jobtitle_en varchar [not null]
-  egcs_cn_jobtitle_fr varchar [not null]
-  egcs_cn_primaryaccount boolean [not null]
-  egcs_cn_email varchar [not null]
-  egcs_cn_active boolean
+  id bigint [pk, not null] // System ID
+  egcs_cn_title varchar // Contact's title
+  egcs_cn_name varchar [not null] // Name of the contact
+  egcs_cn_businessphone bigint // Primary telephone associated to the Account's address.
+  egcs_cn_businessphoneextension bigint // Telephone extension to reach the contact.
+  egcs_cn_generallanguagepreference varchar [not null] // The general language preference of the contact (en/fr).
+  egcs_cn_jobtitle_en varchar [not null] // English name of the job title for the contact.
+  egcs_cn_jobtitle_fr varchar [not null] // French name of the job title for the contact.
+  egcs_cn_primaryaccount boolean [not null] // Primary account associated with this contact.
+  egcs_cn_email varchar [not null] // Email address for this contact
+  egcs_cn_active boolean // True/false
 }
 
 Table Common_Assessment {
-  id bigint [pk, not null]
-  egcs_cn_helpers varchar
+  id bigint [pk, not null] // System ID
+  egcs_cn_helpers varchar // key-value pairs
   egcs_cn_status varchar [not null]
   egcs_cn_assessmentresult varchar [not null]
   egcs_cn_assessmentschema bigint [not null]
@@ -1430,37 +1441,37 @@ Ref: Common_Assessment.egcs_cn_assessmentschema > Common_Assessment_Schema.id
 Ref: Common_Assessment.egcs_cn_completion > Common_Completion.id
 
 Table Common_Assessment_Schema {
-  id bigint [pk, not null]
-  egcs_cn_name_en varchar [not null]
-  egcs_cn_name_fr varchar [not null]
-  egcs_cn_outcomename_en varchar [not null]
-  egcs_cn_outcomename_fr varchar [not null]
+  id bigint [pk, not null] // System ID
+  egcs_cn_name_en varchar [not null] // Assessment name (en)
+  egcs_cn_name_fr varchar [not null] // Assessment name (fr)
+  egcs_cn_outcomename_en varchar [not null] // User facing name for the outcome (e.g. Mitigations)
+  egcs_cn_outcomename_fr varchar [not null] // User facing name for the outcome (e.g. Mitigations)
   egcs_cn_version numeric(10,2) [not null]
-  egcs_cn_scoringmatrix varchar [not null]
-  egcs_cn_assessmentschema varchar [not null]
+  egcs_cn_scoringmatrix varchar [not null] // Schema > scoringMatrix
+  egcs_cn_assessmentschema varchar [not null] // Schema
 }
 
 Table Common_Address {
-  id bigint [pk, not null]
-  egcs_cn_locationid bigint [not null]
-  egcs_cn_federalridingid int [not null]
-  egcs_cn_addresscity varchar [not null]
-  egcs_cn_addresscountry Countries [not null]
-  egcs_cn_addresssubdivision Jurisdiction [not null]
-  egcs_cn_gc_addressid bigint [not null]
-  egcs_cn_latitude numeric(10,7)
-  egcs_cn_longitude numeric(10,7)
-  egcs_cn_mainphone bigint [not null]
-  egcs_cn_mainphoneextension varchar [not null]
-  egcs_cn_postalcodezipccode varchar [not null]
-  egcs_cn_street1 varchar [not null]
-  egcs_cn_street2 varchar [not null]
-  egcs_cn_street3 varchar [not null]
-  egcs_cn_active boolean
+  id bigint [pk, not null] // System ID
+  egcs_cn_locationid bigint [not null] // Internal ID, system generated
+  egcs_cn_federalridingid int [not null] // Federal riding ID based on geo-location data or manually captured
+  egcs_cn_addresscity varchar [not null] // City associated to the Account's address.
+  egcs_cn_addresscountry Countries [not null] // Country associated to the Account's address.
+  egcs_cn_addresssubdivision Jurisdiction [not null] // Province/Territory associated to the Account's address.
+  egcs_cn_gc_addressid bigint [not null] // Unique identifier for entity instances
+  egcs_cn_latitude numeric(10,7) // Latitude coordinate associated to the an address.
+  egcs_cn_longitude numeric(10,7) // Longitude coordinate associated to the an address.
+  egcs_cn_mainphone bigint [not null] // Primary telephone associated to the Account's address.
+  egcs_cn_mainphoneextension varchar [not null] // Telephone extension associated to the Account's main telephone number.
+  egcs_cn_postalcodezipccode varchar [not null] // Postal code associated to the Account's address.
+  egcs_cn_street1 varchar [not null] // Line 1 of the street associated to the Account's address.
+  egcs_cn_street2 varchar [not null] // Line 2 of the street associated to the Account's address.
+  egcs_cn_street3 varchar [not null] // Line 3 of the street associated to the Account's address.
+  egcs_cn_active boolean // True/false
 }
 
 Table Common_Completion {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_cn_value boolean [not null]
   egcs_cn_comments text
   egcs_cn_user bigint [not null]
@@ -1469,7 +1480,7 @@ Table Common_Completion {
 Ref: Common_Completion.egcs_cn_user > Common_Contact.id
 
 Table Common_Certification {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_cn_description_en text [not null]
   egcs_cn_description_fr text [not null]
   egcs_cn_name_en varchar [not null]
@@ -1479,7 +1490,7 @@ Table Common_Certification {
 }
 
 Table Common_Approval_Template {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_cn_description_en text [not null]
   egcs_cn_description_fr text [not null]
   egcs_cn_name_en varchar [not null]
@@ -1487,11 +1498,11 @@ Table Common_Approval_Template {
 }
 
 Table Common_Approval_Step {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_cn_sequence bigint [not null]
-  egcs_cn_description_en text [not null]
+  egcs_cn_description_en text [not null] // e.g. Director level approval
   egcs_cn_description_fr text [not null]
-  egcs_cn_name_en varchar [not null]
+  egcs_cn_name_en varchar [not null] // e.g. Director Aproval
   egcs_cn_name_fr varchar [not null]
   egcs_cn_certifications bigint [not null]
   egcs_cn_approvaltemplate bigint [not null]
@@ -1503,7 +1514,7 @@ Ref: Common_Approval_Step.egcs_cn_approvaltemplate > Common_Approval_Template.id
 Ref: Common_Approval_Step.egcs_cn_defaultuser > Common_Contact.id
 
 Table Common_Routing_Slip {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_cn_name_en varchar [not null]
   egcs_cn_name_fr varchar [not null]
   egcs_cn_approvaltemplate bigint [not null]
@@ -1514,7 +1525,7 @@ Ref: Common_Routing_Slip.egcs_cn_approvaltemplate > Common_Approval_Template.id
 Ref: Common_Routing_Slip.egcs_cn_completion > Common_Completion.id
 
 Table Common_Approval {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_cn_sequence decimal [not null]
   egcs_cn_name_en varchar [not null]
   egcs_cn_name_fr varchar [not null]
@@ -1535,33 +1546,25 @@ Ref: Common_Approval.egcs_cn_onbehalf > Agency_Approval_Behalf_Type.id
 Ref: Common_Approval.egcs_cn_actioneduser > Common_Contact.id
 
 Table Common_Answer {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_cn_section varchar [not null]
   egcs_cn_subsection varchar [not null]
-  egcs_cn_question varchar [not null]
+  egcs_cn_question varchar [not null] // {en: text, fr: text}
   egcs_cn_value varchar [not null]
   egcs_cn_comment text [not null]
   egcs_cn_assessment bigint [not null]
 }
 Ref: Common_Answer.egcs_cn_assessment > Common_Assessment.id
 
-Table Common_Account_Type {
-  id bigint [pk, not null]
-  egcs_cn_description_en text [not null]
-  egcs_cn_description_fr text [not null]
-  egcs_cn_name_en varchar [not null]
-  egcs_cn_name_fr varchar [not null]
-}
-
 Table Common_Checklist_Schema {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_cn_version numeric(10,2) [not null]
   egcs_cn_checklistchema varchar [not null]
 }
 
 Table Common_Checklist {
-  id bigint [pk, not null]
-  egcs_cn_helpers varchar
+  id bigint [pk, not null] // System ID
+  egcs_cn_helpers varchar // key-value pairs
   egcs_cn_status varchar [not null]
   egcs_cn_assessmentresult varchar [not null]
   egcs_cn_assessmentschema bigint [not null]
@@ -1571,10 +1574,10 @@ Ref: Common_Checklist.egcs_cn_assessmentschema > Common_Checklist_Schema.id
 Ref: Common_Checklist.egcs_cn_completion > Common_Completion.id
 
 Table Common_Checklist_Response {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_cn_section varchar [not null]
   egcs_cn_subsection varchar [not null]
-  egcs_cn_question varchar [not null]
+  egcs_cn_question varchar [not null] // {en: text, fr: text}
   egcs_cn_value varchar [not null]
   egcs_cn_comment text [not null]
   egcs_cn_checklist bigint [not null]
@@ -1582,13 +1585,13 @@ Table Common_Checklist_Response {
 Ref: Common_Checklist_Response.egcs_cn_checklist > Common_Checklist.id
 
 Table Common_Form_Schema {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_cn_version numeric(10,2) [not null]
   egcs_cn_schema varchar [not null]
 }
 
 Table Common_Assessment_Outcome {
-  id bigint [pk, not null]
+  id bigint [pk, not null] // System ID
   egcs_fc_assessment bigint [not null]
   egcs_fc_section varchar [not null]
   egcs_fc_subsection varchar [not null]

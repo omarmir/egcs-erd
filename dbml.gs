@@ -55,7 +55,17 @@ const ChartDB_DBMLExport = (() => {
       for (let i = 0; i < data.length; i++) {
         const row = data[i];
         const firstCell = String(row[0] || '').trim();
-        if (!firstCell) continue;
+        if (!firstCell) {
+          // Possible multiline description continuation
+          if (table && tables.get(table).fields.length > 0) {
+            const continuation = String(row[6] || '').trim();
+            if (continuation) {
+              const lastField = tables.get(table).fields[tables.get(table).fields.length - 1];
+              lastField.description += '\n' + continuation;
+            }
+          }
+          continue;
+        }
 
         // Detect table header row
         if (
@@ -78,6 +88,7 @@ const ChartDB_DBMLExport = (() => {
         const typeRaw = String(row[3] || '').trim();
         const relationRaw = String(row[4] || '').trim();
         const constraints = String(row[5] || '').trim();
+        const description = String(row[6] || '').trim();
 
         let fieldType = mapTypeExact(typeRaw);
 
@@ -94,7 +105,12 @@ const ChartDB_DBMLExport = (() => {
         if (logicalName.toLowerCase() === 'id') settings.push('pk');
         if (optional === 'N') settings.push('not null');
 
-        tables.get(table).fields.push({ name: logicalName, type: fieldType, settings });
+        tables.get(table).fields.push({ 
+          name: logicalName, 
+          type: fieldType, 
+          settings,
+          description
+        });
 
         // --- Only generate Ref if it is a ForeignKey ---
         if (relationRaw && relationRaw.toLowerCase().startsWith('foreignkey')) {
@@ -121,6 +137,17 @@ const ChartDB_DBMLExport = (() => {
       table.fields.forEach(f => {
         dbml += `  ${sanitize(f.name)} ${f.type}`;
         if (f.settings.length) dbml += ` [${f.settings.join(', ')}]`;
+        if (f.description) {
+          const safeDescription = f.description.replace(/\*\//g, '* /');
+
+          if (safeDescription.includes('\n')) {
+            // Multiline comment
+            dbml += ` /*\n${safeDescription}\n  */`;
+          } else {
+            // Single line comment
+            dbml += ` // ${safeDescription}`;
+          }
+        }
         dbml += '\n';
       });
       dbml += '}\n';
