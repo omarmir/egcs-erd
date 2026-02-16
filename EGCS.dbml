@@ -499,14 +499,14 @@ Table Agency_Cost_Category_Line_Item {
   id bigint [pk, not null] // System ID
   egcs_ay_name_en varchar [not null] // Budget line items in english
   egcs_ay_name_fr varchar [not null] // Budget line items in french
-  egcs_ay_oganizationcostcategory bigint [not null]
+  egcs_ay_organizationcostcategory bigint [not null]
 }
-Ref: Agency_Cost_Category_Line_Item.egcs_ay_oganizationcostcategory > Agency_Cost_Category.id
+Ref: Agency_Cost_Category_Line_Item.egcs_ay_organizationcostcategory > Agency_Cost_Category.id
 
 Table Agency_Fiscal_Year {
   id bigint [pk, not null] // System ID
   egcs_ay_organizationagency bigint [not null]
-  egcs_ay_ficalyeardisplay varchar [not null] // Display value of fiscal year, e.g. 2025-2026
+  egcs_ay_fiscalyeardisplay varchar [not null] // Display value of fiscal year, e.g. 2025-2026
   egcs_ay_fiscalyear smallint [not null] // Numerical value for fiscal year, e.g. 2026
 }
 Ref: Agency_Fiscal_Year.egcs_ay_organizationagency > Agency_Profile.id
