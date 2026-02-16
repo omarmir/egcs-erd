@@ -519,16 +519,16 @@ Table Agency_Address_Type {
 }
 Ref: Agency_Address_Type.egcs_ay_organizationagency > Agency_Profile.id
 
-Table Agency_Account_Subtype {
+Table Agency_Stakeholder_Subtype {
   id bigint [pk, not null] // System ID
   egcs_ay_odtype Stakeholder_Type [not null]
   egcs_ay_organizationagency bigint [not null]
   egcs_ay_description_en text [not null] // Agency specific classification description in english
   egcs_ay_description_fr text [not null] // Agency specific classification description in french
-  egcs_ay_name_en varchar [not null] // Agency specific name for an account type in english (e.g. Research Institution)
-  egcs_ay_name_fr varchar [not null] // Agency specific name for an account type in french (e.g. Research Institution)
+  egcs_ay_name_en varchar [not null] // Agency specific name for an stakeholder type in english (e.g. Research Institution)
+  egcs_ay_name_fr varchar [not null] // Agency specific name for an stakeholder type in french (e.g. Research Institution)
 }
-Ref: Agency_Account_Subtype.egcs_ay_organizationagency > Agency_Profile.id
+Ref: Agency_Stakeholder_Subtype.egcs_ay_organizationagency > Agency_Profile.id
 
 Table Agency_Assessment_Type {
   id bigint [pk, not null] // System ID
@@ -639,10 +639,10 @@ Ref: Transfer_Payment_Stream_Budget.egcs_tp_transferpaymentbudget > Transfer_Pay
 Table Transfer_Payment_Stream_Eligible_Recipient {
   id bigint [pk, not null] // System ID
   egcs_tp_transferpaymentstream bigint [not null]
-  egcs_tp_accountsubtypes bigint [not null] // The account subtype eligible for funding under this program
+  egcs_tp_stakeholdersubtypes bigint [not null] // The stakeholder subtype eligible for funding under this program
 }
 Ref: Transfer_Payment_Stream_Eligible_Recipient.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id
-Ref: Transfer_Payment_Stream_Eligible_Recipient.egcs_tp_accountsubtypes > Agency_Account_Subtype.id
+Ref: Transfer_Payment_Stream_Eligible_Recipient.egcs_tp_stakeholdersubtypes > Agency_Stakeholder_Subtype.id
 
 Table Transfer_Payment_Stream_Cost_Category_Line_Item {
   id bigint [pk, not null] // System ID
@@ -772,51 +772,51 @@ Ref: Transfer_Payment_Amendment_Subtypes.egcs_tp_transferpaymentstream > Transfe
 
 Table Stakeholder_Profile {
   id bigint [pk, not null] // System ID
-  egcs_sh_provincialbusinessnumber int // The official business number of the account provided by the province.
+  egcs_sh_provincialbusinessnumber int // The official business number of the stakeholder provided by the province.
   egcs_sh_businessnumber bigint // A Canadian Business Number (BN) is a unique 9-digit identifier from the Canada Revenue Agency (CRA)
   egcs_sh_charitynumber bigint // Official charity registration number.
-  egcs_sh_clientdescription_en text // Description of the client account (English).
-  egcs_sh_clientdescription_fr text // Description of the client account (French).
+  egcs_sh_clientdescription_en text // Description of the stakeholder (english).
+  egcs_sh_clientdescription_fr text // Description of the stakeholder (french).
   egcs_sh_operatingname_en varchar // This field should be populated when an organization operates under a name that differs from its legal name or business number. This field is not intended to capture the ultimate recipient of a grant or contribution; instead, the name of the person receiving funding from the Government of Canada should be entered.
   egcs_sh_operatingname_fr varchar // This field should be populated when an organization operates under a name that differs from its legal name or business number. This field is not intended to capture the ultimate recipient of a grant or contribution; instead, the name of the person receiving funding from the Government of Canada should be entered.
   egcs_sh_financialsystemid bigint // Reference number for the financial system.
-  egcs_sh_accountsubtype bigint [not null]
+  egcs_sh_stakeholdersubtype bigint [not null]
   egcs_sh_leadagency bigint // For multi-dept systems, this is the id of the agency
   egcs_sh_leadofficer bigint // For multi-dept systems, this is the id of the officer
-  egcs_sh_legalname_en varchar // Legal name of the account (English).
-  egcs_sh_legalname_fr varchar // Legal name of the account (French).
+  egcs_sh_legalname_en varchar // Legal name of the stakeholder (English).
+  egcs_sh_legalname_fr varchar // Legal name of the stakeholder (French).
   egcs_sh_status Base_Status [not null]
 }
-Ref: Stakeholder_Profile.egcs_sh_accountsubtype > Agency_Account_Subtype.id
+Ref: Stakeholder_Profile.egcs_sh_stakeholdersubtype > Agency_Stakeholder_Subtype.id
 Ref: Stakeholder_Profile.egcs_sh_leadagency > Agency_Profile.id
 Ref: Stakeholder_Profile.egcs_sh_leadofficer > Common_Contact.id
 
 Table Stakeholder_Other_Name {
   id bigint [pk, not null] // System ID
   egcs_sh_othername varchar
-  egcs_sh_account bigint [not null]
+  egcs_sh_stakeholder bigint [not null]
 }
-Ref: Stakeholder_Other_Name.egcs_sh_account > Stakeholder_Profile.id
+Ref: Stakeholder_Other_Name.egcs_sh_stakeholder > Stakeholder_Profile.id
 
 Table Stakeholder_Address {
   id bigint [pk, not null] // System ID
-  egcs_sh_account bigint [not null]
+  egcs_sh_stakeholder bigint [not null]
   egcs_sh_address bigint [not null]
 }
-Ref: Stakeholder_Address.egcs_sh_account > Stakeholder_Profile.id
+Ref: Stakeholder_Address.egcs_sh_stakeholder > Stakeholder_Profile.id
 Ref: Stakeholder_Address.egcs_sh_address > Common_Address.id
 
 Table Stakeholder_Contact {
   id bigint [pk, not null] // System ID
-  egcs_sh_account bigint [not null]
+  egcs_sh_stakeholder bigint [not null]
   egcs_sh_contact bigint [not null]
 }
-Ref: Stakeholder_Contact.egcs_sh_account > Stakeholder_Profile.id
+Ref: Stakeholder_Contact.egcs_sh_stakeholder > Stakeholder_Profile.id
 Ref: Stakeholder_Contact.egcs_sh_contact > Common_Contact.id
 
 Table Stakeholder_Funding_History {
   id bigint [pk, not null] // System ID
-  egcs_sh_account bigint [not null]
+  egcs_sh_stakeholder bigint [not null]
   egcs_sh_fundingagreement bigint
   egcs_sh_agreementnumber varchar // The unique identifying number assigned to the Grants and Contributions (Gs&Cs) Funding Agreement.
   egcs_sh_description text // A detailed summary or narrative description of the approved project
@@ -831,16 +831,16 @@ See annex A of the Open Data dictionary for Gs&Cs for list of department numbers
   */
   egcs_sh_fundingamount numeric(4,2) // Total approved funding amount for the agreement.
 }
-Ref: Stakeholder_Funding_History.egcs_sh_account > Stakeholder_Profile.id
+Ref: Stakeholder_Funding_History.egcs_sh_stakeholder > Stakeholder_Profile.id
 Ref: Stakeholder_Funding_History.egcs_sh_fundingagreement > Funding_Case_Agreement_Profile.id
 
 Table Stakeholder_Risk_Assessment {
   id bigint [pk, not null] // System ID
-  egcs_sh_account bigint [not null]
+  egcs_sh_stakeholder bigint [not null]
   egcs_sh_assessment bigint [not null]
   egcs_sh_order smallint [not null] // Order of assessments for display purposes
 }
-Ref: Stakeholder_Risk_Assessment.egcs_sh_account > Stakeholder_Profile.id
+Ref: Stakeholder_Risk_Assessment.egcs_sh_stakeholder > Stakeholder_Profile.id
 Ref: Stakeholder_Risk_Assessment.egcs_sh_assessment > Transfer_Payment_Assessment_Setup.id
 
 Table Funding_Opportunity_Profile {
