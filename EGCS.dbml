@@ -1606,3 +1606,82 @@ Table Common_Attachment_Type {
   egcs_fo_description_fr text [not null]
 }
 
+// -----------------------------------------------------------------------------
+// RBAC & Authentication Tables
+// -----------------------------------------------------------------------------
+
+Table User {
+  id varchar [pk, not null]
+  name text [not null]
+  email text [not null, unique]
+  emailVerified boolean [not null]
+  image text
+  createdAt timestamp [not null]
+  updatedAt timestamp [not null]
+}
+
+Table Session {
+  id varchar [pk, not null]
+  expiresAt timestamp [not null]
+  token text [not null, unique]
+  createdAt timestamp [not null]
+  updatedAt timestamp [not null]
+  userId varchar [not null]
+}
+Ref: Session.userId > User.id
+
+Table Account {
+  id varchar [pk, not null]
+  accountId text [not null]
+  providerId text [not null]
+  userId varchar [not null]
+  accessToken text
+  refreshToken text
+  idToken text
+  accessTokenExpiresAt timestamp
+  refreshTokenExpiresAt timestamp
+  scope text
+  password text
+  createdAt timestamp [not null]
+  updatedAt timestamp [not null]
+}
+Ref: Account.userId > User.id
+
+Table Verification {
+  id varchar [pk, not null]
+  identifier text [not null]
+  value text [not null]
+  expiresAt timestamp [not null]
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table Role {
+  id varchar [pk, not null]
+  name_en varchar [not null]
+  name_fr varchar [not null]
+  description_en text
+  description_fr text
+  _deleted boolean [not null, default: false]
+}
+
+Table Role_Ability {
+  id varchar [pk, not null]
+  role_id varchar [not null]
+  ability varchar [not null] // Defined in code
+}
+Ref: Role_Ability.role_id > Role.id
+
+Table User_Role {
+  id varchar [pk, not null]
+  user_id varchar [not null]
+  role_id varchar [not null]
+  agency_id varchar [not null] // Mandatory Agency
+  program_id varchar // Specific Program or NULL for "All Programs"
+  _deleted boolean [not null, default: false]
+}
+Ref: User_Role.user_id > User.id
+Ref: User_Role.role_id > Role.id
+Ref: User_Role.agency_id > Agency_Profile.id
+Ref: User_Role.program_id > Transfer_Payment_Profile.id
+
