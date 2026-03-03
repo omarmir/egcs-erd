@@ -134,6 +134,7 @@ const ChartDB_DBMLExport = (() => {
     // Then tables + refs
     tables.forEach((table, tableName) => {
       dbml += `Table ${sanitize(tableName)} {\n`;
+      dbml += `  _deleted boolean [not null, default: false]\n`;
       table.fields.forEach(f => {
         dbml += `  ${sanitize(f.name)} ${f.type}`;
         if (f.settings.length) dbml += ` [${f.settings.join(', ')}]`;
@@ -181,7 +182,11 @@ const ChartDB_DBMLExport = (() => {
     if (!type) return 'varchar';
     const t = type.toLowerCase();
     if (t.startsWith('bigint')) return 'bigint';
+    if (t.startsWith('bigserial')) return 'bigserial';
+    if (t.startsWith('smallint')) return 'smallint';
     if (t.startsWith('int')) return 'int';
+    if (t.startsWith('jsonb')) return 'jsonb';
+    if (t.startsWith('json')) return 'json';
     if (t.startsWith('varchar')) return 'varchar';
     if (t.startsWith('text')) return 'text';
     if (t.startsWith('date')) return 'date';
