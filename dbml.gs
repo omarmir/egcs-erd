@@ -1,6 +1,13 @@
+/**
+ * DBML Exporter (with TableGroup per Sheet)
+ * - Each sheet (except "Enums") becomes a TableGroup
+ * - Tables are still defined normally; groups are appended at the end
+ */
+
 const ChartDB_DBMLExport = (() => {
-  let tables = new Map(); // tableName -> { fields: [], refs: [], indexes: [], checks: [] }
-  let enumsMap = new Map(); // enumName -> [values]
+  let tables = new Map();      // tableName -> { fields: [], refs: [], indexes: [], checks: [] }
+  let enumsMap = new Map();    // enumName -> [values]
+  let tableGroups = new Map(); // sheetName -> Set<tableNameSanitized>
 
   function onOpen() {
     SpreadsheetApp.getUi()
@@ -13,6 +20,7 @@ const ChartDB_DBMLExport = (() => {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
     tables.clear();
     enumsMap.clear();
+    tableGroups.clear();
 
     // --- 1. Load Enums sheet if exists ---
     const enumsSheet = ss.getSheetByName("Enums");
@@ -41,13 +49,18 @@ const ChartDB_DBMLExport = (() => {
     // --- 2. Process all sheets as tables ---
     const sheets = ss.getSheets();
     sheets.forEach(sheet => {
-      if (sheet.getName() === "Enums") return;
+      const sheetName = sheet.getName();
+      if (sheetName === "Enums") return;
+
+      // ✅ Each sheet is a group
+      if (!tableGroups.has(sheetName)) tableGroups.set(sheetName, new Set());
+      const groupSet = tableGroups.get(sheetName);
 
       const data = sheet.getDataRange().getValues();
       let currentTableName = null;
       let mode = null; // "fields" | "indexes" | "checks"
 
-      // NEW: column maps for dynamic index/check layouts
+      // Column maps for dynamic index/check layouts
       let indexColMap = null;
       let checkColMap = null;
 
@@ -78,6 +91,10 @@ const ChartDB_DBMLExport = (() => {
           if (!tables.has(currentTableName)) {
             tables.set(currentTableName, { fields: [], refs: [], indexes: [], checks: [] });
           }
+
+          // ✅ Register this table under the current sheet’s TableGroup
+          groupSet.add(sanitize(currentTableName));
+
           mode = "fields";
           indexColMap = null;
           checkColMap = null;
@@ -90,12 +107,12 @@ const ChartDB_DBMLExport = (() => {
         // Section switches (capture header row so we can map columns, including "Where")
         if (firstCell.toLowerCase() === 'index name') {
           mode = "indexes";
-          indexColMap = buildIndexColumnMap(row); // ✅ map header row (supports Where)
+          indexColMap = buildIndexColumnMap(row); // map header row (supports Where)
           continue; // header row for index section
         }
         if (firstCell.toLowerCase() === 'check name') {
           mode = "checks";
-          checkColMap = buildCheckColumnMap(row); // ✅ map header row (more robust)
+          checkColMap = buildCheckColumnMap(row); // more robust
           continue; // header row for checks section
         }
 
@@ -104,13 +121,12 @@ const ChartDB_DBMLExport = (() => {
 
         const t = tables.get(currentTableName);
 
-        // --- Parse INDEX rows (now supports Where column) ---
+        // --- Parse INDEX rows (supports Where + Functions) ---
         if (mode === "indexes") {
-          // Using mapped indexes where possible; fallback to legacy positions
           const indexName = String(row[indexColMap?.name ?? 0] || '').trim();
           const indexFieldRaw = String(row[indexColMap?.expr ?? 1] || '').trim();
           const indexTypeRaw = String(row[indexColMap?.type ?? 2] || '').trim();
-          const whereRaw = String(row[indexColMap?.where ?? -1] || '').trim(); // ✅ NEW
+          const whereRaw = String(row[indexColMap?.where ?? -1] || '').trim();
           const constraintRaw = String(row[indexColMap?.constraint ?? 5] || '').trim();
           const functionsRaw = String(row[indexColMap?.functions ?? -1] || '').trim();
 
@@ -120,8 +136,8 @@ const ChartDB_DBMLExport = (() => {
             name: indexName,
             expr: indexFieldRaw,
             type: indexTypeRaw,
-            where: whereRaw,          // ✅ NEW
-            functions: functionsRaw, // ✅ NEW
+            where: whereRaw,
+            functions: functionsRaw,
             constraint: constraintRaw
           });
           continue;
@@ -130,7 +146,7 @@ const ChartDB_DBMLExport = (() => {
         // --- Parse CHECK rows ---
         if (mode === "checks") {
           const checkName = String(row[checkColMap?.name ?? 0] || '').trim();
-          const checkExpr = String(row[checkColMap?.expr ?? 5] || '').trim(); // expression usually in "Constraint" column
+          const checkExpr = String(row[checkColMap?.expr ?? 5] || '').trim(); // expression usually in "Constraint" col
 
           if (!checkName || !checkExpr) continue;
 
@@ -145,7 +161,7 @@ const ChartDB_DBMLExport = (() => {
         if (mode !== "fields") continue;
 
         const logicalName = firstCell;
-        const fieldName = String(row[1] || '').trim();
+        const fieldName = String(row[1] || '').trim(); // kept for compatibility (unused in DBML output)
         const optional = String(row[2] || '').trim().toUpperCase();
         const typeRaw = String(row[3] || '').trim();
         const relationRaw = String(row[4] || '').trim();
@@ -218,7 +234,7 @@ const ChartDB_DBMLExport = (() => {
         dbml += '\n';
       });
 
-      // Indexes (inside table) — now outputs "where:" for partial indexes
+      // Indexes (inside table) — outputs "where:" for partial indexes
       if (table.indexes.length) {
         dbml += `\n  Indexes {\n`;
         table.indexes.forEach(ix => {
@@ -235,7 +251,7 @@ const ChartDB_DBMLExport = (() => {
             });
           }
 
-          // ✅ NEW: partial index WHERE
+          // Partial index WHERE
           if (ix.where) {
             attrs.push(`where: ${normalizeWhereExpr(ix.where)}`);
           }
@@ -266,6 +282,19 @@ const ChartDB_DBMLExport = (() => {
       // Refs after table
       if (table.refs.length) dbml += table.refs.join('\n') + '\n';
       dbml += '\n';
+    });
+
+    // ✅ 3b. TableGroups (each sheet is a group)
+    // Put at the end (definitions first, organization last)
+    tableGroups.forEach((set, sheetName) => {
+      const names = Array.from(set).filter(Boolean);
+      if (!names.length) return;
+
+      dbml += `TableGroup ${sanitize(sheetName)} {\n`;
+      names.forEach(tn => {
+        dbml += `  ${tn}\n`;
+      });
+      dbml += `}\n\n`;
     });
 
     // --- 4. Output dialog ---
@@ -354,7 +383,7 @@ const ChartDB_DBMLExport = (() => {
     return `\`${e}\``;
   }
 
-  // ✅ NEW: Wrap WHERE expressions in backticks unless already
+  // Wrap WHERE expressions in backticks unless already
   function normalizeWhereExpr(whereRaw) {
     const w = String(whereRaw || '').trim();
     if (!w) return '';
@@ -364,6 +393,10 @@ const ChartDB_DBMLExport = (() => {
 
   function escapeSingleQuotes(s) {
     return String(s).replace(/'/g, "\\'");
+  }
+
+  function escapeDoubleQuotes(s) {
+    return String(s).replace(/\\/g, '\\\\').replace(/"/g, '\\"');
   }
 
   function escapeHtml(s) {
@@ -383,7 +416,7 @@ const ChartDB_DBMLExport = (() => {
       if (h === 'index name') map.name = idx;
       if (h.includes('field')) map.expr = idx;            // "Index Field"
       if (h === 'type') map.type = idx;                   // "Type"
-      if (h === 'where') map.where = idx;                 // ✅ NEW
+      if (h === 'where') map.where = idx;                 // Where
       if (h.includes('constraint')) map.constraint = idx; // "Constraint"
       if (h === 'functions' || h === 'function') map.functions = idx;
     });
@@ -402,131 +435,131 @@ const ChartDB_DBMLExport = (() => {
     });
     return map;
   }
+
   function normalizeIndexExprWithFunctions(exprRaw, functionsRaw) {
-  const base = String(exprRaw || '').trim();
-  if (!base) return '(id)';
+    const base = String(exprRaw || '').trim();
+    if (!base) return '(id)';
 
-  // If it’s a raw expression, don’t try to rewrite it
-  // e.g. `id*2` or (`id*3`,`getdate()`)
-  if (base.startsWith('`')) return base;
+    // If it’s a raw expression, don’t try to rewrite it
+    // e.g. `id*2` or (`id*3`,`getdate()`)
+    if (base.startsWith('`')) return base;
 
-  // Turn base into a list of "items" (fields/expressions)
-  let items = [];
+    // Turn base into a list of "items" (fields/expressions)
+    let items = [];
 
-  if (base.startsWith('(') && base.endsWith(')')) {
-    const inner = base.slice(1, -1).trim();
-    items = splitByCommaRespectingParens(inner);
-  } else if (base.includes(',')) {
-    items = splitByCommaRespectingParens(base);
-  } else {
-    items = [base];
-  }
-
-  // No functions provided => behave like old normalizeIndexExpr
-  const fRaw = String(functionsRaw || '').trim();
-  if (!fRaw) {
-    if (items.length > 1) return `(${items.map(s => s.trim()).join(', ')})`;
-    return items[0].trim();
-  }
-
-  // Functions cell can be:
-  //  - one wrapper applied to all columns: "lower({col})"
-  //  - or comma-separated list aligned with items: ", md5(lower({col}))"
-  // Placeholder: {col} -> actual column/expression
-  let fParts = splitByCommaRespectingParens(fRaw);
-
-  // If only 1 function pattern, apply to every item
-  const applyToAll = fParts.length === 1 && items.length > 1;
-
-  const outItems = items.map((it, idx) => {
-    const col = it.trim();
-    const pat = (applyToAll ? fParts[0] : (fParts[idx] ?? '')).trim();
-
-    if (!pat) return col;
-
-    // If pattern doesn't include {col}, assume it's a wrapper function name like "lower"
-    // If pattern doesn't include {col}, support two shorthands:
-//  1) "lower"            -> lower(col)
-//  2) "md5(lower)"       -> md5(lower(col))
-//  3) "md5(lower(trim))" -> md5(lower(trim(col)))
-if (!pat.includes('{col}')) {
-  const p = pat.trim();
-
-  // If it looks like outer(inner(...)) without args, inject col as the innermost arg.
-  // Example: "md5(lower)" => outer="md5", inner="lower"
-  //          "md5(lower(trim))" => outer="md5", inner="lower(trim)"
-  const m = p.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\((.+)\)$/);
-  if (m) {
-    const outer = m[1];
-    const inner = m[2].trim();
-    // Make inner a wrapper chain: lower(trim(col)) etc.
-    const innerApplied = applyWrapperChain(inner, col);
-    return `${outer}(${innerApplied})`;
-  }
-
-  // Otherwise treat it as a simple wrapper name
-  return `${p}(${col})`;
-}
-    return pat.replace(/\{col\}/g, col);
-  });
-
-  return outItems.length > 1
-    ? `(${outItems.join(', ')})`
-    : outItems[0];
-}
-
-// Splits "a, md5(lower(b)), c" safely
-function splitByCommaRespectingParens(s) {
-  const out = [];
-  let cur = '';
-  let depth = 0;
-  let inTicks = false;
-
-  for (let i = 0; i < s.length; i++) {
-    const ch = s[i];
-
-    if (ch === '`') {
-      inTicks = !inTicks;
-      cur += ch;
-      continue;
+    if (base.startsWith('(') && base.endsWith(')')) {
+      const inner = base.slice(1, -1).trim();
+      items = splitByCommaRespectingParens(inner);
+    } else if (base.includes(',')) {
+      items = splitByCommaRespectingParens(base);
+    } else {
+      items = [base];
     }
 
-    if (!inTicks) {
-      if (ch === '(') depth++;
-      if (ch === ')') depth = Math.max(0, depth - 1);
+    // No functions provided => behave like old normalizeIndexExpr
+    const fRaw = String(functionsRaw || '').trim();
+    if (!fRaw) {
+      if (items.length > 1) return `(${items.map(s => s.trim()).join(', ')})`;
+      return items[0].trim();
+    }
 
-      if (ch === ',' && depth === 0) {
-        out.push(cur.trim());
-        cur = '';
+    // Functions cell can be:
+    //  - one wrapper applied to all columns: "lower({col})"
+    //  - or comma-separated list aligned with items: ", md5(lower({col}))"
+    // Placeholder: {col} -> actual column/expression
+    let fParts = splitByCommaRespectingParens(fRaw);
+
+    // If only 1 function pattern, apply to every item
+    const applyToAll = fParts.length === 1 && items.length > 1;
+
+    const outItems = items.map((it, idx) => {
+      const col = it.trim();
+      const pat = (applyToAll ? fParts[0] : (fParts[idx] ?? '')).trim();
+
+      if (!pat) return col;
+
+      // If pattern doesn't include {col}, support shorthands:
+      //  1) "lower"            -> lower(col)
+      //  2) "md5(lower)"       -> md5(lower(col))
+      //  3) "md5(lower(trim))" -> md5(lower(trim(col)))
+      if (!pat.includes('{col}')) {
+        const p = pat.trim();
+
+        // If it looks like outer(inner(...)) without args, inject col as the innermost arg.
+        // Example: "md5(lower)" => outer="md5", inner="lower"
+        //          "md5(lower(trim))" => outer="md5", inner="lower(trim)"
+        const m = p.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\((.+)\)$/);
+        if (m) {
+          const outer = m[1];
+          const inner = m[2].trim();
+          const innerApplied = applyWrapperChain(inner, col);
+          return `${outer}(${innerApplied})`;
+        }
+
+        // Otherwise treat it as a simple wrapper name
+        return `${p}(${col})`;
+      }
+
+      return pat.replace(/\{col\}/g, col);
+    });
+
+    return outItems.length > 1
+      ? `(${outItems.join(', ')})`
+      : outItems[0];
+  }
+
+  // Splits "a, md5(lower(b)), c" safely
+  function splitByCommaRespectingParens(s) {
+    const out = [];
+    let cur = '';
+    let depth = 0;
+    let inTicks = false;
+
+    for (let i = 0; i < s.length; i++) {
+      const ch = s[i];
+
+      if (ch === '`') {
+        inTicks = !inTicks;
+        cur += ch;
         continue;
       }
+
+      if (!inTicks) {
+        if (ch === '(') depth++;
+        if (ch === ')') depth = Math.max(0, depth - 1);
+
+        if (ch === ',' && depth === 0) {
+          out.push(cur.trim());
+          cur = '';
+          continue;
+        }
+      }
+
+      cur += ch;
     }
 
-    cur += ch;
+    if (cur.trim()) out.push(cur.trim());
+    return out;
   }
 
-  if (cur.trim()) out.push(cur.trim());
-  return out;
-}
+  function applyWrapperChain(chainRaw, col) {
+    const chain = String(chainRaw || '').trim();
+    if (!chain) return col;
 
-function applyWrapperChain(chainRaw, col) {
-  const chain = String(chainRaw || '').trim();
-  if (!chain) return col;
+    // If user already wrote something like "lower({col})", respect it
+    if (chain.includes('{col}')) return chain.replace(/\{col\}/g, col);
 
-  // If user already wrote something like "lower({col})", respect it
-  if (chain.includes('{col}')) return chain.replace(/\{col\}/g, col);
+    // Support nested shorthand like "lower(trim)" meaning lower(trim(col))
+    const m = chain.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\((.+)\)$/);
+    if (m) {
+      const outer = m[1];
+      const inner = m[2].trim();
+      return `${outer}(${applyWrapperChain(inner, col)})`;
+    }
 
-  // Support nested shorthand like "lower(trim)" meaning lower(trim(col))
-  const m = chain.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\((.+)\)$/);
-  if (m) {
-    const outer = m[1];
-    const inner = m[2].trim();
-    return `${outer}(${applyWrapperChain(inner, col)})`;
+    // Simple wrapper name like "lower"
+    return `${chain}(${col})`;
   }
-
-  // Simple wrapper name like "lower"
-  return `${chain}(${col})`;
-}
 
   return { onOpen, export: exportDBML };
 })();
