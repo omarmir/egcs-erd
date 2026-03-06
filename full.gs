@@ -31,13 +31,10 @@ function onOpen() {
   const ui = SpreadsheetApp.getUi();
   const menu = ui.createMenu('ChartDB');
 
-  // Existing exporter
   menu.addItem('Generate JSON', 'generateChartDBJson');
-
-  menu.addItem(
-    'Generate DBML',
-    'ChartDB_DBMLExport.export'
-  );
+  menu.addItem('Generate DBML (All Sheets)', 'exportDBML');
+  menu.addItem('Generate DBML (Current Sheet)', 'exportCurrentSheetDBML');
+  menu.addItem('Generate DBML (Current Sheet, Tables Only)', 'exportCurrentSheetTablesOnlyDBML');
 
   menu.addToUi();
 }

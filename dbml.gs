@@ -1,29 +1,59 @@
 /**
- * DBML Exporter (with TableGroup per Sheet)
- * - Each sheet (except "Enums") becomes a TableGroup
- * - Tables are still defined normally; groups are appended at the end
+ * DBML Exporter (with optional TableGroup / Enum output)
+ * - Preserves varchar(n), char(n), numeric(p,s), citext, jsonb, etc.
+ * - Export all sheets
+ * - Export current sheet
+ * - Export current sheet tables only (no enums, no table groups)
  */
 
 const ChartDB_DBMLExport = (() => {
-  let tables = new Map();      // tableName -> { fields: [], refs: [], indexes: [], checks: [] }
+  let tables = new Map();      // tableName -> { fields: [], refs: [], indexes: [], checks: [], _fieldSet, _indexSet, _refSet }
   let enumsMap = new Map();    // enumName -> [values]
   let tableGroups = new Map(); // sheetName -> Set<tableNameSanitized>
 
   function onOpen() {
     SpreadsheetApp.getUi()
       .createMenu('DBML')
-      .addItem('Export DBML (Flat)', 'exportDBML')
+      .addItem('Export DBML (All Sheets)', 'exportDBML')
+      .addItem('Export DBML (Current Sheet)', 'exportCurrentSheetDBML')
+      .addItem('Export DBML (Current Sheet, Tables Only)', 'exportCurrentSheetTablesOnlyDBML')
       .addToUi();
   }
 
   function exportDBML() {
+    buildAndShowDBML({
+      currentSheetOnly: false,
+      includeEnums: true,
+      includeTableGroups: true
+    });
+  }
+
+  function exportCurrentSheetDBML() {
+    buildAndShowDBML({
+      currentSheetOnly: true,
+      includeEnums: true,
+      includeTableGroups: true
+    });
+  }
+
+  function exportCurrentSheetTablesOnlyDBML() {
+    buildAndShowDBML({
+      currentSheetOnly: true,
+      includeEnums: false,
+      includeTableGroups: false
+    });
+  }
+
+  function buildAndShowDBML({ currentSheetOnly, includeEnums, includeTableGroups }) {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const activeSheet = ss.getActiveSheet();
+
     tables.clear();
     enumsMap.clear();
     tableGroups.clear();
 
     // --- 1. Load Enums sheet if exists ---
-    const enumsSheet = ss.getSheetByName("Enums");
+    const enumsSheet = ss.getSheetByName('Enums');
     if (enumsSheet) {
       const data = enumsSheet.getDataRange().getValues();
       let currentEnum = null;
@@ -33,7 +63,6 @@ const ChartDB_DBMLExport = (() => {
         const cell = (row[0] || '').toString().trim();
         if (!cell) return;
 
-        // Detect start of a new enum by assuming any row with text and no indent
         if (/^[A-Z]/.test(cell)) {
           if (currentEnum) enumsMap.set(currentEnum, values);
           currentEnum = sanitizeEnumName(cell);
@@ -46,23 +75,31 @@ const ChartDB_DBMLExport = (() => {
       if (currentEnum) enumsMap.set(currentEnum, values);
     }
 
-    // --- 2. Process all sheets as tables ---
-    const sheets = ss.getSheets();
+    // --- 2. Choose sheets to process ---
+    let sheets = ss.getSheets().filter(sheet => sheet.getName() !== 'Enums');
+
+    if (currentSheetOnly) {
+      if (!activeSheet || activeSheet.getName() === 'Enums') {
+        SpreadsheetApp.getUi().alert('The active sheet is "Enums" or invalid. Please select a table sheet first.');
+        return;
+      }
+      sheets = [activeSheet];
+    }
+
+    // --- 3. Process sheets as tables ---
     sheets.forEach(sheet => {
       const sheetName = sheet.getName();
-      if (sheetName === "Enums") return;
 
-      // ✅ Each sheet is a group
       if (!tableGroups.has(sheetName)) tableGroups.set(sheetName, new Set());
       const groupSet = tableGroups.get(sheetName);
 
       const data = sheet.getDataRange().getValues();
       let currentTableName = null;
-      let mode = null; // "fields" | "indexes" | "checks"
+      let mode = null; // "fields" | "indexes" | "checks" | "refs"
 
-      // Column maps for dynamic index/check layouts
       let indexColMap = null;
       let checkColMap = null;
+      let refColMap = null;
 
       for (let i = 0; i < data.length; i++) {
         const row = data[i];
@@ -70,7 +107,7 @@ const ChartDB_DBMLExport = (() => {
 
         // Blank row: allow multiline description continuation for fields
         if (!firstCell) {
-          if (mode === "fields" && currentTableName && tables.get(currentTableName).fields.length > 0) {
+          if (mode === 'fields' && currentTableName && tables.get(currentTableName).fields.length > 0) {
             const continuation = String(row[6] || '').trim();
             if (continuation) {
               const t = tables.get(currentTableName);
@@ -85,44 +122,65 @@ const ChartDB_DBMLExport = (() => {
         if (
           row.filter(c => String(c).trim() !== '').length === 1 &&
           i + 1 < data.length &&
-          String(data[i + 1][0]).toLowerCase().includes('logical')
+          String(data[i + 1][0] || '').toLowerCase().includes('logical')
         ) {
-          currentTableName = firstCell; // keep original table name (sanitize later)
+          currentTableName = firstCell;
+
           if (!tables.has(currentTableName)) {
-            tables.set(currentTableName, { fields: [], refs: [], indexes: [], checks: [] });
+            tables.set(currentTableName, {
+              fields: [],
+              refs: [],
+              indexes: [],
+              checks: [],
+              _fieldSet: new Set(),
+              _indexSet: new Set(),
+              _refSet: new Set()
+            });
           }
 
-          // ✅ Register this table under the current sheet’s TableGroup
           groupSet.add(sanitize(currentTableName));
 
-          mode = "fields";
+          mode = 'fields';
           indexColMap = null;
           checkColMap = null;
-          i++; // skip header row (the "Logical Name" line)
+          refColMap = null;
+          i++; // skip logical header row
           continue;
         }
 
         if (!currentTableName) continue;
 
-        // Section switches (capture header row so we can map columns, including "Where")
+        // Section switches
         if (firstCell.toLowerCase() === 'index name') {
-          mode = "indexes";
-          indexColMap = buildIndexColumnMap(row); // map header row (supports Where)
-          continue; // header row for index section
-        }
-        if (firstCell.toLowerCase() === 'check name') {
-          mode = "checks";
-          checkColMap = buildCheckColumnMap(row); // more robust
-          continue; // header row for checks section
+          mode = 'indexes';
+          indexColMap = buildIndexColumnMap(row);
+          checkColMap = null;
+          refColMap = null;
+          continue;
         }
 
-        // Skip field header row
-        if (mode === "fields" && firstCell.toLowerCase() === 'logical name') continue;
+        if (firstCell.toLowerCase() === 'check name') {
+          mode = 'checks';
+          checkColMap = buildCheckColumnMap(row);
+          indexColMap = null;
+          refColMap = null;
+          continue;
+        }
+
+        if (firstCell.toLowerCase() === 'ref name') {
+          mode = 'refs';
+          refColMap = buildRefColumnMap(row);
+          indexColMap = null;
+          checkColMap = null;
+          continue;
+        }
+
+        if (mode === 'fields' && firstCell.toLowerCase() === 'logical name') continue;
 
         const t = tables.get(currentTableName);
 
-        // --- Parse INDEX rows (supports Where + Functions) ---
-        if (mode === "indexes") {
+        // --- Parse INDEX rows ---
+        if (mode === 'indexes') {
           const indexName = String(row[indexColMap?.name ?? 0] || '').trim();
           const indexFieldRaw = String(row[indexColMap?.expr ?? 1] || '').trim();
           const indexTypeRaw = String(row[indexColMap?.type ?? 2] || '').trim();
@@ -132,21 +190,33 @@ const ChartDB_DBMLExport = (() => {
 
           if (!indexName && !indexFieldRaw) continue;
 
-          t.indexes.push({
-            name: indexName,
-            expr: indexFieldRaw,
-            type: indexTypeRaw,
-            where: whereRaw,
-            functions: functionsRaw,
-            constraint: constraintRaw
-          });
+          const indexKey = [
+            indexName,
+            indexFieldRaw,
+            indexTypeRaw,
+            whereRaw,
+            functionsRaw,
+            constraintRaw
+          ].join('|');
+
+          if (!t._indexSet.has(indexKey)) {
+            t._indexSet.add(indexKey);
+            t.indexes.push({
+              name: indexName,
+              expr: indexFieldRaw,
+              type: indexTypeRaw,
+              where: whereRaw,
+              functions: functionsRaw,
+              constraint: constraintRaw
+            });
+          }
           continue;
         }
 
         // --- Parse CHECK rows ---
-        if (mode === "checks") {
+        if (mode === 'checks') {
           const checkName = String(row[checkColMap?.name ?? 0] || '').trim();
-          const checkExpr = String(row[checkColMap?.expr ?? 5] || '').trim(); // expression usually in "Constraint" col
+          const checkExpr = String(row[checkColMap?.expr ?? 5] || '').trim();
 
           if (!checkName || !checkExpr) continue;
 
@@ -157,11 +227,37 @@ const ChartDB_DBMLExport = (() => {
           continue;
         }
 
-        // --- Parse FIELD rows (default) ---
-        if (mode !== "fields") continue;
+        // --- Parse REF rows ---
+        if (mode === 'refs') {
+          const refName = String(row[refColMap?.name ?? 0] || '').trim();
+          const sourceRaw = String(row[refColMap?.source ?? 1] || '').trim();
+          const targetRaw = refColMap?.target != null
+            ? String(row[refColMap.target] || '').trim()
+            : '';
+
+          if (!sourceRaw || !targetRaw) continue;
+
+          const sourceExpr = normalizeRefSectionSource(sourceRaw, currentTableName);
+          const targetExpr = normalizeTargetRefSide(targetRaw);
+
+          if (!sourceExpr || !targetExpr) continue;
+
+          const refLine = refName
+            ? `Ref ${sanitize(refName)}: ${sourceExpr} > ${targetExpr}`
+            : `Ref: ${sourceExpr} > ${targetExpr}`;
+
+          if (!t._refSet.has(refLine)) {
+            t._refSet.add(refLine);
+            t.refs.push(refLine);
+          }
+
+          continue;
+        }
+
+        // --- Parse FIELD rows ---
+        if (mode !== 'fields') continue;
 
         const logicalName = firstCell;
-        const fieldName = String(row[1] || '').trim(); // kept for compatibility (unused in DBML output)
         const optional = String(row[2] || '').trim().toUpperCase();
         const typeRaw = String(row[3] || '').trim();
         const relationRaw = String(row[4] || '').trim();
@@ -170,7 +266,6 @@ const ChartDB_DBMLExport = (() => {
 
         let fieldType = mapTypeExact(typeRaw);
 
-        // Handle enums/base types
         if (relationRaw) {
           const relLower = relationRaw.toLowerCase();
           if (relLower.startsWith('enum') || relLower.match(/base/i)) {
@@ -180,46 +275,51 @@ const ChartDB_DBMLExport = (() => {
         }
 
         const settings = [];
-
-        // Existing rules
         if (logicalName.toLowerCase() === 'id') settings.push('pk');
         if (optional === 'N') settings.push('not null');
-
-        // pull in anything from the Constraints column (col F)
         settings.push(...parseFieldConstraintsToSettings(constraints));
 
-        t.fields.push({
-          name: logicalName,
-          type: fieldType,
-          settings,
-          description
-        });
+        const fieldKey = `${sanitize(logicalName)}|${fieldType}|${settings.join(',')}|${description}`;
+        if (!t._fieldSet.has(fieldKey)) {
+          t._fieldSet.add(fieldKey);
+          t.fields.push({
+            name: logicalName,
+            type: fieldType,
+            settings,
+            description
+          });
+        }
 
-        // Only generate Ref if it is a ForeignKey
+        // Only generate Ref if it is a simple field-level ForeignKey
         if (relationRaw && relationRaw.toLowerCase().startsWith('foreignkey')) {
-          const target = relationRaw.split(',')[1].trim(); // "TableName.field"
-          const parts = target.split('.');
-          const targetTable = sanitize(parts[0]);
-          const targetCol = parts[1] || "id";
-          t.refs.push(`Ref: ${sanitize(currentTableName)}.${sanitize(logicalName)} > ${targetTable}.${targetCol}`);
+          const fkSpec = relationRaw.split(',').slice(1).join(',').trim();
+
+          const isCompositeRef = fkSpec.includes('>') || /\.\s*\(.+\)/.test(fkSpec);
+
+          if (!isCompositeRef) {
+            const parsedRef = parseForeignKeySpec(fkSpec, logicalName, currentTableName);
+            if (parsedRef && !t._refSet.has(parsedRef)) {
+              t._refSet.add(parsedRef);
+              t.refs.push(parsedRef);
+            }
+          }
         }
       }
     });
 
-    // --- 3. Build DBML ---
+    // --- 4. Build DBML ---
     let dbml = '';
 
-    // Enums first
-    enumsMap.forEach((values, name) => {
-      dbml += `Enum ${name} {\n  ${values.join("\n  ")}\n}\n\n`;
-    });
+    if (includeEnums) {
+      enumsMap.forEach((values, name) => {
+        dbml += `Enum ${name} {\n  ${values.join('\n  ')}\n}\n\n`;
+      });
+    }
 
-    // Tables + indexes/checks + refs
     tables.forEach((table, tableName) => {
       dbml += `Table ${sanitize(tableName)} {\n`;
       dbml += `  _deleted boolean [not null, default: false]\n`;
 
-      // Fields
       table.fields.forEach(f => {
         dbml += `  ${sanitize(f.name)} ${f.type}`;
         if (f.settings.length) dbml += ` [${f.settings.join(', ')}]`;
@@ -234,7 +334,6 @@ const ChartDB_DBMLExport = (() => {
         dbml += '\n';
       });
 
-      // Indexes (inside table) — outputs "where:" for partial indexes
       if (table.indexes.length) {
         dbml += `\n  Indexes {\n`;
         table.indexes.forEach(ix => {
@@ -251,7 +350,6 @@ const ChartDB_DBMLExport = (() => {
             });
           }
 
-          // Partial index WHERE
           if (ix.where) {
             attrs.push(`where: ${normalizeWhereExpr(ix.where)}`);
           }
@@ -263,7 +361,6 @@ const ChartDB_DBMLExport = (() => {
         dbml += `  }\n`;
       }
 
-      // Checks (inside table)
       if (table.checks.length) {
         dbml += `\n  checks {\n`;
         table.checks.forEach(ch => {
@@ -279,36 +376,49 @@ const ChartDB_DBMLExport = (() => {
 
       dbml += '}\n';
 
-      // Refs after table
       if (table.refs.length) dbml += table.refs.join('\n') + '\n';
       dbml += '\n';
     });
 
-    // ✅ 3b. TableGroups (each sheet is a group)
-    // Put at the end (definitions first, organization last)
-    tableGroups.forEach((set, sheetName) => {
-      const names = Array.from(set).filter(Boolean);
-      if (!names.length) return;
+    if (includeTableGroups) {
+      tableGroups.forEach((set, sheetName) => {
+        const names = Array.from(set).filter(Boolean);
+        if (!names.length) return;
 
-      dbml += `TableGroup ${sanitize(sheetName)} {\n`;
-      names.forEach(tn => {
-        dbml += `  ${tn}\n`;
+        dbml += `TableGroup ${sanitize(sheetName)} {\n`;
+        names.forEach(tn => {
+          dbml += `  ${tn}\n`;
+        });
+        dbml += `}\n\n`;
       });
-      dbml += `}\n\n`;
-    });
+    }
 
-    // --- 4. Output dialog ---
+    // --- 5. Output dialog ---
+    let fileName = 'export.dbml';
+    let dialogTitle = 'DBML Export (All Sheets)';
+
+    if (currentSheetOnly && includeEnums && includeTableGroups) {
+      fileName = `${sanitize(activeSheet.getName())}.dbml`;
+      dialogTitle = 'DBML Export (Current Sheet)';
+    } else if (currentSheetOnly && !includeEnums && !includeTableGroups) {
+      fileName = `${sanitize(activeSheet.getName())}_tables_only.dbml`;
+      dialogTitle = 'DBML Export (Current Sheet, Tables Only)';
+    } else if (currentSheetOnly) {
+      fileName = `${sanitize(activeSheet.getName())}_partial.dbml`;
+      dialogTitle = 'DBML Export (Current Sheet)';
+    }
+
     const encodedDBML = encodeURIComponent(dbml);
     const htmlOutput = HtmlService.createHtmlOutput(`
       <textarea style="width:100%; height:400px;">${escapeHtml(dbml)}</textarea>
       <br/>
-      <a href="data:text/plain;charset=utf-8,${encodedDBML}" download="export.dbml"
+      <a href="data:text/plain;charset=utf-8,${encodedDBML}" download="${fileName}"
         style="display:inline-block;padding:8px 12px;background:#1a73e8;color:#fff;text-decoration:none;border-radius:4px;">
         ⬇ Download DBML
       </a>
     `).setWidth(700).setHeight(500);
 
-    SpreadsheetApp.getUi().showModalDialog(htmlOutput, 'DBML Export');
+    SpreadsheetApp.getUi().showModalDialog(htmlOutput, dialogTitle);
   }
 
   // --- Helpers ---
@@ -321,21 +431,178 @@ const ChartDB_DBMLExport = (() => {
   }
 
   function mapTypeExact(type) {
-    if (!type) return 'varchar';
-    const t = type.toLowerCase();
+    const raw = String(type || '').trim();
+    if (!raw) return 'varchar';
+
+    const t = raw.toLowerCase();
+
+    if (/^varchar\s*\(\s*\d+\s*\)$/.test(t)) return t;
+    if (/^character varying\s*\(\s*\d+\s*\)$/.test(t)) return t;
+    if (/^char\s*\(\s*\d+\s*\)$/.test(t)) return t;
+    if (/^character\s*\(\s*\d+\s*\)$/.test(t)) return t;
+    if (/^(numeric|decimal)\s*\(\s*\d+\s*(,\s*\d+\s*)?\)$/.test(t)) return t;
+    if (/^timestamp\s*(with(out)?\s+time\s+zone)?$/.test(t)) return t;
+    if (/^time\s*(with(out)?\s+time\s+zone)?$/.test(t)) return t;
+    if (/^bit\s*\(\s*\d+\s*\)$/.test(t)) return t;
+    if (/^varbit\s*\(\s*\d+\s*\)$/.test(t)) return t;
+
+    const exactTypes = new Set([
+      'bigint',
+      'bigserial',
+      'smallint',
+      'serial',
+      'int',
+      'integer',
+      'json',
+      'jsonb',
+      'text',
+      'date',
+      'timestamp',
+      'timestamptz',
+      'datetime',
+      'boolean',
+      'bool',
+      'uuid',
+      'citext',
+      'bytea',
+      'real',
+      'double precision',
+      'money',
+      'inet',
+      'cidr',
+      'macaddr',
+      'macaddr8',
+      'xml',
+      'tsvector',
+      'tsquery'
+    ]);
+
+    if (exactTypes.has(t)) return t;
+
+    if (t.startsWith('varchar')) return t;
+    if (t.startsWith('character varying')) return t;
+    if (t.startsWith('char(') || t.startsWith('character(')) return t;
+    if (t.startsWith('numeric')) return t;
+    if (t.startsWith('decimal')) return t;
+    if (t.startsWith('jsonb')) return 'jsonb';
+    if (t.startsWith('json')) return 'json';
+    if (t.startsWith('citext')) return 'citext';
+    if (t.startsWith('text')) return 'text';
+    if (t.startsWith('date')) return 'date';
+    if (t.startsWith('timestamp')) return t;
+    if (t.startsWith('datetime')) return 'timestamp';
+    if (t.startsWith('boolean') || t.startsWith('bool')) return 'boolean';
     if (t.startsWith('bigint')) return 'bigint';
     if (t.startsWith('bigserial')) return 'bigserial';
     if (t.startsWith('smallint')) return 'smallint';
-    if (t.startsWith('int')) return 'int';
-    if (t.startsWith('jsonb')) return 'jsonb';
-    if (t.startsWith('json')) return 'json';
-    if (t.startsWith('varchar')) return 'varchar';
-    if (t.startsWith('text')) return 'text';
-    if (t.startsWith('date')) return 'date';
-    if (t.startsWith('timestamp') || t.startsWith('datetime')) return 'timestamp';
-    if (t.startsWith('boolean') || t.startsWith('bool')) return 'boolean';
-    if (t.startsWith('decimal') || t.startsWith('numeric')) return t;
-    return 'varchar';
+    if (t === 'integer' || t.startsWith('integer')) return 'integer';
+    if (t === 'int' || t.startsWith('int')) return 'int';
+
+    return t;
+  }
+
+  function parseForeignKeySpec(fkSpec, logicalName, currentTableName) {
+    const spec = String(fkSpec || '').trim();
+    if (!spec) return null;
+
+    if (spec.includes('>')) {
+      const parts = spec.split('>');
+      if (parts.length !== 2) return null;
+
+      const sourceRaw = parts[0].trim();
+      const targetRaw = parts[1].trim();
+
+      const sourceExpr = normalizeRefSide(sourceRaw, true);
+      const targetExpr = normalizeTargetRefSide(targetRaw);
+
+      if (!sourceExpr || !targetExpr) return null;
+
+      return `Ref: ${sourceExpr} > ${targetExpr}`;
+    }
+
+    const dotIndex = spec.indexOf('.');
+    if (dotIndex === -1) return null;
+
+    const targetTableRaw = spec.slice(0, dotIndex).trim();
+    const targetColsRaw = spec.slice(dotIndex + 1).trim();
+
+    const targetExpr = normalizeTargetRefSide(`${targetTableRaw}.${targetColsRaw}`);
+    if (!targetExpr) return null;
+
+    if (targetColsRaw.startsWith('(') && targetColsRaw.endsWith(')')) {
+      const sourceExpr = normalizeRefSide(logicalName, false);
+      if (!sourceExpr.startsWith('(')) {
+        return null;
+      }
+      return `Ref: ${sourceExpr} > ${targetExpr}`;
+    }
+
+    return `Ref: ${sanitize(currentTableName)}.${sanitize(logicalName)} > ${targetExpr}`;
+  }
+
+  function forceTupleIfCommaSeparated(raw) {
+    const s = String(raw || '').trim();
+    if (!s) return s;
+    if (s.startsWith('(') && s.endsWith(')')) return s;
+    if (s.includes(',')) return `(${s})`;
+    return s;
+  }
+
+  function normalizeRefSectionSource(sourceRaw, currentTableName) {
+    const s = String(sourceRaw || '').trim();
+    if (!s) return '';
+
+    if (s.includes('.')) {
+      const dotIndex = s.indexOf('.');
+      const tableRaw = s.slice(0, dotIndex).trim();
+      const colsRaw = s.slice(dotIndex + 1).trim();
+      return `${sanitize(tableRaw)}.${normalizeRefColumns(forceTupleIfCommaSeparated(colsRaw))}`;
+    }
+
+    return `${sanitize(currentTableName)}.${normalizeRefColumns(forceTupleIfCommaSeparated(s))}`;
+  }
+
+  function normalizeTargetRefSide(targetRaw) {
+    const s = String(targetRaw || '').trim();
+    const dotIndex = s.indexOf('.');
+    if (dotIndex === -1) return null;
+
+    const tableRaw = s.slice(0, dotIndex).trim();
+    const colsRaw = s.slice(dotIndex + 1).trim();
+
+    const tableName = sanitize(tableRaw);
+    const colExpr = normalizeRefColumns(colsRaw);
+
+    if (!tableName || !colExpr) return null;
+    return `${tableName}.${colExpr}`;
+  }
+
+  function normalizeRefSide(sideRaw, allowQualified) {
+    const s = String(sideRaw || '').trim();
+    if (!s) return '';
+
+    if (allowQualified && s.includes('.')) {
+      const dotIndex = s.indexOf('.');
+      const tableRaw = s.slice(0, dotIndex).trim();
+      const colsRaw = s.slice(dotIndex + 1).trim();
+
+      return `${sanitize(tableRaw)}.${normalizeRefColumns(colsRaw)}`;
+    }
+
+    return normalizeRefColumns(s);
+  }
+
+  function normalizeRefColumns(colsRaw) {
+    const s = String(colsRaw || '').trim();
+    if (!s) return '';
+
+    if (s.startsWith('(') && s.endsWith(')')) {
+      const inner = s.slice(1, -1).trim();
+      const parts = splitByCommaRespectingParens(inner).map(x => sanitize(x));
+      return `(${parts.join(', ')})`;
+    }
+
+    return sanitize(s);
   }
 
   function parseFieldConstraintsToSettings(constraintsRaw) {
@@ -364,18 +631,6 @@ const ChartDB_DBMLExport = (() => {
     return out;
   }
 
-  // Convert "a,b" -> "(a, b)" unless already "(...)" or "`...`"
-  function normalizeIndexExpr(exprRaw) {
-    const e = String(exprRaw || '').trim();
-    if (!e) return '(id)';
-    if (e.startsWith('(') || e.startsWith('`')) return e;
-    if (e.includes(',')) {
-      return `(${e.split(',').map(s => s.trim()).join(', ')})`;
-    }
-    return e;
-  }
-
-  // Wrap check expressions in backticks unless already backticked
   function normalizeCheckExpr(exprRaw) {
     const e = String(exprRaw || '').trim();
     if (!e) return '``';
@@ -383,7 +638,6 @@ const ChartDB_DBMLExport = (() => {
     return `\`${e}\``;
   }
 
-  // Wrap WHERE expressions in backticks unless already
   function normalizeWhereExpr(whereRaw) {
     const w = String(whereRaw || '').trim();
     if (!w) return '';
@@ -395,18 +649,13 @@ const ChartDB_DBMLExport = (() => {
     return String(s).replace(/'/g, "\\'");
   }
 
-  function escapeDoubleQuotes(s) {
-    return String(s).replace(/\\/g, '\\\\').replace(/"/g, '\\"');
-  }
-
   function escapeHtml(s) {
     return String(s)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
   }
 
-  // Header-driven mapping for indexes (supports a "Where" column)
   function buildIndexColumnMap(headerRow) {
     const map = {};
     headerRow.forEach((col, idx) => {
@@ -414,16 +663,28 @@ const ChartDB_DBMLExport = (() => {
       if (!h) return;
 
       if (h === 'index name') map.name = idx;
-      if (h.includes('field')) map.expr = idx;            // "Index Field"
-      if (h === 'type') map.type = idx;                   // "Type"
-      if (h === 'where') map.where = idx;                 // Where
-      if (h.includes('constraint')) map.constraint = idx; // "Constraint"
+      if (h.includes('field')) map.expr = idx;
+      if (h === 'type') map.type = idx;
+      if (h === 'where') map.where = idx;
+      if (h.includes('constraint')) map.constraint = idx;
       if (h === 'functions' || h === 'function') map.functions = idx;
     });
     return map;
   }
 
-  // Header-driven mapping for checks (more robust than hardcoding col 5)
+  function buildRefColumnMap(headerRow) {
+    const map = {};
+    headerRow.forEach((col, idx) => {
+      const h = String(col || '').trim().toLowerCase();
+      if (!h) return;
+
+      if (h === 'ref name') map.name = idx;
+      if (h === 'source') map.source = idx;
+      if (h === 'target') map.target = idx;
+    });
+    return map;
+  }
+
   function buildCheckColumnMap(headerRow) {
     const map = {};
     headerRow.forEach((col, idx) => {
@@ -440,11 +701,8 @@ const ChartDB_DBMLExport = (() => {
     const base = String(exprRaw || '').trim();
     if (!base) return '(id)';
 
-    // If it’s a raw expression, don’t try to rewrite it
-    // e.g. `id*2` or (`id*3`,`getdate()`)
     if (base.startsWith('`')) return base;
 
-    // Turn base into a list of "items" (fields/expressions)
     let items = [];
 
     if (base.startsWith('(') && base.endsWith(')')) {
@@ -456,20 +714,13 @@ const ChartDB_DBMLExport = (() => {
       items = [base];
     }
 
-    // No functions provided => behave like old normalizeIndexExpr
     const fRaw = String(functionsRaw || '').trim();
     if (!fRaw) {
       if (items.length > 1) return `(${items.map(s => s.trim()).join(', ')})`;
       return items[0].trim();
     }
 
-    // Functions cell can be:
-    //  - one wrapper applied to all columns: "lower({col})"
-    //  - or comma-separated list aligned with items: ", md5(lower({col}))"
-    // Placeholder: {col} -> actual column/expression
-    let fParts = splitByCommaRespectingParens(fRaw);
-
-    // If only 1 function pattern, apply to every item
+    const fParts = splitByCommaRespectingParens(fRaw);
     const applyToAll = fParts.length === 1 && items.length > 1;
 
     const outItems = items.map((it, idx) => {
@@ -478,16 +729,8 @@ const ChartDB_DBMLExport = (() => {
 
       if (!pat) return col;
 
-      // If pattern doesn't include {col}, support shorthands:
-      //  1) "lower"            -> lower(col)
-      //  2) "md5(lower)"       -> md5(lower(col))
-      //  3) "md5(lower(trim))" -> md5(lower(trim(col)))
       if (!pat.includes('{col}')) {
         const p = pat.trim();
-
-        // If it looks like outer(inner(...)) without args, inject col as the innermost arg.
-        // Example: "md5(lower)" => outer="md5", inner="lower"
-        //          "md5(lower(trim))" => outer="md5", inner="lower(trim)"
         const m = p.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\((.+)\)$/);
         if (m) {
           const outer = m[1];
@@ -496,7 +739,6 @@ const ChartDB_DBMLExport = (() => {
           return `${outer}(${innerApplied})`;
         }
 
-        // Otherwise treat it as a simple wrapper name
         return `${p}(${col})`;
       }
 
@@ -508,7 +750,6 @@ const ChartDB_DBMLExport = (() => {
       : outItems[0];
   }
 
-  // Splits "a, md5(lower(b)), c" safely
   function splitByCommaRespectingParens(s) {
     const out = [];
     let cur = '';
@@ -546,10 +787,8 @@ const ChartDB_DBMLExport = (() => {
     const chain = String(chainRaw || '').trim();
     if (!chain) return col;
 
-    // If user already wrote something like "lower({col})", respect it
     if (chain.includes('{col}')) return chain.replace(/\{col\}/g, col);
 
-    // Support nested shorthand like "lower(trim)" meaning lower(trim(col))
     const m = chain.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\((.+)\)$/);
     if (m) {
       const outer = m[1];
@@ -557,14 +796,26 @@ const ChartDB_DBMLExport = (() => {
       return `${outer}(${applyWrapperChain(inner, col)})`;
     }
 
-    // Simple wrapper name like "lower"
     return `${chain}(${col})`;
   }
 
-  return { onOpen, export: exportDBML };
+  return {
+    onOpen,
+    export: exportDBML,
+    exportCurrentSheet: exportCurrentSheetDBML,
+    exportCurrentSheetTablesOnly: exportCurrentSheetTablesOnlyDBML
+  };
 })();
 
-// If your menu calls `exportDBML` by name, keep this global wrapper:
+// Global wrappers for menu callbacks
 function exportDBML() {
   ChartDB_DBMLExport.export();
+}
+
+function exportCurrentSheetDBML() {
+  ChartDB_DBMLExport.exportCurrentSheet();
+}
+
+function exportCurrentSheetTablesOnlyDBML() {
+  ChartDB_DBMLExport.exportCurrentSheetTablesOnly();
 }
