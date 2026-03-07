@@ -4,6 +4,7 @@
  * - Export all sheets
  * - Export current sheet
  * - Export current sheet tables only (no enums, no table groups)
+ * - On ALL Sheets export, appends Triggers / Functions sheet contents as multiline comments
  */
 
 const ChartDB_DBMLExport = (() => {
@@ -24,7 +25,8 @@ const ChartDB_DBMLExport = (() => {
     buildAndShowDBML({
       currentSheetOnly: false,
       includeEnums: true,
-      includeTableGroups: true
+      includeTableGroups: true,
+      includeExtraCommentSheets: true
     });
   }
 
@@ -32,7 +34,8 @@ const ChartDB_DBMLExport = (() => {
     buildAndShowDBML({
       currentSheetOnly: true,
       includeEnums: true,
-      includeTableGroups: true
+      includeTableGroups: true,
+      includeExtraCommentSheets: false
     });
   }
 
@@ -40,11 +43,12 @@ const ChartDB_DBMLExport = (() => {
     buildAndShowDBML({
       currentSheetOnly: true,
       includeEnums: false,
-      includeTableGroups: false
+      includeTableGroups: false,
+      includeExtraCommentSheets: false
     });
   }
 
-  function buildAndShowDBML({ currentSheetOnly, includeEnums, includeTableGroups }) {
+  function buildAndShowDBML({ currentSheetOnly, includeEnums, includeTableGroups, includeExtraCommentSheets }) {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
     const activeSheet = ss.getActiveSheet();
 
@@ -76,11 +80,11 @@ const ChartDB_DBMLExport = (() => {
     }
 
     // --- 2. Choose sheets to process ---
-    let sheets = ss.getSheets().filter(sheet => sheet.getName() !== 'Enums');
+    let sheets = ss.getSheets().filter(sheet => !isSpecialNonTableSheet(sheet.getName()));
 
     if (currentSheetOnly) {
-      if (!activeSheet || activeSheet.getName() === 'Enums') {
-        SpreadsheetApp.getUi().alert('The active sheet is "Enums" or invalid. Please select a table sheet first.');
+      if (!activeSheet || isSpecialNonTableSheet(activeSheet.getName())) {
+        SpreadsheetApp.getUi().alert('The active sheet is not a table sheet. Please select a table sheet first.');
         return;
       }
       sheets = [activeSheet];
@@ -393,6 +397,35 @@ const ChartDB_DBMLExport = (() => {
       });
     }
 
+    // --- 4.5 Append Triggers / Functions sheets as multiline comments on ALL Sheets export ---
+    if (!currentSheetOnly && includeExtraCommentSheets) {
+      const extraBlocks = [];
+
+      const triggersText = readExtraSheetAsCommentBlock(ss, [
+        'triggers',
+        'triggers.csv',
+        'Triggers',
+        'Triggers.csv'
+      ], 'Triggers');
+
+      if (triggersText) extraBlocks.push(triggersText);
+
+      const functionsText = readExtraSheetAsCommentBlock(ss, [
+        'functions',
+        'functions.csv',
+        'Functions',
+        'Functions.csv'
+      ], 'Functions');
+
+      if (functionsText) extraBlocks.push(functionsText);
+
+      if (extraBlocks.length) {
+        dbml += '\n';
+        dbml += extraBlocks.join('\n\n');
+        dbml += '\n';
+      }
+    }
+
     // --- 5. Output dialog ---
     let fileName = 'export.dbml';
     let dialogTitle = 'DBML Export (All Sheets)';
@@ -422,6 +455,167 @@ const ChartDB_DBMLExport = (() => {
   }
 
   // --- Helpers ---
+  function isSpecialNonTableSheet(name) {
+    const n = String(name || '').trim().toLowerCase();
+    return n === 'enums' || n === 'triggers' || n === 'triggers.csv' || n === 'functions' || n === 'functions.csv';
+  }
+
+  function readExtraSheetAsCommentBlock(ss, candidateNames, label) {
+  const sheet = findSheetByAnyName(ss, candidateNames);
+  if (!sheet) return '';
+
+  const values = sheet.getDataRange().getDisplayValues();
+  if (!values || !values.length) return '';
+
+  const rows = values
+    .map(row => {
+      const cells = row.map(cell => String(cell || ''));
+      while (cells.length && cells[cells.length - 1].trim() === '') {
+        cells.pop();
+      }
+      return cells;
+    })
+    .filter(row => row.some(cell => cell.trim() !== ''));
+
+  if (!rows.length) return '';
+
+  const lowerLabel = String(label || '').toLowerCase();
+  const isFunctions = lowerLabel.includes('function');
+  const isTriggers = lowerLabel.includes('trigger');
+
+  // Detect and skip a simple header row like:
+  // Name | Trigger Reference | Functions
+  // Name | Function Body
+  let startIndex = 0;
+  if (rows.length) {
+    const header = rows[0].map(x => x.trim().toLowerCase());
+    const headerJoined = header.join(' | ');
+    if (
+      header.includes('name') ||
+      headerJoined.includes('trigger reference') ||
+      headerJoined.includes('function body') ||
+      headerJoined.includes('functions')
+    ) {
+      startIndex = 1;
+    }
+  }
+
+  const blocks = [];
+
+  for (let i = startIndex; i < rows.length; i++) {
+    const row = rows[i];
+    const first = (row[0] || '').trim();
+
+    if (!first) continue;
+
+    if (isTriggers) {
+      const triggerName = first;
+      const triggerSql = rowToPrettyText(row.slice(1));
+
+      if (triggerSql) {
+        blocks.push(`/*
+Trigger: ${triggerName}
+${'-'.repeat(`Trigger: ${triggerName}`.length)}
+${triggerSql.replace(/\*\//g, '* /')}
+*/`);
+      }
+      continue;
+    }
+
+    if (isFunctions) {
+      const functionName = first;
+      const functionSql = rowToPrettyText(row.slice(1));
+
+      if (functionSql) {
+        blocks.push(`/*
+Function: ${functionName}
+${'-'.repeat(`Function: ${functionName}`.length)}
+${functionSql.replace(/\*\//g, '* /')}
+*/`);
+      }
+      continue;
+    }
+
+    // Fallback generic block
+    const text = rowToPrettyText(row);
+    if (text) {
+      blocks.push(`/*
+${label}
+${'='.repeat(label.length)}
+${text.replace(/\*\//g, '* /')}
+*/`);
+    }
+  }
+
+  if (!blocks.length) return '';
+
+  return blocks.join('\n\n');
+}
+
+function rowToPrettyText(cells) {
+  const parts = (cells || []).map(cell => String(cell || ''));
+
+  while (parts.length && parts[parts.length - 1].trim() === '') {
+    parts.pop();
+  }
+
+  if (!parts.length) return '';
+
+  const nonEmpty = parts.filter(x => x.trim() !== '');
+
+  // If there is only one meaningful cell, preserve it exactly
+  if (nonEmpty.length === 1) {
+    return nonEmpty[0].trimRight();
+  }
+
+  // If later cells contain multiline SQL, keep them on new lines
+  const multilineParts = parts.filter(x => x.includes('\n') && x.trim() !== '');
+  if (multilineParts.length) {
+    return parts
+      .filter(x => x.trim() !== '')
+      .map((part, idx) => {
+        const trimmed = part.trimRight();
+        if (idx === 0) return trimmed.trim();
+        return trimmed;
+      })
+      .join('\n');
+  }
+
+  // Otherwise join smartly with spaces
+  return parts
+    .filter(x => x.trim() !== '')
+    .map(x => x.trim())
+    .join(' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+  function findSheetByAnyName(ss, candidateNames) {
+    for (let i = 0; i < candidateNames.length; i++) {
+      const s = ss.getSheetByName(candidateNames[i]);
+      if (s) return s;
+    }
+
+    const normalizedWanted = candidateNames.map(normalizeLooseSheetName);
+    const allSheets = ss.getSheets();
+
+    for (let i = 0; i < allSheets.length; i++) {
+      const sheet = allSheets[i];
+      const normalizedActual = normalizeLooseSheetName(sheet.getName());
+      if (normalizedWanted.includes(normalizedActual)) return sheet;
+    }
+
+    return null;
+  }
+
+  function normalizeLooseSheetName(name) {
+    return String(name || '')
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, '')
+      .replace(/\.csv$/i, '');
+  }
+
   function sanitize(name) {
     return String(name).trim().replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
   }
