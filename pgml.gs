@@ -504,16 +504,30 @@ const ChartDB_PGMLExport = (() => {
         output += `        ${line}\n`;
       });
 
-      table.indexes.forEach(index => {
-        const expr = normalizeIndexExprWithFunctions(index.expr, index.functions);
-        const attrs = [];
-        if (index.type) attrs.push(`type: ${index.type.trim().toLowerCase()}`);
-        if (index.where) attrs.push(`where: ${normalizeWhereExpr(index.where)}`);
+      if (table.indexes.length) {
+        output += '        indexes {\n';
+        table.indexes.forEach(index => {
+          const expr = normalizeIndexExprWithFunctions(index.expr, index.functions);
+          const attrs = [];
 
-        output += `        Index ${index.name} ${formatIndexExpr(expr)}`;
-        if (attrs.length) output += ` [${attrs.join(', ')}]`;
-        output += '\n';
-      });
+          if (index.name) attrs.push(`name: '${escapeSingleQuotes(index.name)}'`);
+
+          const constraintTokens = String(index.constraint || '')
+            .toLowerCase()
+            .split(/[,\s]+/)
+            .filter(Boolean);
+
+          if (constraintTokens.includes('unique')) attrs.push('unique');
+          if (constraintTokens.includes('pk')) attrs.push('pk');
+          if (index.type) attrs.push(`type: ${index.type.trim().toLowerCase()}`);
+          if (index.where) attrs.push(`where: ${normalizeWhereExpr(index.where)}`);
+
+          output += `          ${formatIndexExpr(expr)}`;
+          if (attrs.length) output += ` [${attrs.join(', ')}]`;
+          output += '\n';
+        });
+        output += '        }\n';
+      }
 
       output += '      }\n\n';
     });
@@ -665,16 +679,29 @@ const ChartDB_PGMLExport = (() => {
   }
 
   function parseRefEndpoint(raw, defaultTableName) {
-    const value = String(raw || '').trim();
+    const value = stripRefAttributes(String(raw || '').trim());
     if (!value) return null;
 
-    let tablePart = defaultTableName;
+    let tablePart = defaultTableName ? normalizeTableName(defaultTableName) : '';
     let columnPart = value;
 
-    const firstDot = value.indexOf('.');
-    if (firstDot !== -1) {
-      tablePart = value.slice(0, firstDot).trim();
-      columnPart = value.slice(firstDot + 1).trim();
+    if (value.startsWith('(') && value.endsWith(')') && defaultTableName) {
+      columnPart = value;
+    } else {
+      const parts = splitRefPath(value);
+
+      if (parts.length >= 3) {
+        tablePart = `${sanitizeSchemaName(parts[0])}.${toSnakeLower(parts[1])}`;
+        columnPart = parts.slice(2).join('.');
+      } else if (parts.length === 2) {
+        if (defaultTableName) {
+          tablePart = normalizeTableName(parts[0]);
+          columnPart = parts[1];
+        } else {
+          tablePart = normalizeTableName(parts[0]);
+          columnPart = parts[1];
+        }
+      }
     }
 
     if (!tablePart) return null;
@@ -829,7 +856,7 @@ const ChartDB_PGMLExport = (() => {
   }
 
   function normalizeColumnList(raw) {
-    const value = String(raw || '').trim();
+    const value = stripRefAttributes(String(raw || '').trim());
     if (!value) return [];
 
     if (value.startsWith('(') && value.endsWith(')')) {
@@ -841,6 +868,24 @@ const ChartDB_PGMLExport = (() => {
     }
 
     return [sanitizeColumnName(value)];
+  }
+
+  function stripRefAttributes(value) {
+    return String(value || '')
+      .trim()
+      .replace(/\s*\[[^\]]*\]\s*$/, '')
+      .replace(/\s*,\s*(delete|update)\s*:\s*[^,\]]+\s*$/i, '')
+      .trim();
+  }
+
+  function splitRefPath(value) {
+    return String(value || '')
+      .trim()
+      .replace(/^\(/, '')
+      .replace(/\)$/, '')
+      .split('.')
+      .map(part => part.trim())
+      .filter(Boolean);
   }
 
   function normalizeConstraintExpr(exprRaw) {
