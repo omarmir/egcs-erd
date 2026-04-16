@@ -170,7 +170,7 @@ const ChartDB_PGMLExport = (() => {
 
       if (!firstCell) {
         if (mode === 'fields' && currentTableKey && tables.get(currentTableKey).fields.length > 0) {
-          const continuation = String(row[6] || '').trim();
+          const continuation = String(row[7] || '').trim();
           if (continuation) {
             const table = tables.get(currentTableKey);
             const lastField = table.fields[table.fields.length - 1];
@@ -181,16 +181,18 @@ const ChartDB_PGMLExport = (() => {
       }
 
       if (
-        row.filter(c => String(c).trim() !== '').length === 1 &&
+        firstCell &&
         i + 1 < data.length &&
         String(data[i + 1][0] || '').toLowerCase().includes('logical')
       ) {
-        const normalizedTableName = normalizeTableName(firstCell);
+        const parsedTable = parseTableOptionsRow(row);
+        const normalizedTableName = normalizeTableName(parsedTable.tableName);
 
         if (!tables.has(normalizedTableName)) {
           tables.set(normalizedTableName, {
             name: normalizedTableName,
             groupName,
+            includeDeleted: parsedTable.includeDeleted,
             fields: [],
             indexes: [],
             constraints: [],
@@ -200,6 +202,9 @@ const ChartDB_PGMLExport = (() => {
             _constraintSet: new Set(),
             _refSet: new Set()
           });
+        } else {
+          const existing = tables.get(normalizedTableName);
+          existing.includeDeleted = existing.includeDeleted && parsedTable.includeDeleted;
         }
 
         currentTableKey = normalizedTableName;
@@ -343,7 +348,8 @@ const ChartDB_PGMLExport = (() => {
     const typeRaw = String(row[3] || '').trim();
     const relationRaw = String(row[4] || '').trim();
     const constraintsRaw = String(row[5] || '').trim();
-    const description = String(row[6] || '').trim();
+    const defaultValue = String(row[6] || '').trim();
+    const description = String(row[7] || '').trim();
 
     if (!logicalName) return;
 
@@ -353,7 +359,10 @@ const ChartDB_PGMLExport = (() => {
 
     if (fieldName.toLowerCase() === 'id') settings.push('pk');
     if (optional === 'N') settings.push('not null');
-    settings.push(...parseFieldConstraintsToSettings(constraintsRaw));
+    settings.push(...parseFieldConstraintsToSettings(constraintsRaw, { allowDefault: !defaultValue }));
+    if (defaultValue) {
+      settings.push(`default: ${normalizeDefaultValue(defaultValue)}`);
+    }
 
     const fieldKey = `${fieldName}|${fieldType}|${settings.join(',')}|${description}`;
     if (!table._fieldSet.has(fieldKey)) {
@@ -368,8 +377,9 @@ const ChartDB_PGMLExport = (() => {
 
     maybeInferSequence(table.name, fieldName, settings);
 
-    if (relationRaw && relationRaw.toLowerCase().startsWith('foreignkey')) {
-      const relation = parseForeignKeyRelation(relationRaw, table.name, fieldName);
+    if (relationRaw && stripTrailingRelationSettings(relationRaw).toLowerCase().startsWith('foreignkey')) {
+      const relationMeta = parseFieldRelation(relationRaw);
+      const relation = parseForeignKeyRelation(relationMeta.targetSpec, table.name, fieldName, relationMeta.refSettings);
       if (!relation) return;
 
       if (relation.constraintLine) {
@@ -429,18 +439,22 @@ const ChartDB_PGMLExport = (() => {
     if (!rows.length) return [];
 
     const results = [];
-    let startIndex = 0;
-
-    if (looksLikeExecutableHeader(rows[0])) {
-      startIndex = 1;
-    }
+    const headerRow = rows[0].map(x => x.trim());
+    const headerMap = buildLooseHeaderMap(headerRow);
+    const hasRecognizedHeaders =
+      headerMap.name != null ||
+      headerMap.functionBody != null ||
+      headerMap.triggerReference != null ||
+      headerMap.reference != null ||
+      headerMap.functions != null;
+    const startIndex = hasRecognizedHeaders ? 1 : 0;
 
     for (let i = startIndex; i < rows.length; i++) {
       const row = rows[i];
-      const sql = rowToExecutableSql(row);
+      const sql = rowToExecutableSql(row, headerMap);
       if (!sql) continue;
 
-      const block = parseExecutableBlock(sql, row[0] || '');
+      const block = parseExecutableBlock(sql, getCell(row, headerMap.name, 0));
       if (block) results.push(block);
     }
 
@@ -492,7 +506,7 @@ const ChartDB_PGMLExport = (() => {
         output += '\n';
       });
 
-      if (!table.fields.some(field => field.name === '_deleted')) {
+      if (table.includeDeleted !== false && !table.fields.some(field => field.name === '_deleted')) {
         output += `        _deleted boolean [not null, default: false]\n`;
       }
 
@@ -632,12 +646,13 @@ const ChartDB_PGMLExport = (() => {
     ].join('\n');
   }
 
-  function parseForeignKeyRelation(relationRaw, currentTableName, fieldName) {
-    let spec = String(relationRaw || '').trim().replace(/^foreignkey\s*,?/i, '').trim();
+  function parseForeignKeyRelation(fkSpec, currentTableName, fieldName, refSettings) {
+    let spec = String(fkSpec || '').trim().replace(/^foreignkey\s*,?/i, '').trim();
     if (!spec) return null;
 
     const actions = extractRefActions(spec);
     spec = actions.cleaned;
+    const relationSettings = mergeRefSettingBlocks(refSettings, actions.values);
 
     if (spec.includes('>')) {
       const parts = spec.split('>');
@@ -654,7 +669,7 @@ const ChartDB_PGMLExport = (() => {
       }
 
       return {
-        refLine: buildTopLevelRefLine(source, target, actions.values)
+        refLine: buildTopLevelRefLine(source, target, relationSettings)
       };
     }
 
@@ -674,7 +689,7 @@ const ChartDB_PGMLExport = (() => {
     }
 
     return {
-      refLine: buildTopLevelRefLine(source, target, actions.values)
+      refLine: buildTopLevelRefLine(source, target, relationSettings)
     };
   }
 
@@ -723,13 +738,9 @@ const ChartDB_PGMLExport = (() => {
     return line;
   }
 
-  function buildTopLevelRefLine(source, target, actions) {
-    const attrs = [];
-    if (actions.delete) attrs.push(`delete: ${actions.delete}`);
-    if (actions.update) attrs.push(`update: ${actions.update}`);
-
+  function buildTopLevelRefLine(source, target, settings) {
     let line = `Ref: ${source.table}.${formatRefColumns(source.columns)} > ${target.table}.${formatRefColumns(target.columns)}`;
-    if (attrs.length) line += ` [${attrs.join(', ')}]`;
+    if (settings) line += ` ${settings}`;
     return line;
   }
 
@@ -798,9 +809,10 @@ const ChartDB_PGMLExport = (() => {
     if (!rawType) return 'varchar';
 
     if (relationRaw) {
-      const relLower = relationRaw.toLowerCase();
+      const relMain = stripTrailingRelationSettings(relationRaw);
+      const relLower = relMain.toLowerCase();
       if (relLower.startsWith('enum') || relLower.includes('base')) {
-        const parts = relationRaw.split(',');
+        const parts = relMain.split(',');
         if (parts[1]) return normalizeTypeName(parts[1]);
       }
     }
@@ -892,10 +904,11 @@ const ChartDB_PGMLExport = (() => {
     return String(exprRaw || '').trim().replace(/\s+/g, ' ');
   }
 
-  function parseFieldConstraintsToSettings(constraintsRaw) {
+  function parseFieldConstraintsToSettings(constraintsRaw, options = {}) {
     const value = String(constraintsRaw || '').trim();
     if (!value) return [];
 
+    const { allowDefault = true } = options;
     const settings = [];
     const lower = value.toLowerCase();
 
@@ -903,9 +916,11 @@ const ChartDB_PGMLExport = (() => {
     if (/\bnot\s*null\b/.test(lower)) settings.push('not null');
     if (/\bpk\b|\bprimary\s*key\b/.test(lower)) settings.push('pk');
 
-    const defaultMatch = value.match(/default\s*[:=]?\s*(.+?)(?:,\s*note\s*[:=]|$)/i);
-    if (defaultMatch && defaultMatch[1]) {
-      settings.push(`default: ${defaultMatch[1].trim()}`);
+    if (allowDefault) {
+      const defaultMatch = value.match(/default\s*[:=]?\s*(.+?)(?:,\s*note\s*[:=]|$)/i);
+      if (defaultMatch && defaultMatch[1]) {
+        settings.push(`default: ${normalizeDefaultValue(defaultMatch[1].trim())}`);
+      }
     }
 
     const noteMatch = value.match(/note\s*[:=]?\s*(.+)$/i);
@@ -963,6 +978,138 @@ const ChartDB_PGMLExport = (() => {
     return String(action || '').trim().toLowerCase().replace(/\s+/g, ' ');
   }
 
+  function parseTableOptionsRow(row) {
+    const tableName = String(row[0] || '').trim();
+    const rawOption = String(row[5] || '').trim().toLowerCase();
+
+    let includeDeleted = true;
+
+    if (
+      rawOption === 'no_deleted' ||
+      rawOption === 'soft_delete=false' ||
+      rawOption === 'deleted=false' ||
+      rawOption === 'false' ||
+      rawOption === 'n'
+    ) {
+      includeDeleted = false;
+    }
+
+    return {
+      tableName,
+      includeDeleted
+    };
+  }
+
+  function parseFieldRelation(relationRaw) {
+    const stripped = stripTrailingRelationSettings(relationRaw);
+    const settings = extractTrailingRelationSettings(relationRaw);
+
+    const parts = stripped.split(',');
+    const relationType = String(parts[0] || '').trim();
+    const targetSpec = parts.slice(1).join(',').trim();
+
+    return {
+      relationType,
+      targetSpec,
+      refSettings: settings
+    };
+  }
+
+  function stripTrailingRelationSettings(relationRaw) {
+    const s = String(relationRaw || '').trim();
+    if (!s) return '';
+
+    const match = s.match(/^(.*?)(\s*\[[^\]]+\]\s*)$/);
+    if (!match) return s;
+
+    const before = match[1].trim();
+    const maybeSettings = match[2].trim();
+
+    if (looksLikeRefSettingsBlock(maybeSettings)) {
+      return before;
+    }
+
+    return s;
+  }
+
+  function extractTrailingRelationSettings(relationRaw) {
+    const s = String(relationRaw || '').trim();
+    if (!s) return '';
+
+    const match = s.match(/^(.*?)(\s*\[[^\]]+\]\s*)$/);
+    if (!match) return '';
+
+    const maybeSettings = match[2].trim();
+    if (!looksLikeRefSettingsBlock(maybeSettings)) return '';
+
+    return normalizeRefSettingsBlock(maybeSettings);
+  }
+
+  function looksLikeRefSettingsBlock(block) {
+    const inner = String(block || '').trim().replace(/^\[/, '').replace(/\]$/, '').trim().toLowerCase();
+    if (!inner) return false;
+
+    return /\b(delete|update|color)\s*:/.test(inner);
+  }
+
+  function normalizeRefSettingsBlock(block) {
+    const inner = String(block || '')
+      .trim()
+      .replace(/^\[/, '')
+      .replace(/\]$/, '')
+      .trim();
+
+    if (!inner) return '';
+
+    const parts = splitByCommaRespectingParens(inner)
+      .map(x => x.trim())
+      .filter(Boolean);
+
+    if (!parts.length) return '';
+
+    return `[${parts.join(', ')}]`;
+  }
+
+  function mergeRefSettingBlocks(explicitSettings, actions) {
+    const attrs = [];
+    const explicit = String(explicitSettings || '').trim();
+
+    if (explicit) {
+      attrs.push(
+        ...String(explicit)
+          .replace(/^\[/, '')
+          .replace(/\]$/, '')
+          .split(',')
+          .map(x => x.trim())
+          .filter(Boolean)
+      );
+    }
+
+    if (actions.delete && !attrs.some(x => /^delete\s*:/i.test(x))) attrs.push(`delete: ${actions.delete}`);
+    if (actions.update && !attrs.some(x => /^update\s*:/i.test(x))) attrs.push(`update: ${actions.update}`);
+
+    return attrs.length ? `[${attrs.join(', ')}]` : '';
+  }
+
+  function normalizeDefaultValue(valueRaw) {
+    const v = String(valueRaw || '').trim();
+    if (!v) return v;
+
+    const lower = v.toLowerCase();
+
+    if (lower === 'null') return 'null';
+    if (lower === 'true') return 'true';
+    if (lower === 'false') return 'false';
+
+    if (/^-?\d+(\.\d+)?$/.test(v)) return v;
+
+    if (v.startsWith("'") || v.startsWith('"') || v.startsWith('`')) return v;
+
+    if (/^[a-z_][a-z0-9_]*(\s*\(.*\))?$/i.test(v)) return v;
+
+    return `'${escapeSingleQuotes(v)}'`;
+  }
+
   function normalizeWhereExpr(whereRaw) {
     const value = String(whereRaw || '').trim();
     if (!value) return '';
@@ -1015,16 +1162,50 @@ const ChartDB_PGMLExport = (() => {
     return `(${columns.join(', ')})`;
   }
 
-  function looksLikeExecutableHeader(row) {
-    const joined = row.map(cell => String(cell || '').trim().toLowerCase()).join(' | ');
-    return joined.includes('function body') ||
-      joined.includes('trigger reference') ||
-      joined.includes('functions') ||
-      joined === 'name';
+  function buildLooseHeaderMap(headerRow) {
+    const map = {};
+
+    headerRow.forEach((header, idx) => {
+      const h = normalizeLooseHeader(header);
+
+      if (h === 'name') map.name = idx;
+      else if (h === 'functionbody' || h === 'body') map.functionBody = idx;
+      else if (h === 'triggerreference' || h === 'triggerbody') map.triggerReference = idx;
+      else if (h === 'reference') map.reference = idx;
+      else if (h === 'functions' || h === 'function') map.functions = idx;
+    });
+
+    return map;
   }
 
-  function rowToExecutableSql(row) {
-    const body = rowToPrettyText(row.slice(1));
+  function normalizeLooseHeader(s) {
+    return String(s || '')
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '');
+  }
+
+  function getCell(row, idx, fallbackIdx) {
+    const useIdx = idx != null ? idx : fallbackIdx;
+    if (useIdx == null || useIdx < 0 || useIdx >= row.length) return '';
+    return String(row[useIdx] || '');
+  }
+
+  function getFirstNonEmptyCell(row, indexes) {
+    for (let i = 0; i < indexes.length; i++) {
+      const idx = indexes[i];
+      if (idx == null || idx < 0 || idx >= row.length) continue;
+      const value = String(row[idx] || '');
+      if (value.trim()) return value;
+    }
+    return '';
+  }
+
+  function rowToExecutableSql(row, headerMap = {}) {
+    const body = getFirstNonEmptyCell(row, [
+      headerMap.functionBody,
+      headerMap.triggerReference
+    ]).trim();
     if (body && /\bcreate\s+(or\s+replace\s+)?(function|procedure|trigger)\b/i.test(body)) {
       return body;
     }
