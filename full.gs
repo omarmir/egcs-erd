@@ -35,6 +35,9 @@ function onOpen() {
   menu.addItem('Generate DBML (All Sheets)', 'exportDBML');
   menu.addItem('Generate DBML (Current Sheet)', 'exportCurrentSheetDBML');
   menu.addItem('Generate DBML (Current Sheet, Tables Only)', 'exportCurrentSheetTablesOnlyDBML');
+  menu.addItem('Generate PGML (All Sheets)', 'exportPGML');
+  menu.addItem('Generate PGML (Current Sheet)', 'exportCurrentSheetPGML');
+  menu.addItem('Generate PGML (Current Sheet, Tables Only)', 'exportCurrentSheetTablesOnlyPGML');
 
   menu.addToUi();
 }

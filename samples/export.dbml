@@ -1,0 +1,2839 @@
+Enum Agreement_Applicant_Recipient_Type {
+  guarantor
+  obligant
+  consultant
+  partner
+}
+
+Enum Language_Preference {
+  eng
+  fra
+}
+
+Enum Review_Type {
+  checklist
+  assessment
+}
+
+Enum Entity_Type {
+  fundingopportunity
+  transferpaymentstream
+  fundingcaseintake
+  fundingcaseagreement
+  applicantrecipient
+  commonreview
+  commonrecommendation
+  fundingcaseamendment
+  fundingcasemonitor
+  fundingclaimreconcile
+  fundingcaseforecast
+  fundingcasepayment
+  fundingcaserecommendation
+}
+
+Enum Decision_Type {
+  fundingcaseintakeassessment
+}
+
+Enum Amended_Type {
+  articles
+  activities
+  budget
+  duration
+  other
+}
+
+Enum Base_Status {
+  draft
+  active
+  inactive
+}
+
+Enum Agreement_Type {
+  grant
+  nonrepayable
+  repayable
+  partiallyrepayable
+  other
+}
+
+Enum Applicant_Recipient_Type {
+  aboriginalrecipients
+  forprofitorganizations
+  government
+  internationalnongov
+  notforprofitorganizationsandcharities
+  other
+  individualorsoleproprietorships
+  academia
+}
+
+Enum Approval_Status {
+  draft
+  pendingapproval
+  approved
+  denied
+}
+
+Enum Statuses {
+  draft
+  submitted
+  reviewed
+  pendingapproval
+  active
+  inreview
+  inactive
+  inprogress
+  complete
+  approved
+  denied
+  withdrawn
+  cancelled
+}
+
+Enum Commitment_Type {
+  commitment
+  paye
+  paye2
+  pyp
+}
+
+Enum Payment_Status {
+  draft
+  pendingsignature
+  signed
+  inprocess
+  pay
+  wait
+  denied
+  processed
+  paid
+}
+
+Enum Payment_Type {
+  reimbursement
+  advance
+}
+
+Enum Monitor_Action_Type {
+  amendment
+  mandatoryaction
+  suggestedaction
+  none
+}
+
+Enum Monitor_Responsible_Party {
+  applicantrecipient
+  organization
+  joint
+}
+
+Enum Follow_Up_Status {
+  open
+  onhold
+  completed
+  cancelled
+  unabletocomplete
+}
+
+Enum Jurisdiction {
+  ab
+  bc
+  mb
+  nb
+  nl
+  ns
+  nt
+  nu
+  on
+  pe
+  qc
+  sk
+  yt
+}
+
+Enum Currency_Codes {
+  all
+  amd
+  ang
+  aoa
+  ars
+  aud
+  awg
+  azn
+  bam
+  bbd
+  bdt
+  bgn
+  bhd
+  bif
+  bnd
+  bob
+  bov
+  brl
+  bsd
+  btn
+  bwp
+  byr
+  bzd
+  cad
+  cdf
+  chf
+  clf
+  clp
+  cny
+  cop
+  crc
+  cuc
+  cve
+  czk
+  djf
+  dkk
+  dop
+  dzd
+  egp
+  ern
+  etb
+  eur
+  fjd
+  gbp
+  gel
+  gip
+  gmd
+  gnf
+  gtq
+  gyd
+  hkd
+  hnl
+  hrk
+  htg
+  huf
+  idr
+  ils
+  inr
+  iqd
+  irr
+  isk
+  jmd
+  jod
+  jpy
+  kes
+  kgs
+  khr
+  kmf
+  krw
+  kwd
+  kyd
+  kzt
+  lak
+  lbp
+  lrd
+  lsl
+  lyd
+  mga
+  mkd
+  mop
+  mur
+  mvr
+  mwk
+  myr
+  nok
+  nzd
+  svc
+  usd
+  xaf
+  xcd
+  xdr
+  xof
+  xpf
+  zar
+}
+
+Enum Countries {
+  ad
+  ae
+  af
+  ag
+  ai
+  al
+  am
+  ao
+  aq
+  ar
+  as
+  at
+  au
+  aw
+  ax
+  az
+  ba
+  bb
+  bd
+  be
+  bf
+  bg
+  bh
+  bi
+  bj
+  bl
+  bm
+  bn
+  bo
+  bq
+  br
+  bs
+  bt
+  bv
+  bw
+  by
+  bz
+  ca
+  cc
+  cd
+  cf
+  cg
+  ch
+  ci
+  ck
+  cl
+  cm
+  cn
+  co
+  cr
+  cu
+  cv
+  cw
+  cx
+  cy
+  cz
+  de
+  dj
+  dk
+  dm
+  do
+  dz
+  ec
+  ee
+  eg
+  eh
+  er
+  es
+  et
+  fi
+  fj
+  fk
+  fm
+  fo
+  fr
+  ga
+  gb
+  gd
+  ge
+  gf
+  gg
+  gh
+  gi
+  gl
+  gm
+  gn
+  gp
+  gq
+  gr
+  gs
+  gt
+  gu
+  gw
+  gy
+  hk
+  hm
+  hn
+  hr
+  ht
+  hu
+  id
+  ie
+  il
+  im
+  in
+  io
+  iq
+  ir
+  is
+  it
+  je
+  jm
+  jo
+  jp
+  ke
+  kg
+  kh
+  ki
+  km
+  kn
+  kp
+  kr
+  kw
+  ky
+  kz
+  la
+  lb
+  lc
+  li
+  lk
+  lr
+  ls
+  lt
+  lu
+  lv
+  ly
+  ma
+  mc
+  md
+  me
+  mf
+  mg
+  mh
+  mk
+  ml
+  mm
+  mn
+  mo
+  mp
+  mq
+  mr
+  ms
+  mt
+  mu
+  mv
+  mw
+  mx
+  my
+  mz
+  na
+  nc
+  ne
+  nf
+  ng
+  ni
+  nl
+  no
+  np
+  nr
+  nu
+  nz
+  om
+  pa
+  pe
+  pf
+  pg
+  ph
+  pk
+  pl
+  pm
+  pn
+  pr
+  ps
+  pt
+  pw
+  py
+  qa
+  re
+  ro
+  rs
+  ru
+  rw
+  sa
+  sb
+  sc
+  sd
+  se
+  sg
+  sh
+  si
+  sj
+  sk
+  sl
+  sm
+  sn
+  so
+  sr
+  ss
+  st
+  sv
+  sx
+  sy
+  sz
+  tc
+  td
+  tf
+  tg
+  th
+  tj
+  tk
+  tl
+  tm
+  tn
+  to
+  tr
+  tt
+  tv
+  tw
+  tz
+  ua
+  ug
+  um
+  us
+  uy
+  uz
+  va
+  vc
+  ve
+  vg
+  vi
+  vn
+  vu
+  wf
+  ws
+  ye
+  yt
+  za
+  zm
+  zw
+}
+
+Table Agency_Profile {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_ay_gwcoa_number bigint [not null] // Linkage to the Government Wide Chart of Accounts Department/Agency Number
+  egcs_ay_agencyfinancialsystemid bigint [not null] // ID of the federal institution
+  egcs_ay_name_en varchar(255) [not null] // Name of the federal institution in english
+  egcs_ay_name_fr varchar(255) [not null] // Name of the federal institution in french
+  egcs_ay_abbreviation_en varchar(255) [not null] // abbreviation representing the federal institution in english
+  egcs_ay_abbreviation_fr varchar(255) [not null] // abbreviation representing the federal institution in french
+  egcs_ay_status Base_Status [not null] // Status for the federal institution
+
+  Indexes {
+    egcs_ay_name_en [name: 'ay_idx_profilenameen', where: `_deleted = false`]
+    egcs_ay_name_fr [name: 'ay_idx_profilenamefr', where: `_deleted = false`]
+    (egcs_ay_agencyfinancialsystemid, egcs_ay_name_en, egcs_ay_name_fr, egcs_ay_status) [name: 'ay_idx_profileagencyfinancialsystemidnameennamefrstatus', unique, where: `_deleted = false`]
+  }
+}
+Ref: Agency_Profile.egcs_ay_gwcoa_number > Common_GWCOA.egcs_cn_number [delete: restrict]
+
+Table Agency_Cost_Category {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_ay_organizationagency bigint [not null]
+  egcs_ay_name_en varchar(255) [not null] // Cost categories available to the transfer payment programs under this federal institution (english)
+  egcs_ay_name_fr varchar(255) [not null] // Cost categories available to the transfer payment programs under this federal institution (french)
+
+  Indexes {
+    (egcs_ay_organizationagency, egcs_ay_name_en) [name: 'ay_idx_costcategoryorganizationagencynameen', unique, where: `_deleted = false`]
+    (egcs_ay_organizationagency, egcs_ay_name_fr) [name: 'ay_idx_costcategoryorganizationagencynamefr', unique, where: `_deleted = false`]
+  }
+}
+Ref: Agency_Cost_Category.egcs_ay_organizationagency > Agency_Profile.id [delete: restrict]
+
+Table Agency_Cost_Category_Line_Item {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_ay_name_en varchar(255) [not null] // Budget line items in english
+  egcs_ay_name_fr varchar(255) [not null] // Budget line items in french
+  egcs_ay_organizationcostcategory bigint [not null]
+
+  Indexes {
+    (egcs_ay_organizationcostcategory, egcs_ay_name_en) [name: 'ay_idx_costcategorylineitemorganizationcostcategorynameen', unique, where: `_deleted = false`]
+    (egcs_ay_organizationcostcategory, egcs_ay_name_fr) [name: 'ay_idx_costcategorylineitemorganizationcostcategorynamefr', unique, where: `_deleted = false`]
+  }
+}
+Ref: Agency_Cost_Category_Line_Item.egcs_ay_organizationcostcategory > Agency_Cost_Category.id [delete: restrict]
+
+Table Agency_Fiscal_Year {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_ay_organizationagency bigint [not null]
+  egcs_ay_fiscalyeardisplay varchar(9) [not null] // Display value of fiscal year, e.g. 2025-2026
+  egcs_ay_fiscalyear smallint [not null] // Numerical value for fiscal year, e.g. 2026
+
+  Indexes {
+    (egcs_ay_organizationagency, egcs_ay_fiscalyeardisplay) [name: 'ay_idx_fiscalyearorganizationagencyfiscalyeardisplay', unique, where: `_deleted = false`]
+    (egcs_ay_organizationagency, egcs_ay_fiscalyear) [name: 'ay_idx_fiscalyearorganizationagencyfiscalyear', unique, where: `_deleted = false`]
+  }
+}
+Ref: Agency_Fiscal_Year.egcs_ay_organizationagency > Agency_Profile.id [delete: restrict]
+
+Table Agency_Address_Type {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_ay_organizationagency bigint [not null]
+  egcs_ay_typename_en varchar(255) [not null] // Address type name in english e.g Head Office
+  egcs_ay_typename_fr varchar(255) [not null] // Address type name in french e.g Head Office
+
+  Indexes {
+    (egcs_ay_organizationagency, egcs_ay_typename_en) [name: 'ay_idx_addresstypeorganizationagencytypenameen', unique, where: `_deleted = false`]
+    (egcs_ay_organizationagency, egcs_ay_typename_fr) [name: 'ay_idx_addresstypeorganizationagencytypenamefr', unique, where: `_deleted = false`]
+  }
+}
+Ref: Agency_Address_Type.egcs_ay_organizationagency > Agency_Profile.id [delete: restrict]
+
+Table Agency_Applicant_Recipient_Subtype {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_ay_applicantrecipienttype Applicant_Recipient_Type [not null] // Type of recipient, at a minimum needs the 7 types from Open Data, more types can be added
+  egcs_ay_organizationagency bigint [not null]
+  egcs_ay_description_en text [not null] // Agency specific classification description in english
+  egcs_ay_description_fr text [not null] // Agency specific classification description in french
+  egcs_ay_name_en varchar(255) [not null] // Agency specific name for an applicant/recipient type in english (e.g. Research Institution)
+  egcs_ay_name_fr varchar(255) [not null] // Agency specific name for an applicant/recipient type in french (e.g. Research Institution)
+
+  Indexes {
+    (egcs_ay_organizationagency, egcs_ay_applicantrecipienttype, egcs_ay_name_en) [name: 'ay_idx_uniqueartypeen', unique, where: `_deleted = false`]
+    (egcs_ay_organizationagency, egcs_ay_applicantrecipienttype, egcs_ay_name_fr) [name: 'ay_idx_uniqueartypefr', unique, where: `_deleted = false`]
+  }
+}
+Ref: Agency_Applicant_Recipient_Subtype.egcs_ay_organizationagency > Agency_Profile.id [delete: restrict]
+
+Table Agency_Approval_Behalf_Type {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_ay_organizationagency bigint [not null]
+  egcs_ay_name_en varchar(255) [not null] // Name of individual appproving on behalf of individual with authority delegation to approve
+  egcs_ay_name_fr varchar(255) [not null] // Name of individual appproving on behalf of individual with authority delegation to approve - French
+  egcs_ay_require_actual boolean [not null] // Indicates that the approval will require entry of additional details associated to approval if set to true (e.g. date, approver etc)
+
+  Indexes {
+    (egcs_ay_organizationagency, egcs_ay_name_en) [name: 'ay_idx_approvalbehalftypeorganizationagencynameen', unique, where: `_deleted = false`]
+    (egcs_ay_organizationagency, egcs_ay_name_fr) [name: 'ay_idx_approvalbehalftypeorganizationagencynamefr', unique, where: `_deleted = false`]
+  }
+}
+Ref: Agency_Approval_Behalf_Type.egcs_ay_organizationagency > Agency_Profile.id [delete: restrict]
+
+Table Agency_Agreement_Type {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null]
+  egcs_ay_organizationagency bigint [not null]
+  egcs_ay_agreementtype Agreement_Type [not null] // Type of agreement at a minimum identified in OD, more types can be added
+  egcs_ay_name_en varchar(255) [not null] // Agency specific name for an agreement type in english (e.g. Partially Repayable Contribution Agreement)
+  egcs_ay_name_fr varchar(255) [not null] // Agency specific name for an agreement type in french (e.g. Partially Repayable Contribution Agreement)
+
+  Indexes {
+    (egcs_ay_organizationagency, egcs_ay_agreementtype, egcs_ay_name_en) [name: 'ay_idx_agreementtypeorganizationagencyagreementtypenameen', unique, where: `_deleted = false`]
+    (egcs_ay_organizationagency, egcs_ay_agreementtype, egcs_ay_name_fr) [name: 'ay_idx_agreementtypeorganizationagencyagreementtypenamefr', unique, where: `_deleted = false`]
+  }
+}
+Ref: Agency_Agreement_Type.egcs_ay_organizationagency > Agency_Profile.id [delete: restrict]
+
+Table Transfer_Payment_Profile {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_tp_agency bigint [not null]
+  egcs_tp_dateend date [not null] // Effective end date of the TP Program.
+  egcs_tp_datestart date [not null] // Effective start date of the TP Program
+  egcs_tp_description_en text [not null] // Description of the TP program.
+  egcs_tp_description_fr text [not null] // Description of the TP program.
+  egcs_tp_name_en varchar(255) [not null] // English name of the TP program.
+  egcs_tp_name_fr varchar(255) [not null] // French name of the TP program.
+  egcs_tp_abbreviation_en varchar(255) [not null] // Short name to quickly identify the TP program.
+  egcs_tp_abbreviation_fr varchar(255) [not null] // Short name to quickly identify the TP program.
+  egcs_tp_tclink varchar(2000) [not null] // Link to the Terms & Conditions of the TP program.
+  egcs_tp_purpose_en text [not null] // The program purpose is the program’s purpose according to the Ts&Cs.
+  egcs_tp_purpose_fr text [not null] // The program purpose is the program’s purpose according to the Ts&Cs.
+  egcs_tp_status Base_Status [not null]
+
+  Indexes {
+    egcs_tp_name_en [name: 'tp_idx_profilenameen', where: `_deleted = false AND egcs_tp_status = 'active'`]
+    egcs_tp_name_fr [name: 'tp_idx_profilenamefr', where: `_deleted = false AND egcs_tp_status = 'active'`]
+    (egcs_tp_agency, egcs_tp_name_en, egcs_tp_name_fr, egcs_tp_status) [name: 'tp_idx_profileagencynameennamefrstatus', unique, where: `_deleted = false AND egcs_tp_status = 'active'`]
+  }
+
+  checks {
+    `egcs_tp_dateend >= egcs_tp_datestart` [name: 'tp_chk_profiledatestartdateend']
+  }
+}
+Ref: Transfer_Payment_Profile.egcs_tp_agency > Agency_Profile.id [delete: restrict]
+
+Table Transfer_Payment_Fiscal_Year_Budget {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_tp_transferpaymentprofile bigint [not null]
+  egcs_tp_totalbudget numeric(19,2) [not null] // Adjusted budget associated to the transfer payment program's budget for the fiscal year.
+  egcs_tp_fiscalyear bigint [not null] // Financial year associated to the transfer payment program's budget.
+  egcs_tp_overcommitthreshold numeric(5,2) [not null] // Percentage of total budget allowed to exceed
+
+  Indexes {
+    (egcs_tp_transferpaymentprofile, egcs_tp_fiscalyear) [name: 'tp_idx_fiscalyearbudgettransferpaymentprofilefiscalyear', unique, where: `_deleted = false`]
+  }
+}
+Ref: Transfer_Payment_Fiscal_Year_Budget.egcs_tp_transferpaymentprofile > Transfer_Payment_Profile.id [delete: restrict]
+Ref: Transfer_Payment_Fiscal_Year_Budget.egcs_tp_fiscalyear > Agency_Fiscal_Year.id [delete: restrict]
+
+Table Transfer_Payment_Stream {
+  _deleted boolean [not null, default: false]
+  id bigint [pk, not null] // #REF!
+  egcs_tp_name_en varchar(255) [not null]
+  egcs_tp_name_fr varchar(255) [not null]
+  egcs_tp_description_en text [not null]
+  egcs_tp_description_fr text [not null]
+  egcs_tp_transferpaymentprofile bigint [not null]
+  egcs_tp_parentstream bigint
+  egcs_tp_abbreviation_en varchar(255) [not null]
+  egcs_tp_abbreviation_fr varchar(255) [not null]
+  egcs_tp_objective_en text [not null]
+  egcs_tp_objective_fr text [not null]
+  egcs_tp_allowsfurtherdistribution boolean [not null]
+  egcs_tp_status Base_Status [not null]
+
+  Indexes {
+    egcs_tp_name_en [name: 'tp_idx_streamnameen', where: `_deleted = false AND egcs_tp_status = 'active'`]
+    egcs_tp_name_fr [name: 'tp_idx_streamnamefr', where: `_deleted = false AND egcs_tp_status = 'active'`]
+    (egcs_tp_transferpaymentprofile, egcs_tp_name_en, egcs_tp_name_fr, egcs_tp_status) [name: 'tp_idx_streamtransferpaymentprofilenameennamefrstatus', unique, where: `_deleted = false AND egcs_tp_status = 'active'`]
+  }
+}
+Ref: Transfer_Payment_Stream.id > Common_Entity.id [delete: restrict]
+Ref: Transfer_Payment_Stream.egcs_tp_transferpaymentprofile > Transfer_Payment_Profile.id [delete: restrict]
+Ref: Transfer_Payment_Stream.egcs_tp_parentstream > Transfer_Payment_Stream.id [delete: restrict]
+
+Table Transfer_Payment_Objective {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_tp_transferpaymentprofile bigint [not null]
+  egcs_tp_objective_en text [not null] // Program objective narrative (en)
+  egcs_tp_objective_fr text [not null] // Program objective narrative (fr)
+
+  Indexes {
+    (egcs_tp_transferpaymentprofile, md5(lower(egcs_tp_objective_en))) [name: 'tp_idx_objectivetransferpaymentprofileobjectiveen', unique, where: `_deleted = false`]
+    (egcs_tp_transferpaymentprofile, md5(lower(egcs_tp_objective_fr))) [name: 'tp_idx_objectivetransferpaymentprofileobjectivefr', unique, where: `_deleted = false`]
+  }
+}
+Ref: Transfer_Payment_Objective.egcs_tp_transferpaymentprofile > Transfer_Payment_Profile.id [delete: restrict]
+
+Table Transfer_Payment_Stream_Budget {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_tp_transferpaymentstream bigint [not null]
+  egcs_tp_totalbudget numeric(19,2) [not null] // Adjusted budget associated to the transfer payment program's budget for the fiscal year.
+  egcs_tp_transferpaymentbudget bigint [not null] // Financial year associated to the transfer payment program's budget.
+  egcs_tp_overcommitthreshold numeric(5,2) [not null] // Percentage of total budget allowed to exceed
+
+  Indexes {
+    (egcs_tp_transferpaymentstream, egcs_tp_transferpaymentbudget) [name: 'tp_idx_streambudgettransferpaymentstreamtransferpaymentbudget', unique, where: `_deleted = false`]
+  }
+}
+Ref: Transfer_Payment_Stream_Budget.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id [delete: restrict]
+Ref: Transfer_Payment_Stream_Budget.egcs_tp_transferpaymentbudget > Transfer_Payment_Fiscal_Year_Budget.id [delete: restrict]
+
+Table Transfer_Payment_Stream_Eligible_Recipient {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_tp_transferpaymentstream bigint [not null]
+  egcs_tp_applicantrecipientsubtype bigint [not null] // The applicant/recipient subtype eligible for funding under this program
+
+  Indexes {
+    (egcs_tp_transferpaymentstream, egcs_tp_applicantrecipientsubtype) [name: 'tp_idx_uniquestreameligiblerecipient', unique, where: `_deleted = false`]
+  }
+}
+Ref: Transfer_Payment_Stream_Eligible_Recipient.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id [delete: restrict]
+Ref: Transfer_Payment_Stream_Eligible_Recipient.egcs_tp_applicantrecipientsubtype > Agency_Applicant_Recipient_Subtype.id [delete: restrict]
+
+Table Transfer_Payment_Stream_Cost_Category_Line_Item {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_tp_transferpaymentstream bigint [not null]
+  egcs_tp_organizationcostcategory bigint [not null] // Cost category from the organization
+  egcs_tp_costsharingratio numeric(5,2) [not null] // Percentage of assistance provided for items of this cost category.
+
+  Indexes {
+    (egcs_tp_transferpaymentstream, egcs_tp_organizationcostcategory) [name: 'tp_idx_uniqueastreamcostcatline', unique, where: `_deleted = false`]
+  }
+}
+Ref: Transfer_Payment_Stream_Cost_Category_Line_Item.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id [delete: restrict]
+Ref: Transfer_Payment_Stream_Cost_Category_Line_Item.egcs_tp_organizationcostcategory > Agency_Cost_Category_Line_Item.id [delete: restrict]
+
+Table Transfer_Payment_Outcome {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_tp_transferpaymentprofile bigint [not null]
+  egcs_tp_description_en text [not null] // Statement on the expected result for the TP program. (en)
+  egcs_tp_description_fr text [not null] // Statement on the expected result for the TP program. (fr)
+  egcs_tp_name_en varchar(255) [not null] // English name of the expected result.
+  egcs_tp_name_fr varchar(255) [not null] // French name of the expected result.
+
+  Indexes {
+    (egcs_tp_transferpaymentprofile, egcs_tp_name_en) [name: 'tp_idx_outcometransferpaymentprofilenameen', unique, where: `_deleted = false`]
+    (egcs_tp_transferpaymentprofile, egcs_tp_name_fr) [name: 'tp_idx_outcometransferpaymentprofilenamefr', unique, where: `_deleted = false`]
+  }
+}
+Ref: Transfer_Payment_Outcome.egcs_tp_transferpaymentprofile > Transfer_Payment_Profile.id [delete: restrict]
+
+Table Transfer_Payment_Outcome_Performance_Indicator {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_tp_transferpaymentoutcome bigint [not null]
+  egcs_tp_name_en varchar(255) [not null] // English name of the program performance indicator.
+  egcs_tp_name_fr varchar(255) [not null] // French name of the program performance indicator.
+  egcs_tp_description_en text [not null] // Statement on the program performance indicator (en).
+  egcs_tp_description_fr text [not null] // Statement on the program performance indicator (fr).
+
+  Indexes {
+    (egcs_tp_transferpaymentoutcome, egcs_tp_name_en) [name: 'tp_idx_outcomeperformanceindicatortransferpaymentoutcomenameen', unique, where: `_deleted = false`]
+    (egcs_tp_transferpaymentoutcome, egcs_tp_name_fr) [name: 'tp_idx_outcomeperformanceindicatortransferpaymentoutcomenamefr', unique, where: `_deleted = false`]
+  }
+}
+Ref: Transfer_Payment_Outcome_Performance_Indicator.egcs_tp_transferpaymentoutcome > Transfer_Payment_Outcome.id [delete: restrict]
+
+Table Transfer_Payment_Stream_Outcome {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_tp_transferpaymentstream bigint [not null]
+  egcs_tp_transferpaymentoutcome bigint [not null]
+
+  Indexes {
+    (egcs_tp_transferpaymentstream, egcs_tp_transferpaymentoutcome) [name: 'tp_idx_streamoutcometransferpaymentstreamtransferpaymentoutcome', unique, where: `_deleted = false`]
+  }
+}
+Ref: Transfer_Payment_Stream_Outcome.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id [delete: restrict]
+Ref: Transfer_Payment_Stream_Outcome.egcs_tp_transferpaymentoutcome > Transfer_Payment_Outcome.id [delete: restrict]
+
+Table Transfer_Payment_Amendment_Type {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_tp_amended Amended_Type [not null] // Type of amendment can be at a mimimum three types, more can be added
+  egcs_tp_name_en varchar(255) [not null] // English name of the amendment
+  egcs_tp_name_fr varchar(255) [not null] // French name of the amendment
+  egcs_tp_transferpaymentstream bigint [not null]
+
+  Indexes {
+    (egcs_tp_transferpaymentstream, egcs_tp_name_en) [name: 'tp_idx_amendmenttypetransferpaymentstreamnameen', unique, where: `_deleted = false`]
+    (egcs_tp_transferpaymentstream, egcs_tp_name_fr) [name: 'tp_idx_amendmenttypetransferpaymentstreamnamefr', unique, where: `_deleted = false`]
+  }
+}
+Ref: Transfer_Payment_Amendment_Type.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id [delete: restrict]
+
+Table Transfer_Payment_Monitor_Type {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_tp_name_en varchar(255) [not null]
+  egcs_tp_name_fr varchar(255) [not null]
+  egcs_tp_transferpaymentstream bigint [not null]
+
+  Indexes {
+    (egcs_tp_transferpaymentstream, egcs_tp_name_en) [name: 'tp_idx_monitortypetransferpaymentstreamnameen', unique, where: `_deleted = false`]
+    (egcs_tp_transferpaymentstream, egcs_tp_name_fr) [name: 'tp_idx_monitortypetransferpaymentstreamnamefr', unique, where: `_deleted = false`]
+  }
+}
+Ref: Transfer_Payment_Monitor_Type.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id [delete: restrict]
+
+Table Transfer_Payment_Stream_Area_of_Expertise {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_tp_name_en varchar(255) [not null]
+  egcs_tp_name_fr varchar(255) [not null]
+  egcs_tp_description_en text [not null]
+  egcs_tp_description_fr text [not null]
+  egcs_tp_transferpaymentstream bigint [not null]
+
+  Indexes {
+    (egcs_tp_transferpaymentstream, egcs_tp_name_en) [name: 'tp_idx_streamareaofexpertisetransferpaymentstreamnameen', unique, where: `_deleted = false`]
+    (egcs_tp_transferpaymentstream, egcs_tp_name_fr) [name: 'tp_idx_streamareaofexpertisetransferpaymentstreamnamefr', unique, where: `_deleted = false`]
+  }
+}
+Ref: Transfer_Payment_Stream_Area_of_Expertise.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id [delete: restrict]
+
+Table Transfer_Payment_Stream_Commitment {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_tp_streambudget bigint [not null]
+  egcs_tp_fund integer [not null]
+  egcs_tp_gl integer [not null]
+  egcs_tp_gldescription text [not null]
+  egcs_tp_fundcentre integer [not null]
+  egcs_tp_internalorder integer [not null]
+  egcs_tp_functionalarea integer [not null]
+  egcs_tp_costcentre integer [not null]
+  egcs_tp_transferpaymentstream bigint [not null]
+
+  Indexes {
+    (egcs_tp_transferpaymentstream, egcs_tp_streambudget, egcs_tp_fund, egcs_tp_gl, egcs_tp_gldescription, egcs_tp_fundcentre, egcs_tp_internalorder, egcs_tp_functionalarea, egcs_tp_costcentre) [name: 'tp_idx_uniquecommitment', unique, where: `_deleted = false`]
+  }
+}
+Ref: Transfer_Payment_Stream_Commitment.egcs_tp_streambudget > Transfer_Payment_Stream_Budget.id [delete: restrict]
+Ref: Transfer_Payment_Stream_Commitment.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id [delete: restrict]
+
+Table Transfer_Payment_Financial_Limits {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_tp_transferpaymentstream bigint [not null]
+  egcs_tp_maxallowableperrecipient numeric(19,2) [not null]
+  egcs_tp_maxpercentofsupportavailableperrecipient numeric(5,2) [not null]
+  egcs_tp_maxpercentofretroactivecostsallowable numeric(5,2) [not null]
+  egcs_tp_stackinglimit numeric(5,2) [not null]
+  egcs_tp_status Base_Status [not null]
+
+  Indexes {
+    (egcs_tp_transferpaymentstream, egcs_tp_status) [name: 'tp_idx_financiallimitstransferpaymentstreamstatus', unique, where: `_deleted = false`]
+  }
+}
+Ref: Transfer_Payment_Financial_Limits.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id [delete: restrict]
+
+Table Transfer_Payment_Amendment_Subtype {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_tp_amendedtype bigint [not null]
+  egcs_tp_name_en varchar(255) [not null]
+  egcs_tp_name_fr varchar(255) [not null]
+  egcs_tp_description_en text [not null]
+  egcs_tp_description_fr text [not null]
+  egcs_tp_transferpaymentstream bigint [not null]
+
+  Indexes {
+    (egcs_tp_transferpaymentstream, egcs_tp_name_en) [name: 'tp_idx_amendmentsubtypetransferpaymentstreamnameen', unique, where: `_deleted = false`]
+    (egcs_tp_transferpaymentstream, egcs_tp_name_fr) [name: 'tp_idx_amendmentsubtypetransferpaymentstreamnamefr', unique, where: `_deleted = false`]
+  }
+}
+Ref: Transfer_Payment_Amendment_Subtype.egcs_tp_amendedtype > Transfer_Payment_Amendment_Type.id [delete: restrict]
+Ref: Transfer_Payment_Amendment_Subtype.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id [delete: restrict]
+
+Table Transfer_Payment_Agreement_Subtype {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_tp_agreementtype bigint [not null]
+  egcs_tp_transferpaymentstream bigint [not null]
+
+  Indexes {
+    (egcs_tp_transferpaymentstream, egcs_tp_agreementtype) [name: 'tp_idx_agreementsubtypetransferpaymentstreamagreementtype', unique, where: `_deleted = false`]
+    (id, egcs_tp_transferpaymentstream) [name: 'tp_idx_agreementsubtypeidtransferpaymentstream', unique]
+  }
+}
+Ref: Transfer_Payment_Agreement_Subtype.egcs_tp_agreementtype > Agency_Agreement_Type.id [delete: restrict]
+Ref: Transfer_Payment_Agreement_Subtype.egcs_tp_transferpaymentstream > Transfer_Payment_Stream.id [delete: restrict]
+
+Table Applicant_Recipient_Profile {
+  _deleted boolean [not null, default: false]
+  id bigint [pk, not null] /*
+PK sourced from Common_Entity via trigger on insert.
+See: trg_register_applicantrecipient
+  */
+  egcs_ar_provincialbusinessnumber integer // The official business number of the applicant/recipient provided by the province.
+  egcs_ar_businessnumber bigint // A Canadian Business Number (BN) is a unique 9-digit identifier from the Canada Revenue Agency (CRA)
+  egcs_ar_charitynumber bigint // Official charity registration number.
+  egcs_ar_naics integer [not null] // NAICS code
+  egcs_ar_description_en text // Description of the applicant/recipient (english).
+  egcs_ar_description_fr text // Description of the applicant/recipient (french).
+  egcs_ar_operatingname_en varchar(255) // This field should be populated when an organization operates under a name that differs from its legal name or business number. This field is not intended to capture the ultimate recipient of a grant or contribution; instead, the name of the person receiving funding from the Government of Canada should be entered.
+  egcs_ar_operatingname_fr varchar(255) // This field should be populated when an organization operates under a name that differs from its legal name or business number. This field is not intended to capture the ultimate recipient of a grant or contribution; instead, the name of the person receiving funding from the Government of Canada should be entered.
+  egcs_ar_applicantrecipientsubtypes bigint [not null]
+  egcs_ar_leadagency bigint // For multi-dept systems, this is the id of the agency
+  egcs_ar_legalname_en varchar(255) // Legal name of the applicant/recipient (English).
+  egcs_ar_legalname_fr varchar(255) // Legal name of the applicant/recipient (French).
+  egcs_ar_researchorganization_en varchar(255)
+  egcs_ar_researchorganization_fr varchar(255)
+  egcs_ar_status Base_Status [not null]
+
+  Indexes {
+    egcs_ar_businessnumber [name: 'ar_idx_profilebusinessnumber', unique, where: `_deleted = false AND egcs_ar_businessnumber IS NOT NULL`]
+  }
+}
+Ref: Applicant_Recipient_Profile.id > Common_Entity.id [delete: restrict]
+Ref: Applicant_Recipient_Profile.egcs_ar_applicantrecipientsubtypes > Agency_Applicant_Recipient_Subtype.id [delete: restrict]
+Ref: Applicant_Recipient_Profile.egcs_ar_leadagency > Agency_Profile.id [delete: restrict]
+
+Table Applicant_Recipient_Team {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_ar_applicantrecipient bigint [not null]
+  egcs_ar_teammember bigint [not null] // For multi-dept systems, this is the id of the officer
+
+  Indexes {
+    (egcs_ar_applicantrecipient, egcs_ar_teammember) [name: 'ar_idx_teamteammember', unique, where: `_deleted = false`]
+  }
+}
+Ref: Applicant_Recipient_Team.egcs_ar_applicantrecipient > Applicant_Recipient_Profile.id [delete: restrict]
+Ref: Applicant_Recipient_Team.egcs_ar_teammember > Common_User.id [delete: restrict]
+
+Table Applicant_Recipient_Agency_Financial_Id {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_ar_applicantrecipient bigint [not null]
+  egcs_ar_agency bigint
+  egcs_ar_financialsystemid bigint [not null] // Reference number for the financial system.
+
+  Indexes {
+    (egcs_ar_agency, egcs_ar_applicantrecipient, egcs_ar_financialsystemid) [name: 'ar_idx_agencyfinancialidagencyfinancialsystemid', unique, where: `_deleted = false`]
+  }
+}
+Ref: Applicant_Recipient_Agency_Financial_Id.egcs_ar_applicantrecipient > Applicant_Recipient_Profile.id [delete: restrict]
+Ref: Applicant_Recipient_Agency_Financial_Id.egcs_ar_agency > Agency_Profile.id [delete: restrict]
+
+Table Applicant_Recipient_Other_Name {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_ar_othername varchar(255) [not null]
+  egcs_ar_applicantrecipient bigint [not null]
+
+  Indexes {
+    (egcs_ar_applicantrecipient, egcs_ar_othername) [name: 'ar_idx_othernameothername', unique, where: `_deleted = false`]
+  }
+}
+Ref: Applicant_Recipient_Other_Name.egcs_ar_applicantrecipient > Applicant_Recipient_Profile.id [delete: restrict]
+
+Table Applicant_Recipient_Address {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_ar_applicantrecipient bigint [not null]
+  egcs_ar_address bigint [not null]
+
+  Indexes {
+    (egcs_ar_applicantrecipient, egcs_ar_address) [name: 'ar_idx_addressaddress', unique, where: `_deleted = false`]
+  }
+}
+Ref: Applicant_Recipient_Address.egcs_ar_applicantrecipient > Applicant_Recipient_Profile.id [delete: restrict]
+Ref: Applicant_Recipient_Address.egcs_ar_address > Common_Address.id [delete: restrict]
+
+Table Applicant_Recipient_Contact {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_ar_applicantrecipient bigint [not null]
+  egcs_ar_contact bigint [not null]
+
+  Indexes {
+    (egcs_ar_applicantrecipient, egcs_ar_contact) [name: 'ar_idx_contactcontact', unique, where: `_deleted = false`]
+  }
+}
+Ref: Applicant_Recipient_Contact.egcs_ar_applicantrecipient > Applicant_Recipient_Profile.id [delete: restrict]
+Ref: Applicant_Recipient_Contact.egcs_ar_contact > Common_Contact.id [delete: restrict]
+
+Table Applicant_Recipient_Funding_History {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_ar_applicantrecipient bigint [not null]
+  egcs_ar_fundingagreement bigint
+  egcs_ar_agreementnumber varchar(255) // The unique identifying number assigned to the Grants and Contributions (Gs&Cs) Funding Agreement.
+  egcs_ar_description text // A detailed summary or narrative description of the approved project
+  egcs_ar_agreementtitle_en varchar(255) // The official title of the funding agreement in English
+  egcs_ar_agreementtitle_fr varchar(255) // The official title of the funding agreement in French
+  egcs_ar_program varchar(255) // The specific name of the Grants and Contributions (Gs&Cs) program under which the funding was provided.
+  egcs_ar_startdate date // The date on which the funding agreement activities officially commence.
+  egcs_ar_enddate date // The final date by which all activities under the funding agreement must be completed.
+  egcs_ar_funder smallint /*
+The government department or agency responsible for administering and extending the funding.
+See annex A of the Open Data dictionary for Gs&Cs for list of department numbers
+  */
+  egcs_ar_fundingamount numeric(19,2) // Total approved funding amount for the agreement.
+
+  Indexes {
+    (egcs_ar_funder, egcs_ar_agreementnumber, egcs_ar_applicantrecipient, egcs_ar_program) [name: 'ar_idx_fundinghistoryfunderagreementnumberprogram', unique, where: `_deleted = false`]
+    (egcs_ar_applicantrecipient, egcs_ar_fundingagreement, egcs_ar_program, egcs_ar_agreementnumber) [name: 'ar_idx_fundinghistoryfundingagreementprogramagreementnumber', unique, where: `_deleted = false AND egcs_ar_fundingagreement IS NOT NULL`]
+  }
+
+  checks {
+    `NOT (
+        (egcs_ar_fundingagreement IS NULL) 
+        AND (egcs_ar_agreementnumber IS NULL OR egcs_ar_description IS NULL OR egcs_ar_agreementtitle_en IS NULL OR egcs_ar_agreementtitle_fr IS NULL OR egcs_ar_program IS NULL OR egcs_ar_startdate IS NULL OR egcs_ar_enddate IS NULL OR egcs_ar_funder IS NULL OR egcs_ar_fundingamount  IS NULL)
+    )` [name: 'ar_chk_applicantrecipientprofile_required_if_egcs_ar_fundingagreement_null']
+    `NOT (
+        (egcs_ar_fundingagreement IS NOT NULL) 
+        AND (egcs_ar_agreementnumber IS NOT NULL OR egcs_ar_description IS NOT NULL OR egcs_ar_agreementtitle_en IS NOT NULL OR egcs_ar_agreementtitle_fr IS NOT NULL OR egcs_ar_program IS NOT NULL OR egcs_ar_startdate IS NOT NULL OR egcs_ar_enddate IS NOT NULL OR egcs_ar_funder IS NOT NULL OR egcs_ar_fundingamount  IS NOT NULL)
+    )` [name: 'ar_chk_applicantrecipientprofile_null_if_egcs_ar_fundingagreement']
+  }
+}
+Ref: Applicant_Recipient_Funding_History.egcs_ar_applicantrecipient > Applicant_Recipient_Profile.id [delete: restrict]
+Ref: Applicant_Recipient_Funding_History.egcs_ar_fundingagreement > Funding_Case_Agreement_Profile.id [delete: restrict]
+Ref: Applicant_Recipient_Funding_History.egcs_ar_funder > Common_GWCOA.egcs_cn_number [delete: restrict]
+
+Table Funding_Opportunity_Profile {
+  _deleted boolean [not null, default: false]
+  id bigint [pk, not null] /*
+PK sourced from Common_Entity via trigger on insert.
+See: trg_register_fundingopportunity
+  */
+  egcs_fo_transferpaymentstream bigint [not null]
+  egcs_fo_dateend date [not null] // Last date for receiving funding requests in this Funding Opportunity.
+  egcs_fo_datestart date [not null] // Beginning date for receiving funding requests in this Funding Opportunity.
+  egcs_fo_name_en varchar(255) [not null] // English name of the funding opportunity.
+  egcs_fo_name_fr varchar(255) [not null] // French name of the funding opportunity.
+  egcs_fo_objective text [not null] // Reason for the funding opportunity.
+  egcs_fo_applicationschema bigint [not null] // The schema defining the application form, this is loosely coupled and allow a loosely defined structure
+  egcs_fo_status Base_Status [not null]
+
+  Indexes {
+    (egcs_fo_transferpaymentstream, egcs_fo_name_en) [name: 'fo_idx_profiletransferpaymentstreamnameen', unique, where: `_deleted = false`]
+    (egcs_fo_transferpaymentstream, egcs_fo_name_fr) [name: 'fo_idx_profiletransferpaymentstreamnamefr', unique, where: `_deleted = false`]
+  }
+}
+Ref: Funding_Opportunity_Profile.id > Common_Entity.id [delete: restrict]
+Ref: Funding_Opportunity_Profile.egcs_fo_transferpaymentstream > Transfer_Payment_Stream.id [delete: restrict]
+Ref: Funding_Opportunity_Profile.egcs_fo_applicationschema > Common_Form_Schema.id [delete: restrict]
+
+Table Funding_Opportunity_Budget_Fiscal_Year {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fo_fundingopportunity bigint [not null]
+  egcs_fo_fiscalyear bigint [not null]
+  egcs_fo_overcommitthreshold numeric(5,2) [not null] // Percentage of total budget allowed to exceed
+  egcs_fo_totalbudget numeric(19,2) [not null] // Adjusted budget associated to the transfer payment program's budget for the fiscal year.
+
+  Indexes {
+    (egcs_fo_fundingopportunity, egcs_fo_fiscalyear) [name: 'fo_idx_budgetfiscalyearfiscalyear', unique, where: `_deleted = false`]
+  }
+}
+Ref: Funding_Opportunity_Budget_Fiscal_Year.egcs_fo_fundingopportunity > Funding_Opportunity_Profile.id [delete: restrict]
+Ref: Funding_Opportunity_Budget_Fiscal_Year.egcs_fo_fiscalyear > Agency_Fiscal_Year.id [delete: restrict]
+
+Table Funding_Opportunity_Budget_Cost_Category {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fo_fiscalyear bigint [not null]
+  egcs_fo_organizationcostcategory bigint [not null]
+
+  Indexes {
+    (egcs_fo_fiscalyear, egcs_fo_organizationcostcategory) [name: 'fo_idx_budgetcostcategoryfiscalyearorganizationcostcategory', unique, where: `_deleted = false`]
+  }
+}
+Ref: Funding_Opportunity_Budget_Cost_Category.egcs_fo_fiscalyear > Funding_Opportunity_Budget_Fiscal_Year.id [delete: restrict]
+Ref: Funding_Opportunity_Budget_Cost_Category.egcs_fo_organizationcostcategory > Agency_Cost_Category_Line_Item.id [delete: restrict]
+
+Table Funding_Opportunity_Attachment_Types {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fo_attachmenttype bigint [not null]
+  egcs_fo_fundingopportunity bigint [not null]
+  egcs_fo_name_en varchar(255) [not null]
+  egcs_fo_name_fr varchar(255) [not null]
+  egcs_fo_description_en text [not null]
+  egcs_fo_description_fr text [not null]
+
+  Indexes {
+    (egcs_fo_fundingopportunity, egcs_fo_name_en) [name: 'fo_idx_attachmenttypesnameen', unique, where: `_deleted = false`]
+    (egcs_fo_fundingopportunity, egcs_fo_name_fr) [name: 'fo_idx_attachmenttypesnamefr', unique, where: `_deleted = false`]
+  }
+}
+Ref: Funding_Opportunity_Attachment_Types.egcs_fo_attachmenttype > Common_Attachment_Types.id [delete: restrict]
+Ref: Funding_Opportunity_Attachment_Types.egcs_fo_fundingopportunity > Funding_Opportunity_Profile.id [delete: restrict]
+
+Table Funding_Opportunity_Review_Committee_Setup {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fo_fundingopportunity bigint [not null]
+  egcs_fo_name_en varchar(255) [not null] // English name of the funding opportunity Committee.
+  egcs_fo_name_fr varchar(255) [not null] // French name of the funding opportunity Committee.
+  egcs_fo_description_en text [not null]
+  egcs_fo_description_fr text [not null]
+
+  Indexes {
+    (egcs_fo_fundingopportunity, egcs_fo_name_en) [name: 'fo_idx_reviewcommitteesetupnameen', unique, where: `_deleted = false`]
+    (egcs_fo_fundingopportunity, egcs_fo_name_fr) [name: 'fo_idx_reviewcommitteesetupnamefr', unique, where: `_deleted = false`]
+  }
+}
+Ref: Funding_Opportunity_Review_Committee_Setup.egcs_fo_fundingopportunity > Funding_Opportunity_Profile.id [delete: restrict]
+
+Table Funding_Opportunity_Review_Committee_Membership_Setup {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fo_reviewcommitteesetup bigint [not null]
+  egcs_fo_contact bigint [not null] // Contact associated with the funding opportunity adjudication committee member.
+  egcs_fo_areaofexpertise bigint [not null]
+
+  Indexes {
+    (egcs_fo_reviewcommitteesetup, egcs_fo_contact, egcs_fo_areaofexpertise) [name: 'fo_idx_uniquecommiteememberperexpertise', unique, where: `_deleted = false`]
+  }
+}
+Ref: Funding_Opportunity_Review_Committee_Membership_Setup.egcs_fo_reviewcommitteesetup > Funding_Opportunity_Review_Committee_Setup.id [delete: restrict]
+Ref: Funding_Opportunity_Review_Committee_Membership_Setup.egcs_fo_contact > Common_User.id [delete: restrict]
+Ref: Funding_Opportunity_Review_Committee_Membership_Setup.egcs_fo_areaofexpertise > Transfer_Payment_Stream_Area_of_Expertise.id [delete: restrict]
+
+Table Funding_Case_Intake_Profile {
+  _deleted boolean [not null, default: false]
+  id bigint [pk, not null] /*
+PK sourced from Common_Entity via trigger on insert.
+See: trg_register_fundingcaseintake
+  */
+  egcs_fi_applicationid bigint [not null] // ID generated from external system (e.g. GCForms)
+  egcs_fi_application jsonb [not null] // The fulfillment of the schema defined in the FO
+
+  Indexes {
+    egcs_fi_applicationid [name: 'fi_idx_profileapplicationid', unique, where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Intake_Profile.id > Common_Entity.id [delete: restrict]
+
+Table Funding_Case_Intake_Pre_Award_Application_Outcome {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fi_application bigint [not null]
+  egcs_fi_transferpaymentstreamoutcome bigint [not null]
+
+  Indexes {
+    (egcs_fi_application, egcs_fi_transferpaymentstreamoutcome) [name: 'fi_idx_uniqueapplicationoutcome', unique, where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Intake_Pre_Award_Application_Outcome.egcs_fi_application > Funding_Case_Intake_Profile.id [delete: restrict]
+Ref: Funding_Case_Intake_Pre_Award_Application_Outcome.egcs_fi_transferpaymentstreamoutcome > Transfer_Payment_Outcome.id [delete: restrict]
+
+Table Funding_Case_Intake_Pre_Award_Application_Budget_Fiscal_Year {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fi_application bigint [not null]
+  egcs_fi_fiscalyear bigint [not null]
+
+  Indexes {
+    (egcs_fi_application, egcs_fi_fiscalyear) [name: 'fi_idx_preawardapplicationbudgetfiscalyearapplicationfiscalyear', unique, where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Intake_Pre_Award_Application_Budget_Fiscal_Year.egcs_fi_application > Funding_Case_Intake_Profile.id [delete: restrict]
+Ref: Funding_Case_Intake_Pre_Award_Application_Budget_Fiscal_Year.egcs_fi_fiscalyear > Funding_Opportunity_Budget_Fiscal_Year.id [delete: restrict]
+
+Table Funding_Case_Intake_Pre_Award_Application_Budget_Line_Item {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fi_fundingagreementbudgetfiscalyear bigint [not null]
+  egcs_fi_costcategory bigint [not null] // Financial year associated to the transfer payment program's budget.
+  egcs_fi_description varchar(255) [not null]
+  egcs_fi_totalamount numeric(19,2) [not null]
+  egcs_fi_programfunding numeric(19,2) [not null]
+  egcs_fi_otherfederalfunding numeric(19,2)
+  egcs_fi_othergovfunding numeric(19,2)
+  egcs_fi_otherfunding numeric(19,2)
+  egcs_fi_currency Currency_Codes [not null] // Controlled list from OD tables
+}
+Ref: Funding_Case_Intake_Pre_Award_Application_Budget_Line_Item.egcs_fi_fundingagreementbudgetfiscalyear > Funding_Case_Intake_Pre_Award_Application_Budget_Fiscal_Year.id [delete: restrict]
+Ref: Funding_Case_Intake_Pre_Award_Application_Budget_Line_Item.egcs_fi_costcategory > Funding_Opportunity_Budget_Cost_Category.id [delete: restrict]
+
+Table Funding_Case_Intake_Assessment_Decision {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fi_application bigint [not null]
+  egcs_fi_decisiontype Decision_Type [not null]
+  egcs_fi_screening bigint [not null]
+  egcs_fi_result smallint [not null] // A numerical result representing result (0/1 = pass/fail or 0,1,2,3,5 for grouping, dependant on agency, especially useful if there are multiple assessments.
+
+  Indexes {
+    egcs_fi_application [name: 'fi_idx_assessmentdecisionapplication', unique, where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Intake_Assessment_Decision.egcs_fi_application > Funding_Case_Intake_Profile.id [delete: restrict]
+
+Table Funding_Case_Agreement_Profile {
+  _deleted boolean [not null, default: false]
+  id bigint [pk, not null] /*
+PK sourced from Common_Entity via trigger on insert.
+See: trg_register_fundingcaseagreement
+  */
+  egcs_fc_agreementnumber varchar(15) [not null] // User readable number
+  egcs_fc_transferpaymentstream bigint [not null]
+  egcs_fc_financialsystemnumber bigint [not null] // SAP/IFMS or other financial system number
+  egcs_fc_title_en varchar(255) [not null]
+  egcs_fc_title_fr varchar(255) [not null]
+  egcs_fc_description_en text [not null]
+  egcs_fc_description_fr text [not null]
+  egcs_fc_agreementtype Agreement_Type [not null]
+  egcs_fc_agreementsubtype bigint [not null]
+  egcs_fc_furtherdistribution boolean [not null] // Does the agreement flow through funding to the ultimate recipients
+  egcs_fc_authorizedassistancestartdate date [not null]
+  egcs_fc_authorizedassistanceenddate date [not null]
+  egcs_fc_fundingintake bigint
+
+  Indexes {
+    (egcs_fc_transferpaymentstream, egcs_fc_agreementnumber) [name: 'fc_idx_profiletransferpaymentstreamagreementnumber', unique, where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Profile.id > Common_Entity.id [delete: restrict]
+Ref: Funding_Case_Agreement_Profile.egcs_fc_transferpaymentstream > Transfer_Payment_Stream.id [delete: restrict]
+Ref: Funding_Case_Agreement_Profile.egcs_fc_fundingintake > Funding_Case_Intake_Profile.id [delete: restrict]
+Ref fc_ref_profileagreementsubtypetransferpaymentstream: Funding_Case_Agreement_Profile.(egcs_fc_agreementsubtype, egcs_fc_transferpaymentstream) > Transfer_Payment_Agreement_Subtype.(id, egcs_tp_transferpaymentstream)
+
+Table Funding_Case_Agreement_Applicant_Recipient {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_fundingagreement bigint [not null]
+  egcs_fc_applicantrecipient bigint [not null]
+
+  Indexes {
+    (egcs_fc_applicantrecipient, egcs_fc_fundingagreement) [name: 'fc_idx_applicantrecipientapplicantrecipientfundingagreement', where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Applicant_Recipient.egcs_fc_fundingagreement > Funding_Case_Agreement_Profile.id [delete: restrict]
+Ref: Funding_Case_Agreement_Applicant_Recipient.egcs_fc_applicantrecipient > Applicant_Recipient_Profile.id [delete: restrict]
+
+Table Funding_Case_Agreement_Budget_Fiscal_Year {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_fundingagreement bigint [not null]
+  egcs_fc_fiscalyear bigint [not null]
+
+  Indexes {
+    (egcs_fc_fundingagreement, egcs_fc_fiscalyear) [name: 'fc_idx_budgetfiscalyearfundingagreementfiscalyear', unique, where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Budget_Fiscal_Year.egcs_fc_fundingagreement > Funding_Case_Agreement_Profile.id [delete: restrict]
+Ref: Funding_Case_Agreement_Budget_Fiscal_Year.egcs_fc_fiscalyear > Agency_Fiscal_Year.id [delete: restrict]
+
+Table Funding_Case_Agreement_Budget_Line_Item {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_fundingagreementbudgetfiscalyear bigint [not null] // Financial year associated to the transfer payment program's budget.
+  egcs_fc_organizationcostcategory bigint [not null]
+  egcs_fc_costsubsection varchar(255) [not null]
+  egcs_fc_description text [not null]
+  egcs_fc_totalamount numeric(19,2) [not null]
+  egcs_fc_programfunding numeric(19,2) [not null]
+  egcs_fc_otherfederalfunding numeric(19,2)
+  egcs_fc_othergovfunding numeric(19,2)
+  egcs_fc_otherfunding numeric(19,2)
+  egcs_fc_currency Currency_Codes [not null]
+
+  Indexes {
+    (egcs_fc_fundingagreementbudgetfiscalyear, egcs_fc_organizationcostcategory) [name: 'fc_idx_uniquebudgetline', where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Budget_Line_Item.egcs_fc_fundingagreementbudgetfiscalyear > Funding_Case_Agreement_Budget_Fiscal_Year.id [delete: restrict]
+Ref: Funding_Case_Agreement_Budget_Line_Item.egcs_fc_organizationcostcategory > Agency_Cost_Category_Line_Item.id [delete: restrict]
+
+Table Funding_Case_Agreement_Address {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_fundingagreement bigint [not null]
+  egcs_fc_address bigint [not null]
+  egcs_fc_type bigint [not null] // Dept specific lookup
+
+  Indexes {
+    (egcs_fc_fundingagreement, egcs_fc_address) [name: 'fc_idx_addressfundingagreementaddress', where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Address.egcs_fc_fundingagreement > Funding_Case_Agreement_Profile.id [delete: restrict]
+Ref: Funding_Case_Agreement_Address.egcs_fc_address > Common_Address.id [delete: restrict]
+Ref: Funding_Case_Agreement_Address.egcs_fc_type > Agency_Address_Type.id [delete: restrict]
+
+Table Funding_Case_Agreement_Outcome {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_fundingagreement bigint [not null]
+  egcs_fc_outcomes bigint [not null]
+
+  Indexes {
+    (egcs_fc_fundingagreement, egcs_fc_outcomes) [name: 'fc_idx_outcomefundingagreementoutcomes', where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Outcome.egcs_fc_fundingagreement > Funding_Case_Agreement_Profile.id [delete: restrict]
+Ref: Funding_Case_Agreement_Outcome.egcs_fc_outcomes > Transfer_Payment_Outcome.id [delete: restrict]
+
+Table Funding_Case_Agreement_Activity {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_description text [not null] // Description of the funding case activity.
+  egcs_fc_startdate date [not null] // Beginning date of the activity.
+  egcs_fc_enddate date [not null] // Completion date of the activity.
+  egcs_fc_expectedresults text [not null] // Expected results
+  egcs_fc_name_en varchar(255) [not null] // English name of the funding case activity.
+  egcs_fc_name_fr varchar(255) [not null] // French name of the funding case activity.
+}
+
+Table Funding_Case_Agreement_Outcome_Activity {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_outcomes bigint [not null]
+  egcs_fc_activity bigint [not null]
+
+  Indexes {
+    (egcs_fc_outcomes, egcs_fc_activity) [name: 'fc_idx_outcomeactivityoutcomesactivity', where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Outcome_Activity.egcs_fc_outcomes > Funding_Case_Agreement_Outcome.id [delete: restrict]
+Ref: Funding_Case_Agreement_Outcome_Activity.egcs_fc_activity > Funding_Case_Agreement_Activity.id [delete: restrict]
+
+Table Funding_Case_Agreement_Responsible_Party_Activity {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_responsibleparty bigint [not null]
+  egcs_fc_activity bigint [not null]
+
+  Indexes {
+    (egcs_fc_activity, egcs_fc_responsibleparty) [name: 'fc_idx_responsiblepartyactivityactivityresponsibleparty', where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Responsible_Party_Activity.egcs_fc_responsibleparty > Funding_Case_Agreement_Applicant_Recipient.id [delete: restrict]
+Ref: Funding_Case_Agreement_Responsible_Party_Activity.egcs_fc_activity > Funding_Case_Agreement_Activity.id [delete: restrict]
+
+Table Funding_Case_Agreement_Forecast {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_fundingagreement bigint [not null]
+  egcs_fc_fiscalyear bigint [not null]
+
+  Indexes {
+    (egcs_fc_fiscalyear, egcs_fc_fundingagreement) [name: 'fc_idx_forecastfiscalyearfundingagreement', where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Forecast.egcs_fc_fundingagreement > Funding_Case_Agreement_Profile.id [delete: restrict]
+Ref: Funding_Case_Agreement_Forecast.egcs_fc_fiscalyear > Funding_Case_Agreement_Budget_Fiscal_Year.id [delete: restrict]
+
+Table Funding_Case_Agreement_Forecast_Line_Item {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_agreementforecast bigint [not null]
+  egcs_fc_fundingagreementbudgetlineitem bigint [not null]
+  egcs_fc_month smallint [not null] // 0-11 to months
+  egcs_fc_amount numeric(19,2) [not null]
+  egcs_fc_currency Currency_Codes [not null]
+  egcs_fc_version bigint [not null]
+  egcs_fc_status Statuses [not null]
+
+  Indexes {
+    (egcs_fc_agreementforecast, egcs_fc_fundingagreementbudgetlineitem) [name: 'fc_idx_forecastlineitem', where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Forecast_Line_Item.egcs_fc_agreementforecast > Funding_Case_Agreement_Forecast.id [delete: restrict]
+Ref: Funding_Case_Agreement_Forecast_Line_Item.egcs_fc_fundingagreementbudgetlineitem > Funding_Case_Agreement_Budget_Line_Item.id [delete: restrict]
+
+Table Funding_Case_Agreement_Claim {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_fundingagreement bigint [not null]
+  egcs_fc_fiscalyear bigint [not null]
+  egcs_fc_isfinalforyear boolean [not null] // Is final claim for fiscal year
+  egcs_fc_periodend smallint [not null] // End month of the claim period.
+  egcs_fc_periodstart smallint [not null] // Start month of the claim period.
+  egcs_fc_receiveddate timestamptz [not null] // Date when the claim was received.
+  egcs_fc_status Statuses [not null]
+
+  Indexes {
+    (egcs_fc_fundingagreement, egcs_fc_fiscalyear) [name: 'fc_idx_claimfundingagreementfiscalyear', where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Claim.egcs_fc_fundingagreement > Funding_Case_Agreement_Profile.id [delete: restrict]
+Ref: Funding_Case_Agreement_Claim.egcs_fc_fiscalyear > Funding_Case_Agreement_Budget_Fiscal_Year.id [delete: restrict]
+
+Table Funding_Case_Agreement_Claim_Line_Item {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_fundingagreementclaim bigint [not null]
+  egcs_fc_fundingagreementbudgetlineitem bigint [not null]
+  egcs_fc_description text [not null]
+  egcs_fc_amount numeric(19,2) [not null]
+  egcs_fc_currency Currency_Codes [not null]
+
+  Indexes {
+    (egcs_fc_fundingagreementclaim, egcs_fc_fundingagreementbudgetlineitem) [name: 'fc_idx_uniqueclaimlineitem', unique, where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Claim_Line_Item.egcs_fc_fundingagreementclaim > Funding_Case_Agreement_Claim.id [delete: restrict]
+Ref: Funding_Case_Agreement_Claim_Line_Item.egcs_fc_fundingagreementbudgetlineitem > Funding_Case_Agreement_Budget_Line_Item.id [delete: restrict]
+
+Table Funding_Case_Agreement_Claim_Reconcile {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_fundingagreementclaim bigint [not null]
+  egcs_fc_user bigint [not null]
+  egcs_fc_status Statuses [not null]
+  egcs_fc_isfinal boolean [not null] // Is final reconcile for claim
+
+  Indexes {
+    egcs_fc_fundingagreementclaim [name: 'fc_idx_claimreconcilefundingagreementclaim', unique, where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Claim_Reconcile.egcs_fc_fundingagreementclaim > Funding_Case_Agreement_Claim.id [delete: restrict]
+Ref: Funding_Case_Agreement_Claim_Reconcile.egcs_fc_user > Common_User.id [delete: restrict]
+
+Table Funding_Case_Agreement_Claim_Reconcile_Line_Item {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_fundingagreementclaimreconcile bigint [not null]
+  egcs_fc_lineitem bigint [not null]
+  egcs_fc_reconciled numeric(19,2) [not null] // Amount approved from the claim (ideally as percentage or number input)
+  egcs_fc_sampled numeric(19,2) // Amount sample for this line
+  egcs_fc_rationale text
+
+  Indexes {
+    (egcs_fc_fundingagreementclaimreconcile, egcs_fc_lineitem) [name: 'fc_idx_uniquereconcilelineitem', unique, where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Claim_Reconcile_Line_Item.egcs_fc_fundingagreementclaimreconcile > Funding_Case_Agreement_Claim_Reconcile.id [delete: restrict]
+Ref: Funding_Case_Agreement_Claim_Reconcile_Line_Item.egcs_fc_lineitem > Funding_Case_Agreement_Claim_Line_Item.id [delete: restrict]
+
+Table Funding_Case_Agreement_Commitment {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_fundingagreement bigint [not null]
+  egcs_fc_type Commitment_Type [not null]
+  egcs_fc_status Statuses [not null]
+  egcs_fc_financialsystemnumber bigint // Required on terminal status (e.g. Active)
+  egcs_fc_commitmentamount numeric(19,2) [not null]
+
+  Indexes {
+    (egcs_fc_fundingagreement, egcs_fc_type) [name: 'fc_idx_commitmentfundingagreementtype', unique, where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Commitment.egcs_fc_fundingagreement > Funding_Case_Agreement_Profile.id [delete: restrict]
+
+Table Funding_Case_Agreement_Commitment_Line {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_commitment bigint [not null]
+  egcs_fc_commitmentlinenumber smallint [not null]
+  egcs_fc_transferpaymentstreamcommitment bigint [not null]
+  egcs_fc_amount numeric(19,2) [not null]
+
+  Indexes {
+    (egcs_fc_commitment, egcs_fc_commitmentlinenumber, egcs_fc_transferpaymentstreamcommitment) [name: 'fc_idx_uniquecommitmentline', unique, where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Commitment_Line.egcs_fc_commitment > Funding_Case_Agreement_Commitment.id [delete: restrict]
+Ref: Funding_Case_Agreement_Commitment_Line.egcs_fc_transferpaymentstreamcommitment > Transfer_Payment_Stream_Commitment.id [delete: restrict]
+
+Table Funding_Case_Agreement_Payment {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_fundingagreement bigint [not null]
+  egcs_fc_isfinalforyear boolean [not null] // Is final claim for fiscal year
+  egcs_fc_periodend smallint [not null] // The last month of the payment period
+  egcs_fc_periodstart smallint [not null] // The first month of the payment period
+  egcs_fc_paymenttype Payment_Type [not null]
+  egcs_fc_comment text // An optional comment field
+  egcs_fc_status Payment_Status [not null]
+  egcs_fc_holdback numeric(5,2) // The percentage of either the total agreement value or the final year fiscal year value that will be withheld until the final payment
+  egcs_fc_financialsystemnumber bigint // Required on terminal status (e.g. Paid)
+  egcs_fc_totalclaimstolastclaimmonth numeric(19,2) [not null] // The total value of all processed claims for the agreement
+  egcs_fc_totalforecasttolastclaimmonth numeric(19,2) [not null] // The total forecast amount for all months up to and including the last month for which a processed claim exists
+  egcs_fc_totalshortfall numeric(19,2) [not null] // = [Total Claims to Last Claim Month] – [Total Forecast to Last Claim Month] (if the amount is negative, it is slippage, meaning it will be subtracted from the payment total; if the amount is positive, it is a shortfall, meaning the recipient did not forecast enough and it will be added to the payment total)
+  egcs_fc_totalforecasttoperiodend numeric(19,2) [not null] // The total forecast amount for all months up to and including the last month of the payment period
+  egcs_fc_totalpaymentstodate numeric(19,2) [not null] // The total value of all processed payments for the agreement
+  egcs_fc_totalnextadvancepayment numeric(19,2) [not null] // = [Total Forecast to Period End] – [Total Payments to Date] (the value of the advance payment based on the forecast before accounting for the shortfall)
+  egcs_fc_previousclaimstotal numeric(19,2) [not null] // If there are claims for the agreement that were processed outside of the system, the amount will be reflected here and added to the total claimed amount in the calculation
+  egcs_fc_previouspaymentstotal numeric(19,2) [not null] // If there are payments for the agreement that were processed outside of the system, the amount will be reflected here and added to the total paid amount in the calculation
+  egcs_fc_holdbackamount numeric(19,2) [not null] // = [Total Agreement Value] OR [Final Year Fiscal Value] * [Holdback %]
+  egcs_fc_availablefordisbursement numeric(19,2) [not null] // = [Total Claimed] + [Total Forecast for Unclaimed Months in Current FY] + [Total FY Value of Future Fiscal Years] – [Total Payments] – [Holdback Amount] (i.e. the amount of money that can be paid before the Holdback threshold is reached)
+  egcs_fc_payeavailablefordisbursement numeric(19,2) [not null] // For PAYE payments, this is the total amount of unpaid money remaining in the PAYE commitment
+  egcs_fc_paye2availablefordisbursement numeric(19,2) [not null] // For PAYE2 payments, this is the total amount of unpaid money remaining on the PAYE2 commitment line
+  egcs_fc_previousyearpayeavailablefordisbursement numeric(19,2) [not null] // For previous-year PAYE payments (i.e. PAYEs for a fiscal year that is two years ago or earlier), this is the total amount of unpaid money remaining in the PYP commitment
+  egcs_fc_commitmentavailablefordisbursement numeric(19,2) [not null] // For standard payments, this is the total amount of unpaid money remaining on the commitment line(s) for the current fiscal year
+  egcs_fc_totalsystemcalculatedamount numeric(19,2) [not null] /*
+For reimbursements, = [Total Claims to Last Claim Month] minus [Total Payments to Date]
+ For advances, = [Total Shortfall] + [Total Next Advance Payment]
+  */
+  egcs_fc_holdbackrelease numeric(19,2) [not null] // The amount of the holdback that is being released as part of the payment, either because it is the final payment or the Release Holdback manual override is engaged
+  egcs_fc_paymentamount numeric(19,2) [not null] /*
+The total payment amount. It is equal to the lower of:
+  
+ Available for Disbursement (except for the final payment or payments where the Release Holdback manual override is engaged) 
+ PAYE Available for Disbursement (PAYE payments only)
+ PAYE2 Available for Disbursement (PAYE2 payments only)
+ PYP Available for Disbursement (PYP payments only)
+ Commit. Available for Disbursement (standard payments only)
+ Total System Calculated Amount
+  */
+
+  Indexes {
+    egcs_fc_fundingagreement [name: 'fc_idx_paymentfundingagreement', where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Payment.egcs_fc_fundingagreement > Funding_Case_Agreement_Profile.id [delete: restrict]
+
+Table Funding_Case_Agreement_Payment_Line {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_fundingagreementcommitmentline bigint [not null]
+  egcs_fc_amount numeric(19,2) [not null]
+
+  Indexes {
+    egcs_fc_fundingagreementcommitmentline [name: 'fc_idx_paymentlinefundingagreementcommitmentline', where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Payment_Line.egcs_fc_fundingagreementcommitmentline > Funding_Case_Agreement_Commitment_Line.id [delete: restrict]
+
+Table Funding_Case_Agreement_Amendment {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_amendmentnumber smallint [not null] // automatically generated, incremented on approved amendments
+  egcs_fc_fundingagreement bigint [not null]
+  egcs_fc_type bigint [not null]
+
+  Indexes {
+    (egcs_fc_fundingagreement, egcs_fc_amendmentnumber) [name: 'fc_idx_amendmentfundingagreementamendmentnumber', where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Amendment.egcs_fc_fundingagreement > Funding_Case_Agreement_Profile.id [delete: restrict]
+Ref: Funding_Case_Agreement_Amendment.egcs_fc_type > Transfer_Payment_Amendment_Type.id [delete: restrict]
+
+Table Funding_Case_Agreement_Monitor {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_fundingagreement bigint [not null]
+  egcs_fc_type bigint [not null]
+  egcs_fc_onsite boolean [not null]
+  egcs_fc_tentativefiscalyear bigint [not null] // Monitors may be done after the completion of the CA so the fiscal year may be outside the funded period.
+  egcs_fc_tentativequarter smallint [not null]
+
+  Indexes {
+    egcs_fc_fundingagreement [name: 'fc_idx_monitorfundingagreement', where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Monitor.egcs_fc_fundingagreement > Funding_Case_Agreement_Profile.id [delete: restrict]
+Ref: Funding_Case_Agreement_Monitor.egcs_fc_type > Transfer_Payment_Monitor_Type.id [delete: restrict]
+Ref: Funding_Case_Agreement_Monitor.egcs_fc_tentativefiscalyear > Agency_Fiscal_Year.id [delete: restrict]
+
+Table Funding_Case_Agreement_Monitor_Planning {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_fundingagreementmonitor bigint [not null]
+  egcs_fc_objective text [not null]
+
+  Indexes {
+    egcs_fc_fundingagreementmonitor [name: 'fc_idx_monitorplanningfundingagreementmonitor', where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Monitor_Planning.egcs_fc_fundingagreementmonitor > Funding_Case_Agreement_Monitor.id [delete: restrict]
+
+Table Funding_Case_Agreement_Monitor_Items {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_fundingagreementmonitor bigint [not null]
+  egcs_fc_item varchar(255) [not null]
+  egcs_fc_plannedstart date [not null]
+  egcs_fc_plannedend date [not null]
+  egcs_fc_detail text [not null]
+  egcs_fc_monitored boolean [not null]
+  egcs_fc_actualstart date
+  egcs_fc_actualend date
+
+  Indexes {
+    egcs_fc_fundingagreementmonitor [name: 'fc_idx_monitoritemsfundingagreementmonitor', where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Monitor_Items.egcs_fc_fundingagreementmonitor > Funding_Case_Agreement_Monitor.id [delete: restrict]
+
+Table Funding_Case_Agreement_Monitor_Finding {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_fundingagreementmonitor bigint [not null]
+  egcs_fc_findingname varchar(255) [not null] // Name for finding
+  egcs_fc_recommendationtype Monitor_Action_Type [not null]
+  egcs_fc_responsibleparty Monitor_Responsible_Party [not null]
+  egcs_fc_detail text [not null]
+
+  Indexes {
+    egcs_fc_fundingagreementmonitor [name: 'fc_idx_monitorfindingfundingagreementmonitor', where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Monitor_Finding.egcs_fc_fundingagreementmonitor > Funding_Case_Agreement_Monitor.id [delete: restrict]
+
+Table Funding_Case_Agreement_Monitor_Followup {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_fundingagreementmonitor bigint [not null]
+  egcs_fc_followupname varchar(255) [not null]
+  egcs_fc_responsibleparty Monitor_Responsible_Party [not null]
+  egcs_fc_status Follow_Up_Status [not null]
+  egcs_fc_duedate date [not null]
+
+  Indexes {
+    egcs_fc_fundingagreementmonitor [name: 'fc_idx_monitorfollowupfundingagreementmonitor', where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Monitor_Followup.egcs_fc_fundingagreementmonitor > Funding_Case_Agreement_Monitor.id [delete: restrict]
+
+Table Funding_Case_Agreement_Monitor_Followup_Update {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_fundingagreementmonitorfollowup bigint [not null]
+  egcs_fc_update text [not null]
+
+  Indexes {
+    egcs_fc_fundingagreementmonitorfollowup [name: 'fc_idx_monitorfollowupupdatefundingagreementmonitorfollowup', where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Monitor_Followup_Update.egcs_fc_fundingagreementmonitorfollowup > Funding_Case_Agreement_Monitor_Followup.id
+
+Table Funding_Case_Agreement_Monitor_Promising_Practice {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_fc_fundingagreementmonitor bigint [not null]
+  egcs_fc_practice text [not null]
+
+  Indexes {
+    egcs_fc_fundingagreementmonitor [name: 'fc_idx_monitorpromisingpracticefundingagreementmonitor', where: `_deleted = false`]
+  }
+}
+Ref: Funding_Case_Agreement_Monitor_Promising_Practice.egcs_fc_fundingagreementmonitor > Funding_Case_Agreement_Monitor.id [delete: restrict]
+
+Table Common_Contact {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_cn_title varchar(255) // Contact's title
+  egcs_cn_name varchar(255) [not null] // Name of the contact
+  egcs_cn_businessphone bigint // Primary telephone associated to the Account's address.
+  egcs_cn_businessphoneextension bigint // Telephone extension to reach the contact.
+  egcs_cn_generallanguagepreference Language_Preference [not null] // The general language preference of the contact (eng/fra).
+  egcs_cn_jobtitle_en varchar(255) [not null] // English name of the job title for the contact.
+  egcs_cn_jobtitle_fr varchar(255) [not null] // French name of the job title for the contact.
+  egcs_cn_primaryaccount boolean [not null] // Primary account associated with this contact.
+  egcs_cn_email public.citext [not null] // Email address for this contact
+
+  Indexes {
+    egcs_cn_email [name: 'cn_idx_contactemail', unique, where: `_deleted = false`]
+  }
+}
+
+Table Common_Address {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_cn_federalridingid integer [not null] // Federal riding ID based on geo-location data or manually captured
+  egcs_cn_addresscity varchar(255) [not null] // City associated to the Account's address.
+  egcs_cn_addresscountry Countries [not null] // Country associated to the Account's address.
+  egcs_cn_addresssubdivision varchar(255) [not null] // Enum, Jurisdiction if country is CA, otherwise varchar
+  egcs_cn_gc_addressid bigint [not null] // Unique identifier for entity instances
+  egcs_cn_latitude numeric(10,7) // Latitude coordinate associated to the an address.
+  egcs_cn_longitude numeric(10,7) // Longitude coordinate associated to the an address.
+  egcs_cn_mainphone bigint [not null] // Primary telephone associated to the Account's address.
+  egcs_cn_mainphoneextension smallint // Telephone extension associated to the Account's main telephone number.
+  egcs_cn_postalcodezipcode varchar(255) [not null] // Postal code associated to the Account's address.
+  egcs_cn_street1 varchar(255) [not null] // Line 1 of the street associated to the Account's address.
+  egcs_cn_street2 varchar(255) // Line 2 of the street associated to the Account's address.
+  egcs_cn_street3 varchar(255) // Line 3 of the street associated to the Account's address.
+
+  checks {
+    `(egcs_cn_addresscountry = 'ca' AND egcs_cn_addresssubdivision::text IN (SELECT enum_range(NULL::Jurisdiction)::text)) OR (egcs_cn_addresscountry <> 'ca')` [name: 'cn_chk_addressaddresscountryaddresssubdivision']
+  }
+}
+
+Table Common_Form_Schema {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_cn_agency bigint [not null] // Agency to which this assessment belongs
+  egcs_cn_status Base_Status [not null]
+  egcs_cn_version numeric(10,2) [not null]
+  egcs_cn_name_en varchar(255) [not null] // Checklist name (en)
+  egcs_cn_name_fr varchar(255) [not null] // Checklist name (fr)
+  egcs_cn_schema jsonb [not null]
+
+  Indexes {
+    (egcs_cn_agency, egcs_cn_name_en, egcs_cn_version) [name: 'cn_idx_formschemaagencynameenversion', unique, where: `_deleted = false`]
+    (egcs_cn_agency, egcs_cn_name_fr, egcs_cn_version) [name: 'cn_idx_formschemaagencynamefrversion', unique, where: `_deleted = false`]
+  }
+}
+Ref: Common_Form_Schema.egcs_cn_agency > Agency_Profile.id [delete: restrict]
+
+Table Common_Attachment_Types {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_cn_agency bigint [not null] // Agency to which this assessment belongs
+  egcs_cn_name_en varchar(255) [not null]
+  egcs_cn_name_fr varchar(255) [not null]
+  egcs_cn_description_en text [not null]
+  egcs_cn_description_fr text [not null]
+
+  Indexes {
+    (egcs_cn_agency, egcs_cn_name_en) [name: 'cn_idx_attachmenttypesagencynameen', unique, where: `_deleted = false`]
+    (egcs_cn_agency, egcs_cn_name_fr) [name: 'cn_idx_attachmenttypesagencynamefr', unique, where: `_deleted = false`]
+  }
+}
+Ref: Common_Attachment_Types.egcs_cn_agency > Agency_Profile.id [delete: restrict]
+
+Table Common_Attachment {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_cn_attachmenttype bigint [not null]
+  egcs_cn_name_en varchar(255) [not null]
+  egcs_cn_name_fr varchar(255) [not null]
+  egcs_cn_description_en text [not null]
+  egcs_cn_description_fr text [not null]
+  egcs_cn_bucketorcontainer varchar [not null] // Name of bucket for files (e.g. my-app-uploads)
+  egcs_cn_objectkey varchar [not null] // ID for document (GCDocs) or S3 Key for fle (e.g. uploads/2026/03/document.pdf)
+  egcs_cn_region varchar // Useful for S3 to specify the AWS region
+  egcs_cn_mimetype text [not null] // mime type for file (e.g. application/pdf)
+  egcs_cn_createdat timestamptz [not null]
+  egcs_cn_filesize bigint [not null]
+  egcs_cn_provider varchar(15) [not null] // Amazon S3, Azure, GCDocs, etc
+
+  Indexes {
+    (egcs_cn_bucketorcontainer, egcs_cn_objectkey) [name: 'cn_idx_attachmentbucketorcontainerobjectkey', unique, where: `_deleted = false`]
+  }
+}
+Ref: Common_Attachment.egcs_cn_attachmenttype > Common_Attachment_Types.id [delete: restrict]
+
+Table Common_User {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_cn_name text [not null]
+  egcs_cn_position_title text [not null]
+  egcs_cn_email public.citext [not null]
+  egcs_cn_email_verified boolean [not null]
+  egcs_cn_image text
+  egcs_cn_created_at timestamptz [not null]
+  egcs_cn_updated_at timestamptz [not null]
+
+  Indexes {
+    egcs_cn_email [name: 'cn_idx_useremail', unique, where: `_deleted = false`]
+  }
+}
+
+Table Common_GWCOA {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_cn_number smallint [not null, unique]
+  egcs_cn_name_en varchar(255) [not null]
+  egcs_cn_name_fr varchar(255) [not null]
+
+  Indexes {
+    (egcs_cn_number, egcs_cn_name_en) [name: 'cn_idx_gwcoanumbernameen', unique, where: `_deleted = false`]
+    (egcs_cn_number, egcs_cn_name_fr) [name: 'cn_idx_gwcoanumbernamefr', unique, where: `_deleted = false`]
+  }
+}
+
+Table Common_Entity {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // Authoritative ID generator for all registered entities. Concrete registered root tables reuse this ID via trigger-populated `NEW.id`.
+  egcs_cn_entitytype Entity_Type [not null]
+
+  Indexes {
+    (id, egcs_cn_entitytype) [name: 'cn_idx_entityidentitytype', unique]
+  }
+}
+
+Table Common_Completion {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_cn_entitytype Entity_Type [not null]
+  egcs_cn_entityid bigint [not null]
+  egcs_cn_value boolean [not null]
+  egcs_cn_comments text
+  egcs_cn_user bigint [not null]
+  egcs_cn_completedat timestamptz [not null]
+
+  Indexes {
+    (egcs_cn_entitytype, egcs_cn_entityid) [name: 'cn_idx_completionentitytypeentityid', unique, where: `_deleted = false`]
+  }
+
+  checks {
+    `egcs_cn_entitytype NOT IN ('fundingopportunity', 'transferpaymentstream', 'fundingcaseintake', 'fundingcaseagreement', 'applicantrecipient')` [name: 'cn_chk_completionentitytype']
+  }
+}
+Ref: Common_Completion.egcs_cn_user > Common_User.id [delete: restrict]
+Ref cn_ref_completionentityidentitytype: Common_Completion.(egcs_cn_entityid, egcs_cn_entitytype) > Common_Entity.(id, egcs_cn_entitytype)
+
+Table Common_Additional_Reviewers {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_cn_entitytype Entity_Type [not null]
+  egcs_cn_entityid bigint [not null]
+  egcs_cn_comments text
+  egcs_cn_user bigint [not null]
+  egcs_cn_completedat timestamptz
+
+  Indexes {
+    (egcs_cn_entitytype, egcs_cn_entityid) [name: 'cn_idx_additionalreviewersentitytypeentityid', where: `_deleted = false`]
+  }
+
+  checks {
+    `egcs_cn_entitytype NOT IN ('fundingopportunity', 'transferpaymentstream', 'fundingcaseintake', 'fundingcaseagreement', 'applicantrecipient')` [name: 'cn_chk_additionalreviewersentitytype']
+  }
+}
+Ref: Common_Additional_Reviewers.egcs_cn_user > Common_User.id [delete: restrict]
+Ref cn_ref_additionalreviewersentityidentitytype: Common_Additional_Reviewers.(egcs_cn_entityid, egcs_cn_entitytype) > Common_Entity.(id, egcs_cn_entitytype)
+
+Table Common_Approval_Template {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_cn_scopeid bigint [not null] // Which specific TP Stream or FO owns this config
+  egcs_cn_scopetype Entity_Type [not null] // fundingopportunity | transferpaymentstream | fundingcaseintake | fundingcaseagreement | applicantrecipient
+  egcs_cn_entitytype Entity_Type [not null] // What completion event triggers set creation
+  egcs_cn_description_en text [not null]
+  egcs_cn_description_fr text [not null]
+  egcs_cn_name_en varchar(255) [not null]
+  egcs_cn_name_fr varchar(255) [not null]
+
+  Indexes {
+    (egcs_cn_scopeid, egcs_cn_scopetype, egcs_cn_entitytype) [name: 'cn_idx_approvaltemplatescopeidscopetypeentitytype', where: `_deleted = false`]
+    (egcs_cn_scopeid, egcs_cn_scopetype, egcs_cn_name_en) [name: 'cn_idx_approvaltemplatescopeidscopetypenameen']
+    (egcs_cn_scopeid, egcs_cn_scopetype, egcs_cn_name_fr) [name: 'cn_idx_approvaltemplatescopeidscopetypenamefr']
+  }
+
+  checks {
+    `egcs_cn_scopetype IN ('fundingopportunity', 'transferpaymentstream')` [name: 'cn_chk_approvaltemplatescopetype']
+    `egcs_cn_entitytype NOT IN ('fundingopportunity', 'transferpaymentstream')` [name: 'cn_chk_approvaltemplateentitytype']
+  }
+}
+Ref cn_ref_approvaltemplatescopeidscopetype: Common_Approval_Template.(egcs_cn_scopeid, egcs_cn_scopetype) > Common_Entity.(id, egcs_cn_entitytype)
+
+Table Common_Approval_Step {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_cn_sequence integer [not null]
+  egcs_cn_description_en text [not null] // e.g. Director level approval
+  egcs_cn_description_fr text [not null]
+  egcs_cn_name_en varchar(255) [not null] // e.g. Director Approval
+  egcs_cn_name_fr varchar(255) [not null]
+  egcs_cn_approvaltemplate bigint [not null]
+  egcs_cn_defaultuser bigint [not null]
+  egcs_cn_approvertitle varchar(255) [not null]
+
+  Indexes {
+    (egcs_cn_approvaltemplate, egcs_cn_name_en) [name: 'cn_idx_approvalstepapprovaltemplatenameen', unique, where: `_deleted = false`]
+    (egcs_cn_approvaltemplate, egcs_cn_name_fr) [name: 'cn_idx_approvalstepapprovaltemplatenamefr', unique, where: `_deleted = false`]
+  }
+}
+Ref: Common_Approval_Step.egcs_cn_approvaltemplate > Common_Approval_Template.id [delete: restrict]
+Ref: Common_Approval_Step.egcs_cn_defaultuser > Common_User.id [delete: restrict]
+
+Table Common_Certification {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_cn_order smallint [not null]
+  egcs_cn_description_en text [not null] // A description to help understand what the certification statement is expected to achieve (EN)
+  egcs_cn_description_fr text [not null] // A description to help understand what the certification statement is expected to achieve (FR)
+  egcs_cn_name_en varchar(255) [not null] // Certification name (en)
+  egcs_cn_name_fr varchar(255) [not null] // Certification name (fr)
+  egcs_cn_optional boolean // If this certification will be optional for certifications to be considered attested.
+  egcs_cn_certification_en text [not null] // The actual certification statement (EN)
+  egcs_cn_certification_fr text [not null] // The actual certification statement (FR)
+  egcs_cn_approvalstep bigint [not null] // The approval step to which this certification is associated
+
+  Indexes {
+    (egcs_cn_approvalstep, egcs_cn_name_en) [name: 'cn_idx_certificationapprovalstepnameen', unique, where: `_deleted = false`]
+    (egcs_cn_approvalstep, egcs_cn_name_fr) [name: 'cn_idx_certificationapprovalstepnamefr', unique, where: `_deleted = false`]
+    (egcs_cn_approvalstep, egcs_cn_order) [name: 'cn_idx_certificationapprovalsteporder', unique, where: `_deleted = false`]
+  }
+}
+Ref: Common_Certification.egcs_cn_approvalstep > Common_Approval_Step.id [delete: restrict]
+
+Table Common_Review_Schema {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_cn_reviewtype Review_Type [not null] // checklist, assessment
+  egcs_cn_entitytype Entity_Type [not null]
+  egcs_cn_agency bigint [not null] // Agency to which this assessment belongs
+  egcs_cn_name_en varchar(255) [not null] // Assessment name (en)
+  egcs_cn_name_fr varchar(255) [not null] // Assessment name (fr)
+  egcs_cn_outcomename_en varchar(255) [not null] // User facing name for the outcome (e.g. Mitigations)
+  egcs_cn_outcomename_fr varchar(255) [not null] // User facing name for the outcome (e.g. Mitigations)
+  egcs_cn_status Statuses [not null]
+  egcs_cn_version numeric(10,2) [not null]
+  egcs_cn_disablecustomoutcomes boolean [not null]
+  egcs_cn_disablealignment boolean [not null]
+  egcs_cn_disablereviewers boolean [not null]
+  egcs_cn_scoringmatrix jsonb
+  egcs_cn_assessmentschema jsonb
+  egcs_cn_publishedscoringmatrix jsonb
+  egcs_cn_publishedassessmentschema jsonb
+
+  Indexes {
+    (id, egcs_cn_entitytype) [name: 'cn_idx_reviewschemaidentitytype', unique]
+    (egcs_cn_agency, egcs_cn_name_en, egcs_cn_version) [name: 'cn_idx_reviewschemaagencynameenversion', unique, where: `_deleted = false`]
+    (egcs_cn_agency, egcs_cn_name_fr, egcs_cn_version) [name: 'cn_idx_reviewschemaagencynamefrversion', unique, where: `_deleted = false`]
+  }
+
+  checks {
+    `egcs_cn_entitytype NOT IN ('fundingopportunity', 'transferpaymentstream', 'commonreview', 'commonrecommendation')` [name: 'cn_chk_reviewschemaentitytype']
+  }
+}
+Ref: Common_Review_Schema.egcs_cn_agency > Agency_Profile.id [delete: restrict]
+
+Table Common_Review_Set_Setup {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_cn_scopetype Entity_Type [not null] // fundingopportunity | transferpaymentstream | fundingcaseintake | fundingcaseagreement | applicantrecipient
+  egcs_cn_scopeid bigint [not null] // Which specific TP Stream or FO owns this config
+  egcs_cn_entitytype Entity_Type [not null] // What completion event triggers set creation
+  egcs_cn_oncompletion boolean [not null] // Is this set generated automatically on completion?
+  egcs_cn_name_en varchar(255) [not null]
+  egcs_cn_name_fr varchar(255) [not null]
+  egcs_cn_order smallint [not null]
+  egcs_cn_sequential boolean [not null] // Are reviews created and completed sequentially?
+  egcs_cn_approvaltemplate bigint
+  egcs_cn_active boolean [not null]
+
+  Indexes {
+    (egcs_cn_scopeid, egcs_cn_entitytype, egcs_cn_name_en) [name: 'cn_idx_reviewsetsetupscopeidentitytypenameen', unique, where: `_deleted = false AND egcs_cn_active = TRUE`]
+    (egcs_cn_scopeid, egcs_cn_entitytype, egcs_cn_name_fr) [name: 'cn_idx_reviewsetsetupscopeidentitytypenamefr', unique, where: `_deleted = false AND egcs_cn_active = TRUE`]
+    (egcs_cn_scopeid, egcs_cn_entitytype, egcs_cn_order) [name: 'cn_idx_reviewsetsetupscopeidentitytypeorder', unique, where: `_deleted = false AND egcs_cn_active = TRUE`]
+    (id, egcs_cn_entitytype) [name: 'cn_idx_reviewsetsetupidentitytype', unique]
+  }
+
+  checks {
+    `egcs_cn_entitytype NOT IN ('fundingopportunity', 'transferpaymentstream', 'commonreview', 'commonrecommendation')` [name: 'cn_chk_reviewsetsetupentitytype']
+    `egcs_cn_scopetype IN ('fundingopportunity', 'transferpaymentstream', 'fundingcaseintake', 'fundingcaseagreement', 'applicantrecipient')` [name: 'cn_chk_reviewsetsetupscopetype']
+  }
+}
+Ref: Common_Review_Set_Setup.egcs_cn_approvaltemplate > Common_Approval_Template.id [delete: restrict]
+Ref cn_ref_reviewsetsetupscopeidscopetype: Common_Review_Set_Setup.(egcs_cn_scopeid, egcs_cn_scopetype) > Common_Entity.(id, egcs_cn_entitytype)
+
+Table Common_Review_Setup {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_cn_entitytype Entity_Type [not null] // Must match `egcs_cn_entitytype` of the parent `Common Review Set Setup` row. Exists solely to enable composite FK type enforcement — do not set independently.
+  egcs_cn_order smallint [not null]
+  egcs_cn_reviewset bigint [not null]
+  egcs_cn_approvaltemplate bigint
+  egcs_cn_reviewschema bigint [not null]
+
+  Indexes {
+    (egcs_cn_reviewset, egcs_cn_order) [name: 'cn_idx_reviewsetupreviewsetorder', unique, where: `_deleted = false`]
+  }
+}
+Ref: Common_Review_Setup.egcs_cn_approvaltemplate > Common_Approval_Template.id [delete: restrict]
+Ref cn_ref_reviewsetupreviewschemaentitytype: Common_Review_Setup.(egcs_cn_reviewschema, egcs_cn_entitytype) > Common_Review_Schema.(id, egcs_cn_entitytype)
+Ref cn_ref_reviewsetupreviewsetentitytype: Common_Review_Setup.(egcs_cn_reviewset, egcs_cn_entitytype) > Common_Review_Set_Setup.(id, egcs_cn_entitytype)
+
+Table Common_Review_Set {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_cn_status Statuses [not null]
+  egcs_cn_reviewsetsetup bigint [not null]
+  egcs_cn_approvaltemplate bigint
+  egcs_cn_entitytype Entity_Type [not null]
+  egcs_cn_entityid bigint [not null]
+
+  Indexes {
+    (egcs_cn_reviewsetsetup, egcs_cn_entitytype, egcs_cn_entityid) [name: 'cn_idx_reviewsetreviewsetsetupentitytypeentityid', where: `_deleted = false AND egcs_cn_status NOT IN (complete, approved, denied, withdrawn, cancelled)`]
+  }
+}
+Ref: Common_Review_Set.egcs_cn_approvaltemplate > Common_Approval_Template.id [delete: restrict]
+Ref cn_ref_reviewsetentityidentitytype: Common_Review_Set.(egcs_cn_entityid, egcs_cn_entitytype) > Common_Entity.(id, egcs_cn_entitytype)
+Ref cn_ref_reviewsetreviewsetsetupentitytype: Common_Review_Set.(egcs_cn_reviewsetsetup, egcs_cn_entitytype) > Common_Review_Set_Setup.(id, egcs_cn_entitytype)
+
+Table Common_Review {
+  _deleted boolean [not null, default: false]
+  id bigint [pk, not null] // PK sourced from Common_Entity via trigger on insert.
+  egcs_cn_helpers jsonb // key-value pairs
+  egcs_cn_status Statuses [not null]
+  egcs_cn_disablecustomoutcomes boolean [not null]
+  egcs_cn_disablealignment boolean [not null]
+  egcs_cn_disablereviewers boolean [not null]
+  egcs_cn_reviewalignment boolean
+  egcs_cn_reviewalignmentnarrative text
+  egcs_cn_reviewalignresult numeric(10,2)
+  egcs_cn_reviewresult numeric(10,2) [not null]
+  egcs_cn_reviewset bigint [not null]
+  egcs_cn_reviewschema bigint [not null]
+  egcs_cn_approvaltemplate bigint
+
+  Indexes {
+    egcs_cn_reviewset [name: 'cn_idx_reviewreviewset']
+  }
+
+  checks {
+    `NOT (egcs_cn_reviewalignment = TRUE AND (egcs_cn_reviewalignmentnarrative IS NULL OR egcs_cn_reviewalignresult IS NULL))` [name: 'cn_chk_reviewreviewresult']
+  }
+}
+Ref: Common_Review.id > Common_Entity.id [delete: restrict]
+Ref: Common_Review.egcs_cn_reviewset > Common_Review_Set.id [delete: restrict]
+Ref: Common_Review.egcs_cn_reviewschema > Common_Review_Schema.id [delete: restrict]
+Ref: Common_Review.egcs_cn_approvaltemplate > Common_Approval_Template.id [delete: restrict]
+
+Table Common_Review_Response {
+  id bigserial [pk, not null] // System ID
+  egcs_cn_section varchar(255) [not null]
+  egcs_cn_subsection varchar(255) [not null]
+  egcs_cn_question varchar(255) [not null]
+  egcs_cn_value numeric(10,2)
+  egcs_cn_calculated boolean [not null]
+  egcs_cn_comment text [not null]
+  egcs_cn_assessment bigint [not null]
+
+  Indexes {
+    (egcs_cn_assessment, egcs_cn_section, egcs_cn_subsection, egcs_cn_question) [name: 'cn_idx_reviewresponseassessmentsectionsubsectionquestion', unique]
+  }
+}
+Ref: Common_Review_Response.egcs_cn_assessment > Common_Review.id [delete: restrict]
+
+Table Common_Assessment_Custom_Outcome {
+  id bigserial [pk, not null] // System ID
+  egcs_cn_name varchar(255) [not null]
+  egcs_cn_outcome text [not null]
+  egcs_cn_review bigint [not null]
+
+  Indexes {
+    egcs_cn_review [name: 'cn_idx_assessmentcustomoutcomereview']
+    (egcs_cn_name, egcs_cn_review) [name: 'cn_idx_assessmentcustomoutcomenamereview', unique]
+  }
+}
+Ref: Common_Assessment_Custom_Outcome.egcs_cn_review > Common_Review.id [delete: restrict]
+
+Table Common_Assessment_Outcome {
+  id bigserial [pk, not null] // System ID
+  egcs_cn_review bigint [not null]
+  egcs_cn_section varchar(255) [not null]
+  egcs_cn_subsection varchar(255) [not null]
+  egcs_cn_name_en varchar(255) [not null]
+  egcs_cn_name_fr varchar(255) [not null]
+  egcs_cn_recommendedstrategy text [not null]
+  egcs_cn_accepted boolean [not null]
+  egcs_cn_selectedstrategy varchar(255) [not null]
+  egcs_cn_justification text
+  egcs_cn_comment text [not null]
+
+  Indexes {
+    (egcs_cn_review, egcs_cn_name_en) [name: 'cn_idx_assessmentoutcomereviewnameen', unique]
+    (egcs_cn_review, egcs_cn_name_fr) [name: 'cn_idx_assessmentoutcomereviewnamefr', unique]
+  }
+}
+Ref: Common_Assessment_Outcome.egcs_cn_review > Common_Review.id [delete: restrict]
+
+Table Common_Routing_Slip {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_cn_entitytype Entity_Type [not null]
+  egcs_cn_entityid bigint [not null]
+  egcs_cn_name_en varchar(255) [not null]
+  egcs_cn_name_fr varchar(255) [not null]
+  egcs_cn_approvaltemplate bigint [not null]
+  egcs_cn_status Approval_Status [not null]
+
+  Indexes {
+    (egcs_cn_entitytype, egcs_cn_entityid) [name: 'cn_idx_routingslipentitytypeentityid', unique, where: `_deleted = false AND egcs_cn_status IN ('draft' , 'pendingapproval' , 'approved')`]
+  }
+}
+Ref: Common_Routing_Slip.egcs_cn_approvaltemplate > Common_Approval_Template.id [delete: restrict]
+Ref cn_ref_routingslipentityidentitytype: Common_Routing_Slip.(egcs_cn_entityid, egcs_cn_entitytype) > Common_Entity.(id, egcs_cn_entitytype)
+
+Table Common_Approval {
+  id bigserial [pk, not null] // System ID
+  egcs_cn_sequence decimal [not null]
+  egcs_cn_name_en varchar(255) [not null]
+  egcs_cn_name_fr varchar(255) [not null]
+  egcs_cn_routingslip bigint [not null]
+  egcs_cn_defaultuser bigint [not null] // The user assigned from the approval template
+  egcs_cn_assigneduser bigint // The user the approval is assigned to and the person that can action this approval
+  egcs_cn_onbehalf bigint // Required if the default user != assigned user
+  egcs_cn_approvalpositiontitle text
+  egcs_cn_isadded boolean [not null]
+  egcs_cn_approvalvalue boolean
+  egcs_cn_approvaldate timestamptz
+  egcs_cn_comment text
+  egcs_cn_attachment bigint
+
+  Indexes {
+    (egcs_cn_routingslip, egcs_cn_sequence) [name: 'cn_idx_approvalroutingslipsequence', unique]
+  }
+
+  checks {
+    `NOT (egcs_cn_approvalpositiontitle IS NULL AND egcs_cn_approvalvalue IS NOT NULL)` [name: 'cn_chk_approvalapprovalvalueapprovalpositiontitlenull']
+    `NOT (egcs_cn_defaultuser <> egcs_cn_assigneduser AND egcs_cn_onbehalf IS NULL)` [name: 'cn_chk_approvaldefaultuserassigneduseronbehalfnull']
+    `NOT (egcs_cn_defaultuser = egcs_cn_assigneduser AND egcs_cn_onbehalf IS NOT NULL)` [name: 'cn_chk_approvalassigneduseronbehalfapprovalpositiontitlenotnull']
+  }
+}
+Ref: Common_Approval.egcs_cn_routingslip > Common_Routing_Slip.id [delete: restrict]
+Ref: Common_Approval.egcs_cn_defaultuser > Common_User.id [delete: restrict]
+Ref: Common_Approval.egcs_cn_assigneduser > Common_User.id [delete: restrict]
+Ref: Common_Approval.egcs_cn_onbehalf > Agency_Approval_Behalf_Type.id [delete: restrict]
+Ref: Common_Approval.egcs_cn_attachment > Common_Attachment.id [delete: restrict]
+
+Table Common_Approval_Certification {
+  id bigserial [pk, not null] // System ID
+  egcs_cn_optional boolean [not null]
+  egcs_cn_certification_en text [not null]
+  egcs_cn_certification_fr text [not null]
+  egcs_cn_value boolean
+  egcs_cn_approval bigint [not null]
+}
+Ref: Common_Approval_Certification.egcs_cn_approval > Common_Approval.id [delete: restrict]
+
+Table Common_Recommendation_Schema {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_cn_entitytype Entity_Type [not null]
+  egcs_cn_agency bigint [not null] // Agency to which this assessment belongs
+  egcs_cn_name_en varchar(255) [not null] // Assessment name (en)
+  egcs_cn_name_fr varchar(255) [not null] // Assessment name (fr)
+  egcs_cn_result jsonb [not null] // This maps the smallint result of the recommendation to a human readable label
+  egcs_cn_status Base_Status [not null]
+  egcs_cn_version numeric(10,2) [not null]
+  egcs_cn_recommendationschema jsonb [not null] // Schema
+
+  Indexes {
+    (egcs_cn_agency, egcs_cn_entitytype) [name: 'cn_idx_recommendationschemaagencyentitytype', unique, where: `_deleted = false`]
+    (egcs_cn_agency, egcs_cn_entitytype, egcs_cn_name_en) [name: 'cn_idx_recommendationschemaagencyentitytypenameen', unique, where: `_deleted = false`]
+    (egcs_cn_agency, egcs_cn_entitytype, egcs_cn_name_fr) [name: 'cn_idx_recommendationschemaagencyentitytypenamefr', unique, where: `_deleted = false`]
+  }
+
+  checks {
+    `egcs_cn_entitytype <> 'commonrecommendation'` [name: 'cn_chk_recommendationschemaentitytype']
+  }
+}
+Ref: Common_Recommendation_Schema.egcs_cn_agency > Agency_Profile.id [delete: restrict]
+
+Table Common_Recommendation_Setup {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_cn_scopetype Entity_Type [not null] // fundingopportunity | transferpaymentstream | fundingcaseintake | fundingcaseagreement | applicantrecipient
+  egcs_cn_scopeid bigint [not null] // Which specific TP Stream or FO owns this config
+  egcs_cn_entitytype Entity_Type [not null] // What completion event triggers set creation
+  egcs_cn_name_en varchar(255) [not null]
+  egcs_cn_name_fr varchar(255) [not null]
+  egcs_cn_description_en text [not null]
+  egcs_cn_description_fr text [not null]
+  egcs_cn_schema bigint [not null]
+  egcs_cn_approvaltemplate bigint
+  egcs_cn_active boolean [not null]
+
+  Indexes {
+    (egcs_cn_scopeid, egcs_cn_entitytype) [name: 'cn_idx_recommendationsetupscopeidentitytype', unique, where: `_deleted = false AND egcs_cn_active = TRUE`]
+    (id, egcs_cn_entitytype) [name: 'cn_idx_recommendationsetupidentitytype', unique]
+  }
+
+  checks {
+    `egcs_cn_scopetype IN ('fundingopportunity', 'transferpaymentstream', 'fundingcaseintake', 'fundingcaseagreement', 'applicantrecipient')` [name: 'cn_chk_recommendationsetupscopetype']
+    `egcs_cn_entitytype NOT IN ('fundingopportunity', 'transferpaymentstream', 'fundingcaseintake', 'fundingcaseagreement', 'applicantrecipient', 'commonrecommendation')` [name: 'cn_chk_recommendationsetupentitytype']
+  }
+}
+Ref: Common_Recommendation_Setup.egcs_cn_schema > Common_Recommendation_Schema.id [delete: restrict]
+Ref: Common_Recommendation_Setup.egcs_cn_approvaltemplate > Common_Approval_Template.id [delete: restrict]
+Ref cn_ref_recommendationsetupscopeidscopetype: Common_Recommendation_Setup.(egcs_cn_scopeid, egcs_cn_scopetype) > Common_Entity.(id, egcs_cn_entitytype)
+
+Table Common_Recommendation {
+  _deleted boolean [not null, default: false]
+  id bigserial [pk, not null] // System ID
+  egcs_cn_recommendationsetup bigint [not null]
+  egcs_cn_entitytype Entity_Type [not null]
+  egcs_cn_entityid bigint [not null]
+  egcs_cn_recommendation smallint
+  egcs_cn_response jsonb [not null] // Who and when are captured by completion
+
+  Indexes {
+    (egcs_cn_entitytype, egcs_cn_entityid) [name: 'cn_idx_recommendationentitytypeentityid', unique, where: `_deleted = false`]
+  }
+}
+Ref cn_ref_recommendationentityidentitytype: Common_Recommendation.(egcs_cn_entityid, egcs_cn_entitytype) > Common_Entity.(id, egcs_cn_entitytype)
+Ref cn_ref_recommendationrecommendationsetupentitytype: Common_Recommendation.(egcs_cn_recommendationsetup, egcs_cn_entitytype) > Common_Recommendation_Setup.(id, egcs_cn_entitytype)
+
+TableGroup Agency {
+  Agency_Profile
+  Agency_Cost_Category
+  Agency_Cost_Category_Line_Item
+  Agency_Fiscal_Year
+  Agency_Address_Type
+  Agency_Applicant_Recipient_Subtype
+  Agency_Approval_Behalf_Type
+  Agency_Agreement_Type
+}
+
+TableGroup Transfer_Payment {
+  Transfer_Payment_Profile
+  Transfer_Payment_Fiscal_Year_Budget
+  Transfer_Payment_Stream
+  Transfer_Payment_Objective
+  Transfer_Payment_Stream_Budget
+  Transfer_Payment_Stream_Eligible_Recipient
+  Transfer_Payment_Stream_Cost_Category_Line_Item
+  Transfer_Payment_Outcome
+  Transfer_Payment_Outcome_Performance_Indicator
+  Transfer_Payment_Stream_Outcome
+  Transfer_Payment_Amendment_Type
+  Transfer_Payment_Monitor_Type
+  Transfer_Payment_Stream_Area_of_Expertise
+  Transfer_Payment_Stream_Commitment
+  Transfer_Payment_Financial_Limits
+  Transfer_Payment_Amendment_Subtype
+  Transfer_Payment_Agreement_Subtype
+}
+
+TableGroup Applicant_Recipient {
+  Applicant_Recipient_Profile
+  Applicant_Recipient_Team
+  Applicant_Recipient_Agency_Financial_Id
+  Applicant_Recipient_Other_Name
+  Applicant_Recipient_Address
+  Applicant_Recipient_Contact
+  Applicant_Recipient_Funding_History
+}
+
+TableGroup Funding_Opportunity {
+  Funding_Opportunity_Profile
+  Funding_Opportunity_Budget_Fiscal_Year
+  Funding_Opportunity_Budget_Cost_Category
+  Funding_Opportunity_Attachment_Types
+  Funding_Opportunity_Review_Committee_Setup
+  Funding_Opportunity_Review_Committee_Membership_Setup
+}
+
+TableGroup Funding_Case_Intake {
+  Funding_Case_Intake_Profile
+  Funding_Case_Intake_Pre_Award_Application_Outcome
+  Funding_Case_Intake_Pre_Award_Application_Budget_Fiscal_Year
+  Funding_Case_Intake_Pre_Award_Application_Budget_Line_Item
+  Funding_Case_Intake_Assessment_Decision
+}
+
+TableGroup Funding_Case_Agreement {
+  Funding_Case_Agreement_Profile
+  Funding_Case_Agreement_Applicant_Recipient
+  Funding_Case_Agreement_Budget_Fiscal_Year
+  Funding_Case_Agreement_Budget_Line_Item
+  Funding_Case_Agreement_Address
+  Funding_Case_Agreement_Outcome
+  Funding_Case_Agreement_Activity
+  Funding_Case_Agreement_Outcome_Activity
+  Funding_Case_Agreement_Responsible_Party_Activity
+  Funding_Case_Agreement_Forecast
+  Funding_Case_Agreement_Forecast_Line_Item
+  Funding_Case_Agreement_Claim
+  Funding_Case_Agreement_Claim_Line_Item
+  Funding_Case_Agreement_Claim_Reconcile
+  Funding_Case_Agreement_Claim_Reconcile_Line_Item
+  Funding_Case_Agreement_Commitment
+  Funding_Case_Agreement_Commitment_Line
+  Funding_Case_Agreement_Payment
+  Funding_Case_Agreement_Payment_Line
+  Funding_Case_Agreement_Amendment
+  Funding_Case_Agreement_Monitor
+  Funding_Case_Agreement_Monitor_Planning
+  Funding_Case_Agreement_Monitor_Items
+  Funding_Case_Agreement_Monitor_Finding
+  Funding_Case_Agreement_Monitor_Followup
+  Funding_Case_Agreement_Monitor_Followup_Update
+  Funding_Case_Agreement_Monitor_Promising_Practice
+}
+
+TableGroup Common {
+  Common_Contact
+  Common_Address
+  Common_Form_Schema
+  Common_Attachment_Types
+  Common_Attachment
+  Common_User
+  Common_GWCOA
+  Common_Entity
+  Common_Completion
+  Common_Additional_Reviewers
+  Common_Approval_Template
+  Common_Approval_Step
+  Common_Certification
+  Common_Review_Schema
+  Common_Review_Set_Setup
+  Common_Review_Setup
+  Common_Review_Set
+  Common_Review
+  Common_Review_Response
+  Common_Assessment_Custom_Outcome
+  Common_Assessment_Outcome
+  Common_Routing_Slip
+  Common_Approval
+  Common_Approval_Certification
+  Common_Recommendation_Schema
+  Common_Recommendation_Setup
+  Common_Recommendation
+}
+
+
+/*
+Trigger: trg_register_transferpaymentstream
+-------------------------------------------
+CREATE TRIGGER trg_register_transferpaymentstream
+  BEFORE INSERT ON Transfer_Payment_Stream
+  FOR EACH ROW EXECUTE FUNCTION register_entity('transferpaymentstream');
+register_entity
+*/
+
+/*
+Trigger: trg_register_commonreview
+----------------------------------
+CREATE TRIGGER trg_register_commonreview
+  BEFORE INSERT ON Common_Review
+  FOR EACH ROW EXECUTE FUNCTION register_entity('commonreview');
+register_entity
+*/
+
+/*
+Trigger: trg_register_fundingopportunity
+----------------------------------------
+CREATE TRIGGER trg_register_fundingopportunity
+  BEFORE INSERT ON Funding_Opportunity_Profile
+  FOR EACH ROW EXECUTE FUNCTION register_entity('fundingopportunity');
+register_entity
+*/
+
+/*
+Trigger: trg_register_applicantrecipient
+----------------------------------------
+CREATE TRIGGER trg_register_applicantrecipient
+  BEFORE INSERT ON Applicant_Recipient_Profile
+  FOR EACH ROW EXECUTE FUNCTION register_entity('applicantrecipient');
+register_entity
+*/
+
+/*
+Trigger: trg_register_fundingcaseagreement
+------------------------------------------
+CREATE TRIGGER trg_register_fundingcaseagreement
+  BEFORE INSERT ON Funding_Case_Agreement_Profile
+  FOR EACH ROW EXECUTE FUNCTION register_entity('fundingcaseagreement');
+register_entity
+*/
+
+/*
+Trigger: trg_register_fundingcaseintake
+---------------------------------------
+CREATE TRIGGER trg_register_fundingcaseintake
+  BEFORE INSERT ON Funding_Case_Intake_Profile
+  FOR EACH ROW EXECUTE FUNCTION register_entity('fundingcaseintake');
+register_entity
+*/
+
+/*
+Trigger: trg_routingslip_forward_status
+---------------------------------------
+CREATE TRIGGER trg_routingslip_forward_status
+  BEFORE UPDATE ON Common_Routing_Slip
+  FOR EACH ROW
+  WHEN (OLD.egcs_cn_status IS DISTINCT FROM NEW.egcs_cn_status)
+  EXECUTE FUNCTION trg_fn_routingslip_forward_status();
+trg_fn_routingslip_forward_status
+*/
+
+/*
+Trigger: trg_cascade_routingslip_status
+---------------------------------------
+CREATE TRIGGER trg_cascade_routingslip_status
+  AFTER UPDATE OF egcs_cn_approvalvalue ON Common_Approval
+  FOR EACH ROW
+  WHEN (OLD.egcs_cn_approvalvalue IS DISTINCT FROM NEW.egcs_cn_approvalvalue)
+  EXECUTE FUNCTION trg_fn_cascade_routingslip_status();
+trg_fn_cascade_routingslip_status
+*/
+
+/*
+Trigger: trg_lock_approval_on_terminal_slip
+-------------------------------------------
+CREATE TRIGGER trg_lock_approval_on_terminal_slip
+  BEFORE UPDATE ON Common_Approval
+  FOR EACH ROW
+  EXECUTE FUNCTION trg_fn_lock_approval_on_terminal_slip();
+trg_fn_lock_approval_on_terminal_slip
+*/
+
+/*
+Trigger: trg_lock_actioned_approval
+-----------------------------------
+CREATE TRIGGER trg_lock_actioned_approval
+  BEFORE UPDATE ON Common_Approval
+  FOR EACH ROW
+  EXECUTE FUNCTION trg_fn_lock_actioned_approval();
+trg_fn_lock_actioned_approval
+*/
+
+/*
+Trigger: trg_enforce_approval_sequence
+--------------------------------------
+CREATE TRIGGER trg_enforce_approval_sequence
+  BEFORE UPDATE OF egcs_cn_approvalvalue ON Common_Approval
+  FOR EACH ROW
+  EXECUTE FUNCTION trg_fn_enforce_approval_sequence();
+trg_fn_enforce_approval_sequence
+*/
+
+/*
+Trigger: trg_require_certifications
+-----------------------------------
+CREATE TRIGGER trg_require_certifications
+  BEFORE UPDATE OF egcs_cn_approvalvalue ON Common_Approval
+  FOR EACH ROW
+  EXECUTE FUNCTION trg_fn_require_certifications();
+trg_fn_require_certifications
+*/
+
+/*
+Trigger: trg_enforce_assigned_user_actions
+------------------------------------------
+CREATE TRIGGER trg_enforce_assigned_user_actions
+  BEFORE UPDATE OF egcs_cn_approvalvalue ON Common_Approval
+  FOR EACH ROW
+  EXECUTE FUNCTION trg_fn_enforce_assigned_user_actions();
+trg_fn_enforce_assigned_user_actions
+*/
+
+/*
+Trigger: trg_autopopulate_self_approval
+---------------------------------------
+CREATE TRIGGER trg_autopopulate_self_approval
+  BEFORE UPDATE OF egcs_cn_approvalvalue ON Common_Approval
+  FOR EACH ROW
+  EXECUTE FUNCTION trg_fn_autopopulate_self_approval();
+trg_fn_autopopulate_self_approval
+*/
+
+/*
+Trigger: trg_require_actual_delegation_detail
+---------------------------------------------
+CREATE TRIGGER trg_require_actual_delegation_detail
+  BEFORE UPDATE OF egcs_cn_approvalvalue ON Common_Approval
+  FOR EACH ROW
+  EXECUTE FUNCTION trg_fn_require_actual_delegation_detail();
+trg_fn_require_actual_delegation_detail
+*/
+
+/*
+Trigger: trg_validate_added_step_sequence
+-----------------------------------------
+CREATE TRIGGER trg_validate_added_step_sequence
+  BEFORE INSERT ON Common_Approval
+  FOR EACH ROW
+  EXECUTE FUNCTION trg_fn_validate_added_step_sequence();
+trg_fn_validate_added_step_sequence
+*/
+
+/*
+Trigger: trg_enforce_completion_audit_fields
+--------------------------------------------
+CREATE TRIGGER trg_enforce_completion_audit_fields 
+  BEFORE INSERT OR UPDATE ON Common_Completion 
+  FOR EACH ROW
+  EXECUTE FUNCTION trg_fn_enforce_completion_audit_fields();
+trg_fn_enforce_completion_audit_fields
+*/
+
+/*
+Trigger: trg_reset_additional_reviewer_completion
+-------------------------------------------------
+CREATE TRIGGER trg_reset_additional_reviewer_completion 
+  BEFORE INSERT OR UPDATE ON Common_Additional_Reviewers
+  FOR EACH ROW 
+  EXECUTE FUNCTION trg_fn_reset_additional_reviewer_completion();
+trg_fn_reset_additional_reviewer_completion
+*/
+
+/*
+Function: register_entity
+-------------------------
+CREATE OR REPLACE FUNCTION register_entity() RETURNS trigger AS $$
+    DECLARE
+      allocated_id bigint;
+    BEGIN
+      INSERT INTO 'Common_Entity' (egcs_cn_entitytype)
+      VALUES (TG_ARGV[0]::'Entity_Type')
+      RETURNING id INTO allocated_id;
+
+      NEW.id := allocated_id;
+      RETURN NEW;
+    END;
+    $$ LANGUAGE plpgsql;
+*/
+
+/*
+Function: trg_fn_routingslip_forward_status
+-------------------------------------------
+CREATE FUNCTION trg_fn_routingslip_forward_status() RETURNS trigger AS $$
+DECLARE
+  status_order integer;
+  old_order integer;
+BEGIN
+  old_order := CASE OLD.egcs_cn_status::text
+    WHEN 'draft' THEN 1
+    WHEN 'pendingapproval' THEN 2
+    WHEN 'approved' THEN 3
+    WHEN 'denied' THEN 4
+  END;
+
+  status_order := CASE NEW.egcs_cn_status::text
+    WHEN 'draft' THEN 1
+    WHEN 'pendingapproval' THEN 2
+    WHEN 'approved' THEN 3
+    WHEN 'denied' THEN 4
+  END;
+
+  IF status_order < old_order THEN
+    RAISE EXCEPTION 'Invalid status transition on routing slip %: cannot move from % to %',
+      OLD.id, OLD.egcs_cn_status, NEW.egcs_cn_status;
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+*/
+
+/*
+Function: trg_fn_cascade_routingslip_status
+-------------------------------------------
+CREATE FUNCTION trg_fn_cascade_routingslip_status() RETURNS trigger AS $$
+DECLARE
+  total_steps integer;
+  approved_steps integer;
+  denied_steps integer;
+BEGIN
+  SELECT
+    COUNT(*),
+    COUNT(*) FILTER (WHERE egcs_cn_approvalvalue = true),
+    COUNT(*) FILTER (WHERE egcs_cn_approvalvalue = false)
+  INTO total_steps, approved_steps, denied_steps
+  FROM Common_Approval
+  WHERE egcs_cn_routingslip = NEW.egcs_cn_routingslip;
+
+  IF denied_steps > 0 THEN
+    UPDATE Common_Routing_Slip
+      SET egcs_cn_status = 'denied'
+      WHERE id = NEW.egcs_cn_routingslip;
+  ELSIF total_steps > 0 AND approved_steps = total_steps THEN
+    UPDATE 'Common_Routing_Slip'
+      SET egcs_cn_status = 'approved'
+      WHERE id = NEW.egcs_cn_routingslip;
+  ELSIF approved_steps > 0 THEN
+    UPDATE Common_Routing_Slip
+      SET egcs_cn_status = 'pendingapproval'
+      WHERE id = NEW.egcs_cn_routingslip
+        AND egcs_cn_status = 'draft';
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+*/
+
+/*
+Function: trg_fn_lock_approval_on_terminal_slip
+-----------------------------------------------
+CREATE FUNCTION trg_fn_lock_approval_on_terminal_slip() RETURNS trigger AS $$
+DECLARE
+  slip_status Approval_Status;
+BEGIN
+  SELECT egcs_cn_status INTO slip_status
+  FROM Common_Routing_Slip
+  WHERE id = NEW.egcs_cn_routingslip;
+
+  IF slip_status IN ('approved', 'denied') THEN
+    RAISE EXCEPTION
+      'Cannot modify approval %: routing slip % is in terminal state %',
+      OLD.id, NEW.egcs_cn_routingslip, slip_status;
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+*/
+
+/*
+Function: trg_fn_lock_actioned_approval
+---------------------------------------
+CREATE FUNCTION trg_fn_lock_actioned_approval() RETURNS trigger AS $$
+BEGIN
+  IF OLD.egcs_cn_approvalvalue IS NOT NULL THEN
+    RAISE EXCEPTION
+      'Cannot modify approval %: already actioned with value %',
+      OLD.id, OLD.egcs_cn_approvalvalue;
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+*/
+
+/*
+Function: trg_fn_enforce_approval_sequence
+------------------------------------------
+CREATE FUNCTION trg_fn_enforce_approval_sequence() RETURNS trigger AS $$
+DECLARE
+  incomplete_prior integer;
+BEGIN
+  IF NEW.egcs_cn_approvalvalue IS NULL OR OLD.egcs_cn_approvalvalue IS NOT NULL THEN
+    RETURN NEW;
+  END IF;
+
+  SELECT COUNT(*) INTO incomplete_prior
+  FROM Common_Approval
+  WHERE egcs_cn_routingslip = NEW.egcs_cn_routingslip
+    AND egcs_cn_sequence < NEW.egcs_cn_sequence
+    AND egcs_cn_approvalvalue IS DISTINCT FROM true;
+
+  IF incomplete_prior > 0 THEN
+    RAISE EXCEPTION
+      'Cannot action approval %: % prior step(s) are incomplete or denied',
+      NEW.id, incomplete_prior;
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+*/
+
+/*
+Function: trg_fn_require_certifications
+---------------------------------------
+CREATE FUNCTION trg_fn_require_certifications() RETURNS trigger AS $$
+DECLARE
+  uncertified_count integer;
+BEGIN
+  IF NEW.egcs_cn_approvalvalue IS DISTINCT FROM true THEN
+    RETURN NEW;
+  END IF;
+
+  SELECT COUNT(*) INTO uncertified_count
+  FROM Common_Approval_Certification
+  WHERE egcs_cn_approval = NEW.id
+    AND egcs_cn_optional = false
+    AND egcs_cn_value IS DISTINCT FROM true;
+
+  IF uncertified_count > 0 THEN
+    RAISE EXCEPTION
+      'Cannot approve %: % non-optional certification(s) not yet attested',
+      NEW.id, uncertified_count;
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+*/
+
+/*
+Function: trg_fn_enforce_assigned_user_actions
+----------------------------------------------
+CREATE OR REPLACE FUNCTION trg_fn_enforce_assigned_user_actions() RETURNS trigger AS $$
+DECLARE
+  session_user_id bigint;
+BEGIN
+  IF NEW.egcs_cn_approvalvalue IS NOT DISTINCT FROM OLD.egcs_cn_approvalvalue THEN
+    RETURN NEW;
+  END IF;
+  session_user_id := NULLIF(current_setting('app.current_user_id', true), '')::bigint;
+  IF session_user_id IS NULL OR session_user_id <> NEW.egcs_cn_assigneduser THEN
+    RAISE EXCEPTION 'Only the assigned user may action approval %', NEW.id;
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+*/
+
+/*
+Function: trg_fn_autopopulate_self_approval
+-------------------------------------------
+CREATE FUNCTION trg_fn_autopopulate_self_approval() RETURNS trigger AS $$
+DECLARE
+  user_position_title text;
+BEGIN
+  -- Only applies when approvalvalue is being set for the first time
+  IF NEW.egcs_cn_approvalvalue IS NULL OR OLD.egcs_cn_approvalvalue IS NOT NULL THEN
+    RETURN NEW;
+  END IF;
+
+  -- Only applies when acting as self (no delegation)
+  IF NEW.egcs_cn_defaultuser <> NEW.egcs_cn_assigneduser THEN
+    RETURN NEW;
+  END IF;
+
+  SELECT egcs_cn_position_title INTO user_position_title
+  FROM Common_User
+  WHERE id = NEW.egcs_cn_assigneduser;
+
+  NEW.egcs_cn_approvaldate := NOW();
+  NEW.egcs_cn_approvalpositiontitle := user_position_title;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+*/
+
+/*
+Function: trg_fn_require_actual_delegation_detail
+-------------------------------------------------
+CREATE FUNCTION trg_fn_require_actual_delegation_detail() RETURNS trigger AS $$
+DECLARE
+  requires_actual boolean;
+BEGIN
+  IF NEW.egcs_cn_approvalvalue IS NULL OR OLD.egcs_cn_approvalvalue IS NOT NULL THEN
+    RETURN NEW;
+  END IF;
+
+  IF NEW.egcs_cn_onbehalf IS NULL THEN
+    RETURN NEW;
+  END IF;
+
+  SELECT egcs_ay_require_actual INTO requires_actual
+  FROM Agency_Approval_Behalf_Type
+  WHERE id = NEW.egcs_cn_onbehalf;
+
+  IF requires_actual = true AND (
+    NEW.egcs_cn_approvalpositiontitle IS NULL
+    OR NEW.egcs_cn_approvaldate IS NULL
+  ) THEN
+    RAISE EXCEPTION 'Approval % requires full delegation detail (position title, date)',
+      NEW.id;
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+*/
+
+/*
+Function: trg_fn_validate_added_step_sequence
+---------------------------------------------
+CREATE FUNCTION trg_fn_validate_added_step_sequence() RETURNS trigger AS $$
+DECLARE
+  max_actioned_sequence decimal;
+BEGIN
+  IF NEW.egcs_cn_isadded = false THEN
+    RETURN NEW;
+  END IF;
+
+  SELECT MAX(egcs_cn_sequence) INTO max_actioned_sequence
+  FROM Common_Approval
+  WHERE egcs_cn_routingslip = NEW.egcs_cn_routingslip
+    AND egcs_cn_approvalvalue IS NOT NULL;
+
+  IF max_actioned_sequence IS NOT NULL
+    AND NEW.egcs_cn_sequence <= max_actioned_sequence THEN
+    RAISE EXCEPTION
+      'Added approval step sequence % must be greater than last actioned sequence %',
+      NEW.egcs_cn_sequence, max_actioned_sequence;
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+*/
+
+/*
+Function: trg_fn_enforce_completion_audit_fields
+------------------------------------------------
+CREATE FUNCTION public.trg_fn_enforce_completion_audit_fields() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+    BEGIN
+      IF NEW.egcs_cn_value IS DISTINCT FROM true THEN
+        RAISE EXCEPTION 'Completion rows must store egcs_cn_value = true';
+      END IF;
+
+      IF TG_OP = 'UPDATE' THEN
+        IF OLD.egcs_cn_value = true THEN
+          IF NEW.egcs_cn_user IS DISTINCT FROM OLD.egcs_cn_user THEN
+            RAISE EXCEPTION 'Completion user cannot be changed after completion';
+          END IF;
+
+          IF NEW.egcs_cn_value IS DISTINCT FROM OLD.egcs_cn_value THEN
+            RAISE EXCEPTION 'Completion value cannot be changed after completion';
+          END IF;
+
+          IF NEW.egcs_cn_completedat IS DISTINCT FROM OLD.egcs_cn_completedat THEN
+            RAISE EXCEPTION 'Completion timestamp cannot be changed after completion';
+          END IF;
+        END IF;
+      END IF;
+
+      IF TG_OP = 'INSERT' THEN
+        IF NEW.egcs_cn_value = true THEN
+          NEW.egcs_cn_completedat := NOW();
+        END IF;
+      ELSIF TG_OP = 'UPDATE' THEN
+        IF OLD.egcs_cn_value IS DISTINCT FROM true AND NEW.egcs_cn_value IS DISTINCT FROM OLD.egcs_cn_value THEN
+          NEW.egcs_cn_completedat := NOW();
+        END IF;
+      END IF;
+
+      RETURN NEW;
+    END;
+    $$;
+*/
+
+/*
+Function: trg_fn_reset_additional_reviewer_completion
+-----------------------------------------------------
+CREATE FUNCTION trg_fn_reset_additional_reviewer_completion()
+RETURNS trigger
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  IF TG_OP = 'UPDATE'
+     AND NEW.egcs_cn_user IS DISTINCT FROM OLD.egcs_cn_user THEN
+    NEW.egcs_cn_completedat := NULL;
+  END IF;
+
+  RETURN NEW;
+END;
+$$;
+*/
